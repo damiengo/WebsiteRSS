@@ -1,9 +1,11 @@
 package com.damiengo.testapp
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import com.prof.rssparser.Parser
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
@@ -23,12 +25,23 @@ class MainActivity : AppCompatActivity() {
 
         viewManager = LinearLayoutManager(this)
 
+        // On item click
+        list_articles.addOnItemTouchListener(RecyclerItemClickListener(this, list_articles, object : RecyclerItemClickListener.OnItemClickListener {
+
+            override fun onItemClick(view: View, position: Int) {
+                log.info("Tapped!")
+                val intent = Intent(this@MainActivity, ArticleDetailActivity::class.java)
+                startActivity(intent)
+            }
+            override fun onItemLongClick(view: View?, position: Int) {
+                log.info("long tapped")
+            }
+        }))
+
         coroutineScope.launch(Dispatchers.Main) {
             try {
                 val parser = Parser()
                 val articleList = parser.getArticles("https://www.lequipe.fr/rss/actu_rss.xml")
-
-                log.info(articleList[0].title)
 
                 viewAdapter = ArticleAdapter(articleList)
 
