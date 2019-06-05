@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.Toast
+import com.prof.rssparser.Article
 import com.prof.rssparser.Parser
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
@@ -26,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         viewManager = LinearLayoutManager(this)
 
         // On item click
-        list_articles.addOnItemTouchListener(RecyclerItemClickListener(this, list_articles, object : RecyclerItemClickListener.OnItemClickListener {
+        /*list_articles.addOnItemTouchListener(RecyclerItemClickListener(this, list_articles, object : RecyclerItemClickListener.OnItemClickListener {
 
             override fun onItemClick(view: View, position: Int) {
                 log.info("Tapped!")
@@ -36,14 +38,14 @@ class MainActivity : AppCompatActivity() {
             override fun onItemLongClick(view: View?, position: Int) {
                 log.info("long tapped")
             }
-        }))
+        }))*/
 
         coroutineScope.launch(Dispatchers.Main) {
             try {
                 val parser = Parser()
                 val articleList = parser.getArticles("https://www.lequipe.fr/rss/actu_rss.xml")
 
-                viewAdapter = ArticleAdapter(articleList)
+                viewAdapter = ArticleAdapter(articleList) { article : Article -> articleClicked(article) }
 
                 list_articles.apply {
                     // use this setting to improve performance if you know that changes
@@ -63,6 +65,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
+    private fun articleClicked(article : Article) {
+        val intent = Intent(this@MainActivity, ArticleDetailActivity::class.java)
+        intent.putExtra("title", article.title)
+        intent.putExtra("description", article.description)
+        intent.putExtra("image", article.image)
+        intent.putExtra("pubDate", article.pubDate)
+        startActivity(intent)
+    }
 
 }

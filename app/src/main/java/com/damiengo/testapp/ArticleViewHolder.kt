@@ -19,10 +19,12 @@ class ArticleViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
         categoryView = itemView.findViewById(R.id.article_category)
     }
 
-    fun bind(article: Article) {
+    fun bind(article: Article, clickListener: (Article) -> Unit) {
         setArticleText(article)
         titleView?.text = articleTitle
         categoryView?.text = articleCategory
+
+        itemView.setOnClickListener { clickListener(article)}
     }
 
     private fun setArticleText(article: Article) {

@@ -5,7 +5,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.prof.rssparser.Article
 
-class ArticleAdapter(private val dataSource: MutableList<Article>) : RecyclerView.Adapter<ArticleViewHolder>() {
+class ArticleAdapter(private val dataSource: MutableList<Article>,
+                     private val clickListener: (Article) -> Unit) : RecyclerView.Adapter<ArticleViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): ArticleViewHolder {
@@ -16,7 +17,7 @@ class ArticleAdapter(private val dataSource: MutableList<Article>) : RecyclerVie
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         val article: Article = dataSource[position]
-        holder.bind(article)
+        holder.bind(article, clickListener)
     }
 
     override fun getItemCount(): Int = dataSource.size

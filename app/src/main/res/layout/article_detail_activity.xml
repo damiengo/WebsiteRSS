@@ -1,14 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:gravity="center"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <ImageView
+            android:id="@+id/article_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     <TextView
-            android:text="This is another Activity"
-            android:textSize="25sp"
-            android:padding="20sp"
+            android:id="@+id/article_date"
+            android:text="..."
+            android:textSize="10dp"
+            android:padding="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    <TextView
+            android:id="@+id/article_title"
+            android:text="..."
+            android:textSize="14dp"
+            android:padding="4dp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    <TextView
+            android:id="@+id/article_description"
+            android:text="..."
+            android:textSize="12dp"
+            android:padding="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
