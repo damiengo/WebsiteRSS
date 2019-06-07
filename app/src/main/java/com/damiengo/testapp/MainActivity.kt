@@ -71,6 +71,7 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra("description", article.description)
         intent.putExtra("image", article.image)
         intent.putExtra("pubDate", article.pubDate)
+        intent.putExtra("link", article.link)
         startActivity(intent)
     }
 
