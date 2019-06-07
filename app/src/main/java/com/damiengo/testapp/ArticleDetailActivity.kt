@@ -20,7 +20,6 @@ class ArticleDetailActivity : AppCompatActivity() {
         setContentView(R.layout.article_detail_activity)
 
         val title = intent.getStringExtra("title")
-        val description = intent.getStringExtra("description")
         val image = intent.getStringExtra("image")
         val pubDate = intent.getStringExtra("pubDate")
         val link = intent.getStringExtra("link")
@@ -41,7 +40,7 @@ class ArticleDetailActivity : AppCompatActivity() {
             article_chapo.text = chapo
 
             document.select(".article__body .Paragraph").forEach { ele ->
-                builder.append(ele.text()).append("\n")
+                builder.append(ele.text()).append("\n\n")
             }
 
             article_description.text = builder.toString()
