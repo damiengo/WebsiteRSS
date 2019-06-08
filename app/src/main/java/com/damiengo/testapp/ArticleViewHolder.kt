@@ -1,9 +1,9 @@
 package com.damiengo.testapp
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.prof.rssparser.Article
 
 class ArticleViewHolder(inflater: LayoutInflater, parent: ViewGroup) :

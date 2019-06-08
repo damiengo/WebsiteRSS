@@ -1,12 +1,12 @@
 package com.damiengo.testapp
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.prof.rssparser.Article
 import com.prof.rssparser.Parser
 import kotlinx.android.synthetic.main.activity_main.*
@@ -25,20 +25,42 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        setSupportActionBar(toolbar)
+        val actionbar: ActionBar? = supportActionBar
+        actionbar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.ic_menu_camera)
+        }
+
+        nav_view.setNavigationItemSelectedListener { menuItem ->
+            // set item as selected to persist highlight
+            menuItem.isChecked = true
+            // close drawer when item is tapped
+            drawer_layout.closeDrawers()
+
+            // Handle navigation view item clicks here.
+            when (menuItem.itemId) {
+
+                R.id.nav_home -> {
+                    Toast.makeText(this, "Home", Toast.LENGTH_LONG).show()
+                }
+                R.id.nav_gallery -> {
+                    Toast.makeText(this, "Gallery", Toast.LENGTH_LONG).show()
+                }
+                R.id.nav_slideshow -> {
+                    Toast.makeText(this, "Slideshow", Toast.LENGTH_LONG).show()
+                }
+                R.id.nav_tools -> {
+                    Toast.makeText(this, "Tools", Toast.LENGTH_LONG).show()
+                }
+            }
+            // Add code here to update the UI based on the item selected
+            // For example, swap UI fragments here
+
+            true
+        }
+
         viewManager = LinearLayoutManager(this)
-
-        // On item click
-        /*list_articles.addOnItemTouchListener(RecyclerItemClickListener(this, list_articles, object : RecyclerItemClickListener.OnItemClickListener {
-
-            override fun onItemClick(view: View, position: Int) {
-                log.info("Tapped!")
-                val intent = Intent(this@MainActivity, ArticleDetailActivity::class.java)
-                startActivity(intent)
-            }
-            override fun onItemLongClick(view: View?, position: Int) {
-                log.info("long tapped")
-            }
-        }))*/
 
         coroutineScope.launch(Dispatchers.Main) {
             try {
