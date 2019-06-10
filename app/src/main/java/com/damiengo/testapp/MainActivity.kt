@@ -52,21 +52,27 @@ class MainActivity : AppCompatActivity() {
             // Handle navigation view item clicks here.
             when (menuItem.itemId) {
                 R.id.nav_actu -> {
+                    setTitle("Actualité")
                     getArticles(rssActu)
                 }
                 R.id.nav_foot -> {
+                    setTitle("Football")
                     getArticles(rssFoot)
                 }
                 R.id.nav_transferts -> {
+                    setTitle("Transferts")
                     getArticles(rssFootTransferts)
                 }
                 R.id.nav_basket -> {
+                    setTitle("Basket")
                     getArticles(rssBasket)
                 }
                 R.id.nav_tennis -> {
+                    setTitle("Tennis")
                     getArticles(rssTennis)
                 }
                 R.id.nav_rugby -> {
+                    setTitle("Rugby")
                     getArticles(rssRugby)
                 }
             }
@@ -77,8 +83,8 @@ class MainActivity : AppCompatActivity() {
         coroutineScope.launch(Dispatchers.Main) {
             try {
                 articleList = parser.getArticles(rssActu)
-
                 viewAdapter = ArticleAdapter(articleList) { article : Article -> articleClicked(article) }
+                setTitle("Actualité")
 
                 list_articles.apply {
                     // use this setting to improve performance if you know that changes
