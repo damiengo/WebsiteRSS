@@ -5,21 +5,29 @@
 
     <group android:checkableBehavior="single">
         <item
-                android:id="@+id/nav_home"
+                android:id="@+id/nav_actu"
                 android:icon="@drawable/ic_menu_camera"
-                android:title="@string/menu_home"/>
+                android:title="@string/menu_actu"/>
         <item
-                android:id="@+id/nav_gallery"
+                android:id="@+id/nav_foot"
                 android:icon="@drawable/ic_menu_gallery"
-                android:title="@string/menu_gallery"/>
+                android:title="@string/menu_foot"/>
         <item
-                android:id="@+id/nav_slideshow"
+                android:id="@+id/nav_transferts"
                 android:icon="@drawable/ic_menu_slideshow"
-                android:title="@string/menu_slideshow"/>
+                android:title="@string/menu_transferts"/>
         <item
-                android:id="@+id/nav_tools"
+                android:id="@+id/nav_basket"
                 android:icon="@drawable/ic_menu_manage"
-                android:title="@string/menu_tools"/>
+                android:title="@string/menu_basket"/>
+        <item
+                android:id="@+id/nav_tennis"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="@string/menu_tennis"/>
+        <item
+                android:id="@+id/nav_rugby"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="@string/menu_rugby"/>
     </group>
 
 </menu>
