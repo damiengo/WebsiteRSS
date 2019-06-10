@@ -14,16 +14,27 @@ import kotlinx.coroutines.*
 import java.util.logging.Logger
 
 class MainActivity : AppCompatActivity() {
-    val log = Logger.getLogger(MainActivity::class.java.name)
+    private val log = Logger.getLogger(MainActivity::class.java.name)
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    private val parser = Parser()
 
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
+    private lateinit var articleList: MutableList<Article>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val rssActu = "https://www.lequipe.fr/rss/actu_rss.xml"
+        val rssFoot = "http://www.lequipe.fr/rss/actu_rss_Football.xml"
+        val rssFootTransferts = "http://www.lequipe.fr/rss/actu_rss_Transferts.xml"
+        val rssTennis = "http://www.lequipe.fr/rss/actu_rss_Tennis.xml"
+        val rssRugby = "http://www.lequipe.fr/rss/actu_rss_Rugby.xml"
+        val rssBasket = "http://www.lequipe.fr/rss/actu_rss_Basket.xml"
+
+        viewManager = LinearLayoutManager(this)
 
         setSupportActionBar(toolbar)
         val actionbar: ActionBar? = supportActionBar
@@ -40,32 +51,32 @@ class MainActivity : AppCompatActivity() {
 
             // Handle navigation view item clicks here.
             when (menuItem.itemId) {
-
-                R.id.nav_home -> {
-                    Toast.makeText(this, "Home", Toast.LENGTH_LONG).show()
+                R.id.nav_actu -> {
+                    getArticles(rssActu)
                 }
-                R.id.nav_gallery -> {
-                    Toast.makeText(this, "Gallery", Toast.LENGTH_LONG).show()
+                R.id.nav_foot -> {
+                    getArticles(rssFoot)
                 }
-                R.id.nav_slideshow -> {
-                    Toast.makeText(this, "Slideshow", Toast.LENGTH_LONG).show()
+                R.id.nav_transferts -> {
+                    getArticles(rssFootTransferts)
                 }
-                R.id.nav_tools -> {
-                    Toast.makeText(this, "Tools", Toast.LENGTH_LONG).show()
+                R.id.nav_basket -> {
+                    getArticles(rssBasket)
+                }
+                R.id.nav_tennis -> {
+                    getArticles(rssTennis)
+                }
+                R.id.nav_rugby -> {
+                    getArticles(rssRugby)
                 }
             }
-            // Add code here to update the UI based on the item selected
-            // For example, swap UI fragments here
 
             true
         }
 
-        viewManager = LinearLayoutManager(this)
-
         coroutineScope.launch(Dispatchers.Main) {
             try {
-                val parser = Parser()
-                val articleList = parser.getArticles("https://www.lequipe.fr/rss/actu_rss.xml")
+                articleList = parser.getArticles(rssActu)
 
                 viewAdapter = ArticleAdapter(articleList) { article : Article -> articleClicked(article) }
 
@@ -80,6 +91,21 @@ class MainActivity : AppCompatActivity() {
                     // specify an viewAdapter (see also next example)
                     adapter = viewAdapter
                 }
+            } catch (e: Exception) {
+                // Handle the exception
+                log.severe("Error reading feed: "+e.message)
+            }
+        }
+    }
+
+    private fun getArticles(rssFeed: String) {
+        articleList.clear()
+        coroutineScope.launch(Dispatchers.Main) {
+            try {
+                val newArticleList = parser.getArticles(rssFeed)
+                articleList.addAll(newArticleList)
+                viewAdapter.notifyDataSetChanged()
+                list_articles.smoothScrollToPosition(0)
             } catch (e: Exception) {
                 // Handle the exception
                 log.severe("Error reading feed: "+e.message)
