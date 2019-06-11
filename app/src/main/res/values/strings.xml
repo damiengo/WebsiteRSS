@@ -20,4 +20,7 @@
     <string name="menu_basket">Basket</string>
     <string name="menu_tennis">Tennis</string>
     <string name="menu_rugby">Rugby</string>
+
+    <string name="drawer_open">Open</string>
+    <string name="drawer_closed">Closed</string>
 </resources>

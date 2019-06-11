@@ -2,7 +2,6 @@ package com.damiengo.testapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +11,8 @@ import com.prof.rssparser.Parser
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
 import java.util.logging.Logger
+import androidx.appcompat.app.ActionBarDrawerToggle
+
 
 class MainActivity : AppCompatActivity() {
     private val log = Logger.getLogger(MainActivity::class.java.name)
@@ -40,8 +41,15 @@ class MainActivity : AppCompatActivity() {
         val actionbar: ActionBar? = supportActionBar
         actionbar?.apply {
             setDisplayHomeAsUpEnabled(true)
-            setHomeAsUpIndicator(R.drawable.ic_menu_camera)
+            setHomeButtonEnabled(true)
         }
+
+        val actionBarDrawerToggle = ActionBarDrawerToggle(
+            this, drawer_layout, toolbar,
+            R.string.drawer_open, R.string.drawer_closed
+        )
+        drawer_layout.addDrawerListener(actionBarDrawerToggle)
+        actionBarDrawerToggle.syncState()
 
         nav_view.setNavigationItemSelectedListener { menuItem ->
             // set item as selected to persist highlight
