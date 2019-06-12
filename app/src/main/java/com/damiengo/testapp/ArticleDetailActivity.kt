@@ -1,8 +1,10 @@
 package com.damiengo.testapp
 
 import android.os.Bundle
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.article_detail_activity.*
 import kotlinx.coroutines.*
 import org.jsoup.Jsoup
@@ -24,8 +26,10 @@ class ArticleDetailActivity : AppCompatActivity() {
         val pubDate = intent.getStringExtra("pubDate")
         val link = intent.getStringExtra("link")
 
-        article_title.text = title
-        article_date.text = pubDate
+        //article_title.text = title
+        //article_date.text = pubDate
+
+        collapsing_toolbar.title = title
 
         Glide.with(this)
              .load(image)

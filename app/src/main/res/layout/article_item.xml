@@ -5,6 +5,7 @@
         android:orientation="vertical"
         android:layout_gravity="center_horizontal"
         android:padding="4dp"
+        android:parentActivityName=".MainActivity"
         xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
