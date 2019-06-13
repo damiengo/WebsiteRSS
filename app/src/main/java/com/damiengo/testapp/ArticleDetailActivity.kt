@@ -1,6 +1,7 @@
 package com.damiengo.testapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
@@ -9,6 +10,11 @@ import kotlinx.android.synthetic.main.article_detail_activity.*
 import kotlinx.coroutines.*
 import org.jsoup.Jsoup
 import java.util.logging.Logger
+import android.content.Intent
+import android.view.MenuItem
+import androidx.annotation.NonNull
+
+
 
 class ArticleDetailActivity : AppCompatActivity() {
 
@@ -21,18 +27,24 @@ class ArticleDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.article_detail_activity)
 
+        setSupportActionBar(article_toolbar)
+        val actionbar: ActionBar? = supportActionBar
+        actionbar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+        }
+
         val title = intent.getStringExtra("title")
         val image = intent.getStringExtra("image")
         val pubDate = intent.getStringExtra("pubDate")
         val link = intent.getStringExtra("link")
 
-        //article_title.text = title
-        //article_date.text = pubDate
+        article_date.text = pubDate
 
         collapsing_toolbar.title = title
 
         Glide.with(this)
              .load(image)
+             .centerCrop()
              .into(article_image)
 
         coroutineScope.launch(Dispatchers.Main) {
@@ -50,6 +62,14 @@ class ArticleDetailActivity : AppCompatActivity() {
             article_description.text = builder.toString()
         }
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Back button
+        if (android.R.id.home == item.itemId) {
+            onBackPressed()
+        }
+        return true
     }
 
 }
