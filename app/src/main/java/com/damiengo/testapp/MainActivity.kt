@@ -88,6 +88,10 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+        swipe_refresh.setOnRefreshListener {
+            getArticles(rssActu)
+        }
+
         coroutineScope.launch(Dispatchers.Main) {
             try {
                 articleList = parser.getArticles(rssActu)
@@ -120,6 +124,7 @@ class MainActivity : AppCompatActivity() {
                 articleList.addAll(newArticleList)
                 viewAdapter.notifyDataSetChanged()
                 list_articles.smoothScrollToPosition(0)
+                swipe_refresh.isRefreshing = false
             } catch (e: Exception) {
                 // Handle the exception
                 log.severe("Error reading feed: "+e.message)
