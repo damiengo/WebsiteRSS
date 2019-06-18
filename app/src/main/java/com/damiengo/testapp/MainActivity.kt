@@ -2,6 +2,7 @@ package com.damiengo.testapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,20 +21,22 @@ class MainActivity : AppCompatActivity() {
     private val coroutineScope = CoroutineScope(Dispatchers.Main + viewModelJob)
     private val parser = Parser()
 
+    private val rssActu = "https://www.lequipe.fr/rss/actu_rss.xml"
+    private val rssFoot = "http://www.lequipe.fr/rss/actu_rss_Football.xml"
+    private val rssFootTransferts = "http://www.lequipe.fr/rss/actu_rss_Transferts.xml"
+    private val rssTennis = "http://www.lequipe.fr/rss/actu_rss_Tennis.xml"
+    private val rssRugby = "http://www.lequipe.fr/rss/actu_rss_Rugby.xml"
+    private val rssBasket = "http://www.lequipe.fr/rss/actu_rss_Basket.xml"
+
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var articleList: MutableList<Article>
 
+    private lateinit var currentMenuItem: MenuItem
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        val rssActu = "https://www.lequipe.fr/rss/actu_rss.xml"
-        val rssFoot = "http://www.lequipe.fr/rss/actu_rss_Football.xml"
-        val rssFootTransferts = "http://www.lequipe.fr/rss/actu_rss_Transferts.xml"
-        val rssTennis = "http://www.lequipe.fr/rss/actu_rss_Tennis.xml"
-        val rssRugby = "http://www.lequipe.fr/rss/actu_rss_Rugby.xml"
-        val rssBasket = "http://www.lequipe.fr/rss/actu_rss_Basket.xml"
 
         viewManager = LinearLayoutManager(this)
 
@@ -51,45 +54,24 @@ class MainActivity : AppCompatActivity() {
         drawer_layout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
 
+        // Initialize current menu item selected
+        nav_view.menu.getItem(0).isChecked = true
+        currentMenuItem = nav_view.menu.getItem(0)
+
         nav_view.setNavigationItemSelectedListener { menuItem ->
+            currentMenuItem = menuItem
             // set item as selected to persist highlight
             menuItem.isChecked = true
             // close drawer when item is tapped
             drawer_layout.closeDrawers()
 
-            // Handle navigation view item clicks here.
-            when (menuItem.itemId) {
-                R.id.nav_actu -> {
-                    setTitle("Actualité")
-                    getArticles(rssActu)
-                }
-                R.id.nav_foot -> {
-                    setTitle("Football")
-                    getArticles(rssFoot)
-                }
-                R.id.nav_transferts -> {
-                    setTitle("Transferts")
-                    getArticles(rssFootTransferts)
-                }
-                R.id.nav_basket -> {
-                    setTitle("Basket")
-                    getArticles(rssBasket)
-                }
-                R.id.nav_tennis -> {
-                    setTitle("Tennis")
-                    getArticles(rssTennis)
-                }
-                R.id.nav_rugby -> {
-                    setTitle("Rugby")
-                    getArticles(rssRugby)
-                }
-            }
+            loadArticles()
 
             true
         }
 
         swipe_refresh.setOnRefreshListener {
-            getArticles(rssActu)
+            loadArticles()
         }
 
         coroutineScope.launch(Dispatchers.Main) {
@@ -116,15 +98,44 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun loadArticles() {
+        when (currentMenuItem.itemId) {
+            R.id.nav_actu -> {
+                setTitle("Actualité")
+                getArticles(rssActu)
+            }
+            R.id.nav_foot -> {
+                setTitle("Football")
+                getArticles(rssFoot)
+            }
+            R.id.nav_transferts -> {
+                setTitle("Transferts")
+                getArticles(rssFootTransferts)
+            }
+            R.id.nav_basket -> {
+                setTitle("Basket")
+                getArticles(rssBasket)
+            }
+            R.id.nav_tennis -> {
+                setTitle("Tennis")
+                getArticles(rssTennis)
+            }
+            R.id.nav_rugby -> {
+                setTitle("Rugby")
+                getArticles(rssRugby)
+            }
+        }
+    }
+
     private fun getArticles(rssFeed: String) {
         articleList.clear()
         coroutineScope.launch(Dispatchers.Main) {
             try {
                 val newArticleList = parser.getArticles(rssFeed)
+                swipe_refresh.isRefreshing = false
                 articleList.addAll(newArticleList)
                 viewAdapter.notifyDataSetChanged()
                 list_articles.smoothScrollToPosition(0)
-                swipe_refresh.isRefreshing = false
             } catch (e: Exception) {
                 // Handle the exception
                 log.severe("Error reading feed: "+e.message)

@@ -2,9 +2,13 @@ package com.damiengo.testapp
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.prof.rssparser.Article
+import kotlinx.android.synthetic.main.article_detail_activity.*
+import kotlinx.coroutines.withContext
 
 class ArticleViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
     RecyclerView.ViewHolder(inflater.inflate(R.layout.article_item, parent, false)) {
