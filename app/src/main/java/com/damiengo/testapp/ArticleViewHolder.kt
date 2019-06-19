@@ -14,6 +14,7 @@ class ArticleViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
     RecyclerView.ViewHolder(inflater.inflate(R.layout.article_item, parent, false)) {
     private var titleView: TextView? = null
     private var categoryView: TextView? = null
+    private var imageView: ImageView
 
     private var articleTitle: String? = null
     private var articleCategory: String? = null
@@ -21,6 +22,7 @@ class ArticleViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
     init {
         titleView = itemView.findViewById(R.id.article_title)
         categoryView = itemView.findViewById(R.id.article_category)
+        imageView = itemView.findViewById(R.id.article_detail_image)
     }
 
     fun bind(article: Article, clickListener: (Article) -> Unit) {
@@ -43,6 +45,10 @@ class ArticleViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
             articleCategory = title?.substring(0, lastIdx)
             articleTitle    = title?.substring(lastIdx+3)
         }
+    }
+
+    fun getImageView(): ImageView {
+        return imageView
     }
 
 }
