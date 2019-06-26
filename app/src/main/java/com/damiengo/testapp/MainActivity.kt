@@ -3,6 +3,7 @@ package com.damiengo.testapp
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +14,12 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
 import java.util.logging.Logger
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.recyclerview.widget.DividerItemDecoration
+import android.widget.LinearLayout
+
+
+
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -37,6 +44,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        progress_bar.visibility = View.VISIBLE
 
         viewManager = LinearLayoutManager(this)
 
@@ -74,6 +83,8 @@ class MainActivity : AppCompatActivity() {
             loadArticles()
         }
 
+        list_articles.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
+
         coroutineScope.launch(Dispatchers.Main) {
             try {
                 articleList = parser.getArticles(rssActu)
@@ -91,6 +102,7 @@ class MainActivity : AppCompatActivity() {
                     // specify an viewAdapter (see also next example)
                     adapter = viewAdapter
                 }
+                progress_bar.visibility = View.GONE
             } catch (e: Exception) {
                 // Handle the exception
                 log.severe("Error reading feed: "+e.message)
@@ -99,6 +111,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadArticles() {
+        progress_bar.visibility = View.VISIBLE
         when (currentMenuItem.itemId) {
             R.id.nav_actu -> {
                 setTitle("Actualité")
@@ -135,6 +148,7 @@ class MainActivity : AppCompatActivity() {
                 swipe_refresh.isRefreshing = false
                 articleList.addAll(newArticleList)
                 viewAdapter.notifyDataSetChanged()
+                progress_bar.visibility = View.GONE
                 list_articles.smoothScrollToPosition(0)
             } catch (e: Exception) {
                 // Handle the exception
