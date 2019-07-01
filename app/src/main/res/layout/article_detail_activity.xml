@@ -16,6 +16,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
+                app:expandedTitleTextAppearance="@style/ExpandedToolbar"
+                app:collapsedTitleTextAppearance="@style/CollapsedToolbar"
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -29,9 +31,11 @@
                     android:id="@+id/article_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                     app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
