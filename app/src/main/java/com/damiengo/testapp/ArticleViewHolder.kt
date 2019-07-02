@@ -54,8 +54,8 @@ class ArticleViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
         articleTitle = article.title
 
         if(lastIdx != -1) {
-            articleCategory = title?.substring(0, lastIdx)
-            articleTitle    = title?.substring(lastIdx+3)
+            articleCategory = title.substring(0, lastIdx)
+            articleTitle    = title.substring(lastIdx+3)
         }
     }
 

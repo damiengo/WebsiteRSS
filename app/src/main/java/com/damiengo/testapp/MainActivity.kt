@@ -17,11 +17,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.recyclerview.widget.DividerItemDecoration
 import android.widget.LinearLayout
 
-
-
-
-
-
 class MainActivity : AppCompatActivity() {
     private val log = Logger.getLogger(MainActivity::class.java.name)
     private val viewModelJob = Job()

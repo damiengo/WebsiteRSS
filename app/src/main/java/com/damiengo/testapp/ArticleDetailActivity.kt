@@ -1,20 +1,13 @@
 package com.damiengo.testapp
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.article_detail_activity.*
 import kotlinx.coroutines.*
 import org.jsoup.Jsoup
 import java.util.logging.Logger
-import android.content.Intent
 import android.view.MenuItem
-import androidx.annotation.NonNull
-
-
 
 class ArticleDetailActivity : AppCompatActivity() {
 
@@ -42,7 +35,7 @@ class ArticleDetailActivity : AppCompatActivity() {
 
         collapsing_toolbar.title = title
 
-        Glide.with(this)
+        GlideApp.with(this)
              .load(image)
              .centerCrop()
              .into(article_image)
