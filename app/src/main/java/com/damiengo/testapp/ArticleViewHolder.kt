@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.prof.rssparser.Article
 import kotlinx.android.synthetic.main.article_detail_activity.*
 import kotlinx.coroutines.withContext
+import java.io.File.separator
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -22,40 +23,39 @@ class ArticleViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
     private var timeView: TextView? = null
     private var imageView: ImageView
 
-    private var articleTitle: String? = null
-    private var articleCategory: String? = null
-    private var articleTime: String? = null
 
     init {
-        titleView = itemView.findViewById(R.id.article_title)
+        titleView    = itemView.findViewById(R.id.article_title)
         categoryView = itemView.findViewById(R.id.article_category)
-        timeView = itemView.findViewById(R.id.article_time)
-        imageView = itemView.findViewById(R.id.article_detail_image)
+        timeView     = itemView.findViewById(R.id.article_time)
+        imageView    = itemView.findViewById(R.id.article_detail_image)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun bind(article: Article, clickListener: (Article) -> Unit) {
-        setArticleText(article)
+        setArticleCategoryText(article)
         setArticleTime(article)
 
-        titleView?.text = articleTitle
-        categoryView?.text = articleCategory
-        timeView?.text = articleTime
+        titleView?.text = article.title
+        categoryView?.text = article.categories.joinToString(separator = " • ")
+        timeView?.text = article.pubDate
 
         itemView.setOnClickListener { clickListener(article)}
     }
 
-    private fun setArticleText(article: Article) {
+    private fun setArticleCategoryText(article: Article) {
         val title = article.title
 
         val lastIdx = title?.substring(0, 30)!!.lastIndexOf(" - ")
 
-        articleCategory = ""
-        articleTitle = article.title
-
         if(lastIdx != -1) {
-            articleCategory = title.substring(0, lastIdx)
-            articleTitle    = title.substring(lastIdx+3)
+            // Setting title
+            article.title = title.substring(lastIdx+3)
+            // Setting cactegories
+            title.substring(0, lastIdx).split(" - ").iterator().forEach {
+                article.addCategory(it)
+            }
+
         }
     }
 
@@ -64,7 +64,7 @@ class ArticleViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
         var rssFormatter = DateTimeFormatter.RFC_1123_DATE_TIME
         val date = LocalDateTime.parse(article.pubDate, rssFormatter)
         var formatter = DateTimeFormatter.ofPattern("HH:mm")
-        articleTime = date.format(formatter)
+        article.pubDate = date.format(formatter)
     }
 
     fun getImageView(): ImageView {
