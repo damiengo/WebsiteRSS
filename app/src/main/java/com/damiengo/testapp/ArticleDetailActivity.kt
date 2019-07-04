@@ -26,13 +26,14 @@ class ArticleDetailActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
         }
 
-        val title = intent.getStringExtra("title")
-        val image = intent.getStringExtra("image")
-        val pubDate = intent.getStringExtra("pubDate")
-        val link = intent.getStringExtra("link")
+        val title      = intent.getStringExtra("title")
+        val image      = intent.getStringExtra("image")
+        val pubDate    = intent.getStringExtra("pubDate")
+        val link       = intent.getStringExtra("link")
+        val categories = intent.getStringExtra("categories")
 
-        article_date.text = pubDate
-
+        article_date.text        = pubDate
+        article_categories.text  = categories
         collapsing_toolbar.title = title
 
         GlideApp.with(this)

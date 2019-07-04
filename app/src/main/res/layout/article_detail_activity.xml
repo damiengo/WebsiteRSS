@@ -32,6 +32,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                    app:contentInsetStartWithNavigation="0dp"
                     app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
@@ -58,9 +59,20 @@
                     android:id="@+id/article_date"
                     android:text="..."
                     android:textSize="12dp"
+                    android:textStyle="bold"
                     android:padding="4dp"
-                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/article_categories"
+                android:text="..."
+                android:textSize="12dp"
+                android:padding="4dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <TextView
                     android:id="@+id/article_chapo"
