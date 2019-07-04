@@ -159,6 +159,7 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra("image", article.image)
         intent.putExtra("pubDate", article.pubDate)
         intent.putExtra("link", article.link)
+        intent.putExtra("categories", article.categories.joinToString(separator = " • "))
         startActivity(intent)
     }
 
