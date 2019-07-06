@@ -34,6 +34,7 @@ class ArticleDetailActivity : AppCompatActivity() {
 
         article_date.text        = pubDate
         article_categories.text  = categories
+        article_title.text       = title
         collapsing_toolbar.title = title
 
         GlideApp.with(this)
