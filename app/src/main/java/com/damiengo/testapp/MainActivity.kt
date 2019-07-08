@@ -23,12 +23,13 @@ class MainActivity : AppCompatActivity() {
     private val coroutineScope = CoroutineScope(Dispatchers.Main + viewModelJob)
     private val parser = Parser()
 
-    private val rssActu = "https://www.lequipe.fr/rss/actu_rss.xml"
-    private val rssFoot = "http://www.lequipe.fr/rss/actu_rss_Football.xml"
+    private val rssActu           = "https://www.lequipe.fr/rss/actu_rss.xml"
+    private val rssFoot           = "http://www.lequipe.fr/rss/actu_rss_Football.xml"
     private val rssFootTransferts = "http://www.lequipe.fr/rss/actu_rss_Transferts.xml"
-    private val rssTennis = "http://www.lequipe.fr/rss/actu_rss_Tennis.xml"
-    private val rssRugby = "http://www.lequipe.fr/rss/actu_rss_Rugby.xml"
-    private val rssBasket = "http://www.lequipe.fr/rss/actu_rss_Basket.xml"
+    private val rssTennis         = "http://www.lequipe.fr/rss/actu_rss_Tennis.xml"
+    private val rssRugby          = "http://www.lequipe.fr/rss/actu_rss_Rugby.xml"
+    private val rssBasket         = "http://www.lequipe.fr/rss/actu_rss_Basket.xml"
+    private val rssCyclisme       = "http://www.lequipe.fr/rss/actu_rss_Cyclisme.xml"
 
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
@@ -131,6 +132,10 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_rugby -> {
                 setTitle("Rugby")
                 getArticles(rssRugby)
+            }
+            R.id.nav_cyclisme -> {
+                setTitle("Cyclisme")
+                getArticles(rssCyclisme)
             }
         }
     }

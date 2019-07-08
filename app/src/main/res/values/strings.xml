@@ -23,4 +23,5 @@
 
     <string name="drawer_open">Open</string>
     <string name="drawer_closed">Closed</string>
+    <string name="menu_cyclisme">Cyclisme</string>
 </resources>
