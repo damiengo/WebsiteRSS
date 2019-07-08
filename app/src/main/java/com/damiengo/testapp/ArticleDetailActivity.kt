@@ -1,6 +1,7 @@
 package com.damiengo.testapp
 
 import android.os.Bundle
+import android.text.Html
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.article_detail_activity.*
@@ -8,6 +9,7 @@ import kotlinx.coroutines.*
 import org.jsoup.Jsoup
 import java.util.logging.Logger
 import android.view.MenuItem
+import androidx.core.text.HtmlCompat
 
 class ArticleDetailActivity : AppCompatActivity() {
 
@@ -51,10 +53,18 @@ class ArticleDetailActivity : AppCompatActivity() {
             article_chapo.text = chapo
 
             document.select(".article__body .Paragraph").forEach { ele ->
-                builder.append(ele.text()).append("\n\n")
+                builder.append(ele.html()).append("<br /><br />")
             }
-
-            article_description.text = builder.toString()
+            var htmlDesc = builder.toString()
+            // Delete paragraph
+            htmlDesc = htmlDesc.replace("<p[^>]*>", "")
+            htmlDesc = htmlDesc.replace("</p>", "")
+            // Replace title
+            htmlDesc = htmlDesc.replace("<h3[^>]*>".toRegex(), "<b>")
+            htmlDesc = htmlDesc.replace("</h3>", "</b>")
+            // @todo : remove first p
+            log.info(htmlDesc)
+            article_description.text = HtmlCompat.fromHtml(htmlDesc, Html.FROM_HTML_MODE_LEGACY)
         }
 
     }

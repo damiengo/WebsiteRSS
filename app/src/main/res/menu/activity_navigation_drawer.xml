@@ -28,6 +28,10 @@
                 android:id="@+id/nav_rugby"
                 android:icon="@drawable/ic_menu_manage"
                 android:title="@string/menu_rugby"/>
+        <item
+            android:id="@+id/nav_cyclisme"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/menu_cyclisme"/>
     </group>
 
 </menu>
