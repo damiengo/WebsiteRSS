@@ -9,7 +9,10 @@ import kotlinx.coroutines.*
 import org.jsoup.Jsoup
 import java.util.logging.Logger
 import android.view.MenuItem
+import android.view.View
 import androidx.core.text.HtmlCompat
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.article_detail_activity.progress_bar
 
 class ArticleDetailActivity : AppCompatActivity() {
 
@@ -21,6 +24,8 @@ class ArticleDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.article_detail_activity)
+
+        progress_bar.visibility = View.VISIBLE
 
         setSupportActionBar(article_toolbar)
         val actionbar: ActionBar? = supportActionBar
@@ -57,14 +62,17 @@ class ArticleDetailActivity : AppCompatActivity() {
             }
             var htmlDesc = builder.toString()
             // Delete paragraph
-            htmlDesc = htmlDesc.replace("<p[^>]*>", "")
+            htmlDesc = htmlDesc.replace("<p[^>]*>".toRegex(), "")
             htmlDesc = htmlDesc.replace("</p>", "")
+            // Delete links
+            htmlDesc = htmlDesc.replace("<a[^>]*>".toRegex(), "")
+            htmlDesc = htmlDesc.replace("</a>", "")
             // Replace title
-            htmlDesc = htmlDesc.replace("<h3[^>]*>".toRegex(), "<b>")
-            htmlDesc = htmlDesc.replace("</h3>", "</b>")
-            // @todo : remove first p
-            log.info(htmlDesc)
+            htmlDesc = htmlDesc.replace("<h3[^>]*>".toRegex(), "<p><b>")
+            htmlDesc = htmlDesc.replace("</h3>", "</b></p>")
             article_description.text = HtmlCompat.fromHtml(htmlDesc, Html.FROM_HTML_MODE_LEGACY)
+
+            progress_bar.visibility = View.INVISIBLE
         }
 
     }

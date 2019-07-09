@@ -95,7 +95,7 @@
                     android:id="@+id/article_chapo"
                     android:textSize="14sp"
                     android:padding="4dp"
-                    android:textStyle="italic"
+                    android:textStyle="italic|bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -108,5 +108,14 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="200dp"
+        android:visibility="invisible"
+        />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
