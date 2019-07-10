@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
-    private lateinit var articleList: MutableList<Article>
+    private var articleList: MutableList<Article> = ArrayList()
 
     private lateinit var currentMenuItem: MenuItem
 
@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        network_state.visibility = View.GONE
         progress_bar.visibility = View.VISIBLE
 
         viewManager = LinearLayoutManager(this)
@@ -78,43 +79,46 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        // @todo
-        if( ! isNetworkAvailable(this)) {
-            log.info("No network")
-        }
-
         swipe_refresh.setOnRefreshListener {
             loadArticles()
         }
 
         list_articles.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
 
-        coroutineScope.launch(Dispatchers.Main) {
-            try {
-                articleList = parser.getArticles(rssActu)
-                viewAdapter = ArticleAdapter(articleList) { article : Article -> articleClicked(article) }
-                setTitle("Actualité")
+        if( ! isNetworkAvailable(this)) {
+            network_state.text = getString(R.string.no_network)
+            progress_bar.visibility = View.GONE
+            network_state.visibility = View.VISIBLE
+        }
+        else {
+            coroutineScope.launch(Dispatchers.Main) {
+                try {
+                    articleList = parser.getArticles(rssActu)
+                    viewAdapter = ArticleAdapter(articleList) { article: Article -> articleClicked(article) }
+                    setTitle("Actualité")
 
-                list_articles.apply {
-                    // use this setting to improve performance if you know that changes
-                    // in content do not change the layout size of the RecyclerView
-                    setHasFixedSize(true)
+                    list_articles.apply {
+                        // use this setting to improve performance if you know that changes
+                        // in content do not change the layout size of the RecyclerView
+                        setHasFixedSize(true)
 
-                    // use a linear layout manager
-                    layoutManager = viewManager
+                        // use a linear layout manager
+                        layoutManager = viewManager
 
-                    // specify an viewAdapter (see also next example)
-                    adapter = viewAdapter
+                        // specify an viewAdapter (see also next example)
+                        adapter = viewAdapter
+                    }
+                    progress_bar.visibility = View.GONE
+                } catch (e: Exception) {
+                    // Handle the exception
+                    log.severe("Error reading feed: " + e.message)
                 }
-                progress_bar.visibility = View.GONE
-            } catch (e: Exception) {
-                // Handle the exception
-                log.severe("Error reading feed: "+e.message)
             }
         }
     }
 
     private fun loadArticles() {
+        network_state.visibility = View.GONE
         progress_bar.visibility = View.VISIBLE
         when (currentMenuItem.itemId) {
             R.id.nav_actu -> {
@@ -149,18 +153,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getArticles(rssFeed: String) {
-        articleList.clear()
-        coroutineScope.launch(Dispatchers.Main) {
-            try {
-                val newArticleList = parser.getArticles(rssFeed)
-                swipe_refresh.isRefreshing = false
-                articleList.addAll(newArticleList)
-                viewAdapter.notifyDataSetChanged()
-                progress_bar.visibility = View.GONE
-                list_articles.smoothScrollToPosition(0)
-            } catch (e: Exception) {
-                // Handle the exception
-                log.severe("Error reading feed: "+e.message)
+        if( ! isNetworkAvailable(this)) {
+            network_state.text = getString(R.string.no_network)
+            progress_bar.visibility = View.GONE
+            network_state.visibility = View.VISIBLE
+            swipe_refresh.isRefreshing = false
+        }
+        else {
+            articleList.clear()
+            coroutineScope.launch(Dispatchers.Main) {
+                try {
+                    val newArticleList = parser.getArticles(rssFeed)
+                    swipe_refresh.isRefreshing = false
+                    articleList.addAll(newArticleList)
+                    viewAdapter.notifyDataSetChanged()
+                    progress_bar.visibility = View.GONE
+                    list_articles.smoothScrollToPosition(0)
+                } catch (e: Exception) {
+                    // Handle the exception
+                    log.severe("Error reading feed: " + e.message)
+                }
             }
         }
     }
