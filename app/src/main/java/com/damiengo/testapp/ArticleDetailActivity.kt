@@ -11,7 +11,6 @@ import java.util.logging.Logger
 import android.view.MenuItem
 import android.view.View
 import androidx.core.text.HtmlCompat
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.article_detail_activity.progress_bar
 
 class ArticleDetailActivity : AppCompatActivity() {
@@ -51,9 +50,13 @@ class ArticleDetailActivity : AppCompatActivity() {
 
         coroutineScope.launch(Dispatchers.Main) {
             val document = withContext(Dispatchers.IO) {
-                Jsoup.connect(link).get()
+                Jsoup.connect(link)
+                    .userAgent("Mozilla/5.0 (Linux; U; Android 4.0.3; ko-kr; LG-L160L Build/IML74K) AppleWebkit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30")
+                    .referrer("http://www.google.com")
+                    .get()
             }
             val chapo = document.select(".Article__chapo").text()
+            log.info(document.html())
             val builder = StringBuilder()
             article_chapo.text = chapo
 
