@@ -74,6 +74,8 @@ class MainActivity : AppCompatActivity() {
             // close drawer when item is tapped
             drawer_layout.closeDrawers()
 
+            progress_bar.visibility = View.VISIBLE
+            articleList.clear()
             loadArticles()
 
             true
@@ -119,7 +121,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadArticles() {
         network_state.visibility = View.GONE
-        progress_bar.visibility = View.VISIBLE
         when (currentMenuItem.itemId) {
             R.id.nav_actu -> {
                 setTitle("Actualité")
@@ -155,24 +156,32 @@ class MainActivity : AppCompatActivity() {
     private fun getArticles(rssFeed: String) {
         if( ! isNetworkAvailable(this)) {
             network_state.text = getString(R.string.no_network)
-            progress_bar.visibility = View.GONE
             network_state.visibility = View.VISIBLE
             swipe_refresh.isRefreshing = false
         }
         else {
-            articleList.clear()
             coroutineScope.launch(Dispatchers.Main) {
                 try {
-                    val newArticleList = parser.getArticles(rssFeed)
+                    var newArticleList: MutableList<Article> = parser.getArticles(rssFeed)
+                    // Check new articles
+                    if(articleList.size == 0 || (articleList[0].guid != newArticleList[0].guid)) {
+                        newArticleList.forEach { article ->
+                            if(articleList.size == 0 || (articleList[0].guid != article.guid)) {
+                                articleList.add(article)
+                            }
+                            else {
+                                viewAdapter.notifyDataSetChanged()
+                                return@forEach
+                            }
+                        }
+                    }
                     swipe_refresh.isRefreshing = false
-                    articleList.addAll(newArticleList)
-                    viewAdapter.notifyDataSetChanged()
-                    progress_bar.visibility = View.GONE
                     list_articles.smoothScrollToPosition(0)
                 } catch (e: Exception) {
                     // Handle the exception
                     log.severe("Error reading feed: " + e.message)
                 }
+                progress_bar.visibility = View.GONE
             }
         }
     }

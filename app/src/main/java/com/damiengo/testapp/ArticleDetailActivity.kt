@@ -56,7 +56,6 @@ class ArticleDetailActivity : AppCompatActivity() {
                     .get()
             }
             val chapo = document.select(".Article__chapo").text()
-            log.info(document.html())
             val builder = StringBuilder()
             article_chapo.text = chapo
 
