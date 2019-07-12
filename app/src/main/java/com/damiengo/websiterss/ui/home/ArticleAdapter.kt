@@ -1,4 +1,4 @@
-package com.damiengo.testapp
+package com.damiengo.websiterss.ui.home
 
 import android.content.Context
 import android.os.Build
@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import com.damiengo.websiterss.util.GlideApp
 import com.prof.rssparser.Article
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

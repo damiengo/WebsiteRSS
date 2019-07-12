@@ -1,4 +1,4 @@
-package com.damiengo.testapp
+package com.damiengo.websiterss
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("com.damiengo.testapp", appContext.packageName)
+        assertEquals("com.damiengo.websiterss", appContext.packageName)
     }
 }

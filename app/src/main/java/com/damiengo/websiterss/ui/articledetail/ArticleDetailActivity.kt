@@ -1,4 +1,4 @@
-package com.damiengo.testapp
+package com.damiengo.websiterss.ui.articledetail
 
 import android.os.Bundle
 import android.text.Html
@@ -11,6 +11,8 @@ import java.util.logging.Logger
 import android.view.MenuItem
 import android.view.View
 import androidx.core.text.HtmlCompat
+import com.damiengo.websiterss.R
+import com.damiengo.websiterss.util.GlideApp
 import kotlinx.android.synthetic.main.article_detail_activity.progress_bar
 
 class ArticleDetailActivity : AppCompatActivity() {

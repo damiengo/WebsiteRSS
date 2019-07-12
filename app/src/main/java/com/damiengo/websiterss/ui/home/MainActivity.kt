@@ -1,4 +1,4 @@
-package com.damiengo.testapp
+package com.damiengo.websiterss.ui.home
 
 import android.content.Context
 import android.content.Intent
@@ -19,6 +19,8 @@ import java.util.logging.Logger
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.recyclerview.widget.DividerItemDecoration
 import android.widget.LinearLayout
+import com.damiengo.websiterss.ui.articledetail.ArticleDetailActivity
+import com.damiengo.websiterss.R
 
 class MainActivity : AppCompatActivity() {
     private val log = Logger.getLogger(MainActivity::class.java.name)
@@ -96,7 +98,12 @@ class MainActivity : AppCompatActivity() {
             coroutineScope.launch(Dispatchers.Main) {
                 try {
                     articleList = parser.getArticles(rssActu)
-                    viewAdapter = ArticleAdapter(articleList) { article: Article -> articleClicked(article) }
+                    viewAdapter =
+                        ArticleAdapter(articleList) { article: Article ->
+                            articleClicked(
+                                article
+                            )
+                        }
                     setTitle("Actualité")
 
                     list_articles.apply {
