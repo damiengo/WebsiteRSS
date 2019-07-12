@@ -1,4 +1,4 @@
-package com.damiengo.testapp
+package com.damiengo.websiterss
 
 import org.junit.Test
 

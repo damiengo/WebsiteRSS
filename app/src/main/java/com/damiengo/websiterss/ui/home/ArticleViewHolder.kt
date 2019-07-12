@@ -1,10 +1,11 @@
-package com.damiengo.testapp
+package com.damiengo.websiterss.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.damiengo.websiterss.R
 import com.prof.rssparser.Article
 
 class ArticleViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
