@@ -19,6 +19,11 @@ import java.util.logging.Logger
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.recyclerview.widget.DividerItemDecoration
 import android.widget.LinearLayout
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DefaultItemAnimator
 import com.damiengo.websiterss.ui.articledetail.ArticleDetailActivity
 import com.damiengo.websiterss.R
 
@@ -39,8 +44,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
     private var articleList: MutableList<Article> = ArrayList()
+    private lateinit var viewModel: FeedViewModel
 
     private lateinit var currentMenuItem: MenuItem
+
+    private inline fun <VM : ViewModel> viewModelFactory(crossinline f: () -> VM) =
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(aClass: Class<T>):T = f() as T
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +61,28 @@ class MainActivity : AppCompatActivity() {
         progress_bar.visibility = View.VISIBLE
 
         viewManager = LinearLayoutManager(this)
+
+        viewModel = ViewModelProviders.of(this@MainActivity,
+                                          viewModelFactory { FeedViewModel(rssActu) }).get(FeedViewModel::class.java)
+
+        list_articles.layoutManager = LinearLayoutManager(this)
+        list_articles.itemAnimator = DefaultItemAnimator()
+        list_articles.setHasFixedSize(true)
+
+        viewModel.getArticleList().observe(this, Observer { articles ->
+            if (articles != null) {
+                viewAdapter = ArticleAdapter(articles) { article: Article ->
+                    articleClicked(
+                        article
+                    )
+                }
+                list_articles.adapter = viewAdapter
+                viewAdapter.notifyDataSetChanged()
+                progress_bar.visibility = View.GONE
+                list_articles.visibility = View.VISIBLE
+                swipe_refresh.isRefreshing = false
+            }
+        })
 
         setSupportActionBar(toolbar)
         val actionbar: ActionBar? = supportActionBar
@@ -76,15 +109,20 @@ class MainActivity : AppCompatActivity() {
             // close drawer when item is tapped
             drawer_layout.closeDrawers()
 
+            list_articles.visibility = View.GONE
             progress_bar.visibility = View.VISIBLE
-            articleList.clear()
-            loadArticles()
+            setTitleFromCategory()
+            viewModel.url = getUrlFromCategory()
+            viewModel.fetchFeed()
 
             true
         }
 
         swipe_refresh.setOnRefreshListener {
-            loadArticles()
+            //viewAdapter.dataSource.clear()
+            viewAdapter.notifyDataSetChanged()
+            swipe_refresh.isRefreshing = true
+            viewModel.fetchFeed()
         }
 
         list_articles.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
@@ -95,102 +133,63 @@ class MainActivity : AppCompatActivity() {
             network_state.visibility = View.VISIBLE
         }
         else {
-            coroutineScope.launch(Dispatchers.Main) {
-                try {
-                    articleList = parser.getArticles(rssActu)
-                    viewAdapter =
-                        ArticleAdapter(articleList) { article: Article ->
-                            articleClicked(
-                                article
-                            )
-                        }
-                    setTitle("Actualité")
-
-                    list_articles.apply {
-                        // use this setting to improve performance if you know that changes
-                        // in content do not change the layout size of the RecyclerView
-                        setHasFixedSize(true)
-
-                        // use a linear layout manager
-                        layoutManager = viewManager
-
-                        // specify an viewAdapter (see also next example)
-                        adapter = viewAdapter
-                    }
-                    progress_bar.visibility = View.GONE
-                } catch (e: Exception) {
-                    // Handle the exception
-                    log.severe("Error reading feed: " + e.message)
-                }
-            }
+            setTitleFromCategory()
+            viewModel.fetchFeed()
         }
     }
 
-    private fun loadArticles() {
-        network_state.visibility = View.GONE
+    private fun setTitleFromCategory() {
         when (currentMenuItem.itemId) {
             R.id.nav_actu -> {
                 setTitle("Actualité")
-                getArticles(rssActu)
             }
             R.id.nav_foot -> {
                 setTitle("Football")
-                getArticles(rssFoot)
             }
             R.id.nav_transferts -> {
                 setTitle("Transferts")
-                getArticles(rssFootTransferts)
             }
             R.id.nav_basket -> {
                 setTitle("Basket")
-                getArticles(rssBasket)
             }
             R.id.nav_tennis -> {
                 setTitle("Tennis")
-                getArticles(rssTennis)
             }
             R.id.nav_rugby -> {
                 setTitle("Rugby")
-                getArticles(rssRugby)
             }
             R.id.nav_cyclisme -> {
                 setTitle("Cyclisme")
-                getArticles(rssCyclisme)
             }
         }
     }
 
-    private fun getArticles(rssFeed: String) {
-        if( ! isNetworkAvailable(this)) {
-            network_state.text = getString(R.string.no_network)
-            network_state.visibility = View.VISIBLE
-            swipe_refresh.isRefreshing = false
-        }
-        else {
-            coroutineScope.launch(Dispatchers.Main) {
-                try {
-                    var newArticleList: MutableList<Article> = parser.getArticles(rssFeed)
-                    // Check new articles
-                    if(articleList.size == 0 || (articleList[0].guid != newArticleList[0].guid)) {
-                        newArticleList.forEach { article ->
-                            if(articleList.size == 0 || (articleList[0].guid != article.guid)) {
-                                articleList.add(article)
-                            }
-                            else {
-                                viewAdapter.notifyDataSetChanged()
-                                return@forEach
-                            }
-                        }
-                    }
-                    swipe_refresh.isRefreshing = false
-                    list_articles.smoothScrollToPosition(0)
-                } catch (e: Exception) {
-                    // Handle the exception
-                    log.severe("Error reading feed: " + e.message)
-                }
-                progress_bar.visibility = View.GONE
+    private fun getUrlFromCategory(): String {
+        when (currentMenuItem.itemId) {
+            R.id.nav_actu -> {
+                return rssActu
+            }
+            R.id.nav_foot -> {
+                return rssFoot
+            }
+            R.id.nav_transferts -> {
+                return rssFootTransferts
+            }
+            R.id.nav_basket -> {
+                return rssBasket
+            }
+            R.id.nav_tennis -> {
+                return rssTennis
+            }
+            R.id.nav_rugby -> {
+                return rssRugby
+            }
+            R.id.nav_cyclisme -> {
+                return rssCyclisme
             }
         }
+
+        return rssActu
     }
 
     private fun articleClicked(article : Article) {

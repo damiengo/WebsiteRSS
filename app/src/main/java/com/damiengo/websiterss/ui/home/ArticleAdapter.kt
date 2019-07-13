@@ -11,7 +11,7 @@ import com.prof.rssparser.Article
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class ArticleAdapter(private val dataSource: MutableList<Article>,
+class ArticleAdapter(val dataSource: MutableList<Article>,
                      private val clickListener: (Article) -> Unit) : RecyclerView.Adapter<ArticleViewHolder>() {
 
     private lateinit var context: Context
