@@ -6,13 +6,24 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.ListPreloader
+import com.bumptech.glide.RequestBuilder
 import com.damiengo.websiterss.util.GlideApp
 import com.prof.rssparser.Article
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class ArticleAdapter(val dataSource: MutableList<Article>,
-                     private val clickListener: (Article) -> Unit) : RecyclerView.Adapter<ArticleViewHolder>() {
+                     private val clickListener: (Article) -> Unit) : RecyclerView.Adapter<ArticleViewHolder>(),
+    ListPreloader.PreloadModelProvider<Article> {
+
+    override fun getPreloadItems(position: Int): MutableList<Article> {
+        return dataSource.subList(position, position+1)
+    }
+
+    override fun getPreloadRequestBuilder(article: Article): RequestBuilder<*>? {
+        return GlideApp.with(context).load(article.image).centerCrop()
+    }
 
     private lateinit var context: Context
     private val hhmmFormat = "HH:mm"
