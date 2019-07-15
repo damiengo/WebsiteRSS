@@ -2,6 +2,7 @@ package com.damiengo.websiterss.ui.home
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
@@ -12,26 +13,26 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.prof.rssparser.Article
-import com.prof.rssparser.Parser
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.*
 import java.util.logging.Logger
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.recyclerview.widget.DividerItemDecoration
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
+import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader
+import com.bumptech.glide.util.FixedPreloadSizeProvider
+import com.bumptech.glide.util.ViewPreloadSizeProvider
 import com.damiengo.websiterss.ui.articledetail.ArticleDetailActivity
 import com.damiengo.websiterss.R
+import com.damiengo.websiterss.util.GlideApp
 
 class MainActivity : AppCompatActivity() {
     private val log = Logger.getLogger(MainActivity::class.java.name)
-    private val viewModelJob = Job()
-    private val coroutineScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-    private val parser = Parser()
 
     private val rssActu           = "https://www.lequipe.fr/rss/actu_rss.xml"
     private val rssFoot           = "http://www.lequipe.fr/rss/actu_rss_Football.xml"
@@ -41,12 +42,13 @@ class MainActivity : AppCompatActivity() {
     private val rssBasket         = "http://www.lequipe.fr/rss/actu_rss_Basket.xml"
     private val rssCyclisme       = "http://www.lequipe.fr/rss/actu_rss_Cyclisme.xml"
 
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    private lateinit var viewAdapter: ArticleAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
-    private var articleList: MutableList<Article> = ArrayList()
     private lateinit var viewModel: FeedViewModel
 
     private lateinit var currentMenuItem: MenuItem
+
+    private lateinit var preloadSizeProvider : ViewPreloadSizeProvider<Article>
 
     private inline fun <VM : ViewModel> viewModelFactory(crossinline f: () -> VM) =
         object : ViewModelProvider.Factory {
@@ -76,8 +78,14 @@ class MainActivity : AppCompatActivity() {
                         article
                     )
                 }
+
+                // glide image preloading
+                preloadSizeProvider = ViewPreloadSizeProvider()
+                val preloader : RecyclerViewPreloader<Article> = RecyclerViewPreloader(GlideApp.with(this),
+                    viewAdapter, preloadSizeProvider, 5)
+                list_articles.addOnScrollListener(preloader)
+
                 list_articles.adapter = viewAdapter
-                viewAdapter.notifyDataSetChanged()
                 progress_bar.visibility = View.GONE
                 list_articles.visibility = View.VISIBLE
                 swipe_refresh.isRefreshing = false
@@ -118,8 +126,9 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+        swipe_refresh.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary))
+
         swipe_refresh.setOnRefreshListener {
-            //viewAdapter.dataSource.clear()
             viewAdapter.notifyDataSetChanged()
             swipe_refresh.isRefreshing = true
             viewModel.fetchFeed()
