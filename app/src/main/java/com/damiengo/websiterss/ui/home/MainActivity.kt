@@ -42,13 +42,16 @@ class MainActivity : AppCompatActivity() {
     private val rssBasket         = "http://www.lequipe.fr/rss/actu_rss_Basket.xml"
     private val rssCyclisme       = "http://www.lequipe.fr/rss/actu_rss_Cyclisme.xml"
 
+    private val imageSize: Int = 210
+    private val imagesPreload: Int = 25
+
     private lateinit var viewAdapter: ArticleAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var viewModel: FeedViewModel
 
     private lateinit var currentMenuItem: MenuItem
 
-    private lateinit var preloadSizeProvider : ViewPreloadSizeProvider<Article>
+    private lateinit var preloadSizeProvider : FixedPreloadSizeProvider<Article>
 
     private inline fun <VM : ViewModel> viewModelFactory(crossinline f: () -> VM) =
         object : ViewModelProvider.Factory {
@@ -80,9 +83,9 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 // glide image preloading
-                preloadSizeProvider = ViewPreloadSizeProvider()
+                preloadSizeProvider = FixedPreloadSizeProvider(imageSize, imageSize)
                 val preloader : RecyclerViewPreloader<Article> = RecyclerViewPreloader(GlideApp.with(this),
-                    viewAdapter, preloadSizeProvider, 5)
+                    viewAdapter, preloadSizeProvider, imagesPreload)
                 list_articles.addOnScrollListener(preloader)
 
                 list_articles.adapter = viewAdapter
