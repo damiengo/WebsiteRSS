@@ -70,9 +70,17 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this@MainActivity,
                                           viewModelFactory { FeedViewModel(rssActu) }).get(FeedViewModel::class.java)
 
+        viewAdapter = ArticleAdapter(ArrayList()) { article: Article ->
+            articleClicked(
+                article
+            )
+        }
+        viewAdapter.setHasStableIds(true)
+
         list_articles.layoutManager = LinearLayoutManager(this)
         list_articles.itemAnimator = DefaultItemAnimator()
         list_articles.setHasFixedSize(true)
+        list_articles.adapter = viewAdapter
 
         viewModel.getArticleList().observe(this, Observer { articles ->
             if (articles != null) {
@@ -81,6 +89,7 @@ class MainActivity : AppCompatActivity() {
                         article
                     )
                 }
+                viewAdapter.setHasStableIds(true)
 
                 // glide image preloading
                 preloadSizeProvider = FixedPreloadSizeProvider(imageSize, imageSize)
