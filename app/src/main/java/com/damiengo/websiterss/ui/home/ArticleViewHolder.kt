@@ -10,23 +10,15 @@ import com.prof.rssparser.Article
 
 class ArticleViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
     RecyclerView.ViewHolder(inflater.inflate(R.layout.article_item, parent, false)) {
-    private var titleView: TextView? = null
-    private var categoryView: TextView? = null
-    private var timeView: TextView? = null
-    private var imageView: ImageView
 
-
-    init {
-        titleView    = itemView.findViewById(R.id.article_title)
-        categoryView = itemView.findViewById(R.id.article_category)
-        timeView     = itemView.findViewById(R.id.article_time)
-        imageView    = itemView.findViewById(R.id.article_detail_image)
-    }
+    private var titleView: TextView     = itemView.findViewById(R.id.article_title)
+    private var timeCatView: TextView   = itemView.findViewById(R.id.article_time_category)
+    private var imageView: ImageView    = itemView.findViewById(R.id.article_detail_image)
 
     fun bind(article: Article, clickListener: (Article) -> Unit) {
-        titleView?.text    = article.title
-        categoryView?.text = article.categories.joinToString(separator = " • ")
-        timeView?.text     = article.pubDate
+        val timeCat: String = article.pubDate + " " + article.description
+        titleView.text   = article.title
+        timeCatView.text = timeCat
 
         itemView.setOnClickListener { clickListener(article)}
     }
