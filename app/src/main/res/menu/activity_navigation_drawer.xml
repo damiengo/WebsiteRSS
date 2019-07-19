@@ -6,31 +6,31 @@
     <group android:checkableBehavior="single">
         <item
                 android:id="@+id/nav_actu"
-                android:icon="@drawable/ic_menu_camera"
+                android:icon="@drawable/ic_news"
                 android:title="@string/menu_actu"/>
         <item
                 android:id="@+id/nav_foot"
-                android:icon="@drawable/ic_menu_gallery"
+                android:icon="@drawable/ic_soccer"
                 android:title="@string/menu_foot"/>
         <item
                 android:id="@+id/nav_transferts"
-                android:icon="@drawable/ic_menu_slideshow"
+                android:icon="@drawable/ic_transfert"
                 android:title="@string/menu_transferts"/>
         <item
                 android:id="@+id/nav_basket"
-                android:icon="@drawable/ic_menu_manage"
+                android:icon="@drawable/ic_basket"
                 android:title="@string/menu_basket"/>
         <item
                 android:id="@+id/nav_tennis"
-                android:icon="@drawable/ic_menu_manage"
+                android:icon="@drawable/ic_tennis"
                 android:title="@string/menu_tennis"/>
         <item
                 android:id="@+id/nav_rugby"
-                android:icon="@drawable/ic_menu_manage"
+                android:icon="@drawable/ic_rugby"
                 android:title="@string/menu_rugby"/>
         <item
             android:id="@+id/nav_cyclisme"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_bike"
             android:title="@string/menu_cyclisme"/>
     </group>
 
