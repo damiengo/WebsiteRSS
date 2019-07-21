@@ -2,7 +2,6 @@ package com.damiengo.websiterss.ui.home
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
@@ -12,7 +11,6 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.prof.rssparser.Article
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.logging.Logger
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -26,9 +24,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader
 import com.bumptech.glide.util.FixedPreloadSizeProvider
-import com.bumptech.glide.util.ViewPreloadSizeProvider
 import com.damiengo.websiterss.ui.articledetail.ArticleDetailActivity
 import com.damiengo.websiterss.R
+import com.damiengo.websiterss.article.MyArticle
 import com.damiengo.websiterss.util.GlideApp
 
 class MainActivity : AppCompatActivity() {
@@ -47,11 +45,11 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var viewAdapter: ArticleAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
-    private lateinit var viewModel: FeedViewModel
+    private lateinit var viewModel:   FeedViewModel
 
     private lateinit var currentMenuItem: MenuItem
 
-    private lateinit var preloadSizeProvider : FixedPreloadSizeProvider<Article>
+    private lateinit var preloadSizeProvider : FixedPreloadSizeProvider<MyArticle>
 
     private inline fun <VM : ViewModel> viewModelFactory(crossinline f: () -> VM) =
         object : ViewModelProvider.Factory {
@@ -70,9 +68,9 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this@MainActivity,
                                           viewModelFactory { FeedViewModel(rssActu) }).get(FeedViewModel::class.java)
 
-        viewAdapter = ArticleAdapter(ArrayList()) { article: Article ->
+        viewAdapter = ArticleAdapter(ArrayList()) { myArticle: MyArticle ->
             articleClicked(
-                article
+                myArticle
             )
         }
         viewAdapter.setHasStableIds(true)
@@ -84,16 +82,16 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.getArticleList().observe(this, Observer { articles ->
             if (articles != null) {
-                viewAdapter = ArticleAdapter(articles) { article: Article ->
+                viewAdapter = ArticleAdapter(articles) { myArticle: MyArticle ->
                     articleClicked(
-                        article
+                        myArticle
                     )
                 }
                 viewAdapter.setHasStableIds(true)
 
                 // glide image preloading
                 preloadSizeProvider = FixedPreloadSizeProvider(imageSize, imageSize)
-                val preloader : RecyclerViewPreloader<Article> = RecyclerViewPreloader(GlideApp.with(this),
+                val preloader : RecyclerViewPreloader<MyArticle> = RecyclerViewPreloader(GlideApp.with(this),
                     viewAdapter, preloadSizeProvider, imagesPreload)
                 list_articles.addOnScrollListener(preloader)
 
@@ -213,14 +211,14 @@ class MainActivity : AppCompatActivity() {
         return rssActu
     }
 
-    private fun articleClicked(article : Article) {
+    private fun articleClicked(myArticle : MyArticle) {
         val intent = Intent(this@MainActivity, ArticleDetailActivity::class.java)
-        intent.putExtra("title", article.title)
-        intent.putExtra("description", article.description)
-        intent.putExtra("image", article.image)
-        intent.putExtra("pubDate", article.pubDate)
-        intent.putExtra("link", article.link)
-        intent.putExtra("categories", article.categories.joinToString(separator = " • "))
+        intent.putExtra("title",       myArticle.article.title)
+        intent.putExtra("description", myArticle.article.description)
+        intent.putExtra("image",       myArticle.article.image)
+        intent.putExtra("pubDate",     myArticle.article.pubDate)
+        intent.putExtra("link",        myArticle.article.link)
+        intent.putExtra("categories",  myArticle.article.categories.joinToString(separator = " • "))
         startActivity(intent)
     }
 

@@ -6,7 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.damiengo.websiterss.R
-import com.prof.rssparser.Article
+import com.damiengo.websiterss.article.MyArticle
 
 class ArticleViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
     RecyclerView.ViewHolder(inflater.inflate(R.layout.article_item, parent, false)) {
@@ -15,12 +15,11 @@ class ArticleViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
     private var timeCatView: TextView   = itemView.findViewById(R.id.article_time_category)
     private var imageView: ImageView    = itemView.findViewById(R.id.article_detail_image)
 
-    fun bind(article: Article, clickListener: (Article) -> Unit) {
-        val timeCat: String = article.pubDate + " " + article.description
-        titleView.text   = article.title
-        timeCatView.text = timeCat
+    fun bind(myArticle: MyArticle, clickListener: (MyArticle) -> Unit) {
+        titleView.text   = myArticle.article.title
+        timeCatView.text = myArticle.timeCat
 
-        itemView.setOnClickListener { clickListener(article)}
+        itemView.setOnClickListener { clickListener(myArticle)}
     }
 
     fun getImageView(): ImageView {
