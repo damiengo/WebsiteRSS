@@ -53,14 +53,13 @@ class ArticleAdapter(private val dataSource: MutableList<MyArticle>,
             .override(imageSize, imageSize)
             .into(holder.getImageView())
 
-
         holder.bind(myArticle, clickListener)
     }
 
     override fun getItemCount(): Int = dataSource.size
 
     override fun getItemId(position: Int): Long {
-        return position.toLong()
+        return dataSource[position].hashCode().toLong()
     }
 
 }
