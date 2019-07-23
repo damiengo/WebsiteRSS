@@ -22,6 +22,7 @@ class FeedViewModel(var url: String) : ViewModel() {
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
+
     fun getArticleList(): MutableLiveData<MutableList<MyArticle>> {
         if (!::articleListLive.isInitialized) {
             articleListLive = MutableLiveData()

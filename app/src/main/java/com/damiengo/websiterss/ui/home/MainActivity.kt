@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel:   FeedViewModel
 
     private lateinit var currentMenuItem: MenuItem
+    private var currentArticles: MutableList<MyArticle> = mutableListOf()
 
     private lateinit var preloadSizeProvider : FixedPreloadSizeProvider<MyArticle>
 
@@ -68,37 +69,33 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this@MainActivity,
                                           viewModelFactory { FeedViewModel(rssActu) }).get(FeedViewModel::class.java)
 
-        viewAdapter = ArticleAdapter(ArrayList()) { myArticle: MyArticle ->
-            articleClicked(
-                myArticle
-            )
-        }
-        viewAdapter.setHasStableIds(true)
-
         list_articles.layoutManager = LinearLayoutManager(this)
         list_articles.itemAnimator = DefaultItemAnimator()
         list_articles.setHasFixedSize(true)
-        list_articles.adapter = viewAdapter
 
         viewModel.getArticleList().observe(this, Observer { articles ->
             if (articles != null) {
-                viewAdapter = ArticleAdapter(articles) { myArticle: MyArticle ->
-                    articleClicked(
-                        myArticle
-                    )
+                if( ! ::viewAdapter.isInitialized) {
+                    viewAdapter = ArticleAdapter(articles) { myArticle: MyArticle ->
+                        articleClicked(
+                            myArticle
+                        )
+                    }
+                    viewAdapter.setHasStableIds(true)
+                    list_articles.adapter = viewAdapter
+
+                    // glide image preloading
+                    preloadSizeProvider = FixedPreloadSizeProvider(imageSize, imageSize)
+                    val preloader : RecyclerViewPreloader<MyArticle> = RecyclerViewPreloader(GlideApp.with(this),
+                        viewAdapter, preloadSizeProvider, imagesPreload)
+                    list_articles.addOnScrollListener(preloader)
                 }
-                viewAdapter.setHasStableIds(true)
+                else {
+                    // @TODO DiffUtil!
+                }
 
-                // glide image preloading
-                preloadSizeProvider = FixedPreloadSizeProvider(imageSize, imageSize)
-                val preloader : RecyclerViewPreloader<MyArticle> = RecyclerViewPreloader(GlideApp.with(this),
-                    viewAdapter, preloadSizeProvider, imagesPreload)
-                list_articles.addOnScrollListener(preloader)
-
-                list_articles.adapter = viewAdapter
                 progress_bar.visibility = View.GONE
                 list_articles.visibility = View.VISIBLE
-                swipe_refresh.isRefreshing = false
             }
         })
 
@@ -139,9 +136,10 @@ class MainActivity : AppCompatActivity() {
         swipe_refresh.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary))
 
         swipe_refresh.setOnRefreshListener {
-            viewAdapter.notifyDataSetChanged()
             swipe_refresh.isRefreshing = true
+            viewAdapter.notifyDataSetChanged()
             viewModel.fetchFeed()
+            swipe_refresh.isRefreshing = false
         }
 
         list_articles.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
