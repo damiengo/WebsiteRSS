@@ -4,24 +4,23 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.logging.Logger
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.recyclerview.widget.DividerItemDecoration
 import android.widget.LinearLayout
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.*
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader
 import com.bumptech.glide.util.FixedPreloadSizeProvider
 import com.damiengo.websiterss.ui.articledetail.ArticleDetailActivity
@@ -57,6 +56,7 @@ class MainActivity : AppCompatActivity() {
             override fun <T : ViewModel> create(aClass: Class<T>):T = f() as T
         }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.getArticleList().observe(this, Observer { articles ->
             if (articles != null) {
-                if( ! ::viewAdapter.isInitialized) {
+                if((! ::viewAdapter.isInitialized)||(currentArticles.size == 0)) {
                     viewAdapter = ArticleAdapter(articles) { myArticle: MyArticle ->
                         articleClicked(
                             myArticle
@@ -91,9 +91,12 @@ class MainActivity : AppCompatActivity() {
                     list_articles.addOnScrollListener(preloader)
                 }
                 else {
-                    // @TODO DiffUtil!
+                    val diffResult: DiffUtil.DiffResult =
+                        DiffUtil.calculateDiff(MyArticleDiffCallback(currentArticles, articles))
+                    diffResult.dispatchUpdatesTo(viewAdapter)
                 }
 
+                currentArticles = articles
                 progress_bar.visibility = View.GONE
                 list_articles.visibility = View.VISIBLE
             }
@@ -128,6 +131,7 @@ class MainActivity : AppCompatActivity() {
             progress_bar.visibility = View.VISIBLE
             setTitleFromCategory()
             viewModel.url = getUrlFromCategory()
+            currentArticles = mutableListOf()
             viewModel.fetchFeed()
 
             true
@@ -137,7 +141,6 @@ class MainActivity : AppCompatActivity() {
 
         swipe_refresh.setOnRefreshListener {
             swipe_refresh.isRefreshing = true
-            viewAdapter.notifyDataSetChanged()
             viewModel.fetchFeed()
             swipe_refresh.isRefreshing = false
         }
