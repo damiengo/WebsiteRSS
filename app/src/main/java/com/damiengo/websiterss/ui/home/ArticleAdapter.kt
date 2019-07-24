@@ -16,6 +16,8 @@ class ArticleAdapter(private val dataSource: MutableList<MyArticle>,
                      private val clickListener: (MyArticle) -> Unit) : RecyclerView.Adapter<ArticleViewHolder>(),
     ListPreloader.PreloadModelProvider<MyArticle> {
 
+    private lateinit var context: Context
+
     private val imageSize: Int = 210
 
     override fun getPreloadItems(position: Int): MutableList<MyArticle> {
@@ -29,8 +31,6 @@ class ArticleAdapter(private val dataSource: MutableList<MyArticle>,
                        .override(imageSize, imageSize)
                        .centerCrop()
     }
-
-    private lateinit var context: Context
 
     // Must be quick, on the main thread
     override fun onCreateViewHolder(parent: ViewGroup,
