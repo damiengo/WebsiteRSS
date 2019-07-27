@@ -25,4 +25,5 @@
     <string name="drawer_closed">Closed</string>
     <string name="menu_cyclisme">Cyclisme</string>
     <string name="no_network">No network</string>
+    <string name="menu_header_title">L\'Équipe RSS</string>
 </resources>
