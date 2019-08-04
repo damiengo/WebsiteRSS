@@ -20,7 +20,7 @@ class FeedViewModel(var url: String) : ViewModel() {
     private lateinit var articleListLive: MutableLiveData<MutableList<MyArticle>>
 
     private val viewModelJob = Job()
-    private val coroutineScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    private val coroutineScope = CoroutineScope(Dispatchers.IO + viewModelJob)
 
 
     fun getArticleList(): MutableLiveData<MutableList<MyArticle>> {
@@ -41,7 +41,7 @@ class FeedViewModel(var url: String) : ViewModel() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun fetchFeed() {
-        coroutineScope.launch(Dispatchers.Main) {
+        coroutineScope.launch(Dispatchers.IO) {
             try {
                 val parser = Parser()
                 var myArticleList: MutableList<MyArticle> = mutableListOf<MyArticle>()
