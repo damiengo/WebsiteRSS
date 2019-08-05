@@ -44,7 +44,6 @@ class MainActivity : AppCompatActivity() {
     private val imagesPreload: Int = 25
 
     private lateinit var viewAdapter: ArticleAdapter
-    private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var viewModel:   FeedViewModel
 
     private lateinit var currentMenuItem: MenuItem
@@ -81,13 +80,10 @@ class MainActivity : AppCompatActivity() {
         network_state.visibility = View.GONE
         progress_bar.visibility = View.VISIBLE
 
-        viewManager = LinearLayoutManager(this)
-
         viewModel = ViewModelProviders.of(this@MainActivity,
                                           viewModelFactory { FeedViewModel(rssActu) }).get(FeedViewModel::class.java)
 
         list_articles.layoutManager = LinearLayoutManager(this)
-        list_articles.itemAnimator = DefaultItemAnimator()
         list_articles.setHasFixedSize(true)
 
         viewModel.getArticleList().observe(this, Observer { articles ->
