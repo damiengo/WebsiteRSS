@@ -44,7 +44,7 @@ class FeedViewModel(var url: String) : ViewModel() {
         coroutineScope.launch(Dispatchers.IO) {
             try {
                 val parser = Parser()
-                var myArticleList: MutableList<MyArticle> = mutableListOf<MyArticle>()
+                val myArticleList: MutableList<MyArticle> = mutableListOf<MyArticle>()
                 val articleList = parser.getArticles(url)
                 articleList.forEach { article: Article ->
 

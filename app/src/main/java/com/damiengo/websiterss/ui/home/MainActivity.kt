@@ -174,25 +174,25 @@ class MainActivity : AppCompatActivity() {
     private fun setTitleFromCategory() {
         when (currentMenuItem.itemId) {
             R.id.nav_actu -> {
-                setTitle("Actualité")
+                title = "Actualité"
             }
             R.id.nav_foot -> {
-                setTitle("Football")
+                title = "Football"
             }
             R.id.nav_transferts -> {
-                setTitle("Transferts")
+                title = "Transferts"
             }
             R.id.nav_basket -> {
-                setTitle("Basket")
+                title = "Basket"
             }
             R.id.nav_tennis -> {
-                setTitle("Tennis")
+                title = "Tennis"
             }
             R.id.nav_rugby -> {
-                setTitle("Rugby")
+                title = "Rugby"
             }
             R.id.nav_cyclisme -> {
-                setTitle("Cyclisme")
+                title = "Cyclisme"
             }
         }
     }
