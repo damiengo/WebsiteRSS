@@ -18,7 +18,6 @@ class ArticleAdapter(private val dataSource: MutableList<MyArticle>,
 
     private lateinit var context: Context
 
-    private val imageSize: Int = 210
 
     override fun getPreloadItems(position: Int): MutableList<MyArticle> {
         return dataSource.subList(position, position+1)
@@ -28,7 +27,7 @@ class ArticleAdapter(private val dataSource: MutableList<MyArticle>,
         return GlideApp.with(context)
                        .load(myArticle.article.image)
                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                       .override(imageSize, imageSize)
+                       .override(IMAGE_SIZE, IMAGE_SIZE)
                        .centerCrop()
     }
 
@@ -50,7 +49,7 @@ class ArticleAdapter(private val dataSource: MutableList<MyArticle>,
             .load(myArticle.article.image)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .centerCrop()
-            .override(imageSize, imageSize)
+            .override(IMAGE_SIZE, IMAGE_SIZE)
             .into(holder.getImageView())
 
         holder.bind(myArticle, clickListener)

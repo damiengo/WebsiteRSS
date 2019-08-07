@@ -6,7 +6,6 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Build
 import android.os.Bundle
-import android.os.StrictMode
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBar
@@ -29,27 +28,24 @@ import com.damiengo.websiterss.R
 import com.damiengo.websiterss.article.MyArticle
 import com.damiengo.websiterss.util.GlideApp
 
+const val IMAGE_SIZE = 210
+
 class MainActivity : AppCompatActivity() {
-    private val log = Logger.getLogger(MainActivity::class.java.name)
 
-    private val rssActu           = "https://www.lequipe.fr/rss/actu_rss.xml"
-    private val rssFoot           = "http://www.lequipe.fr/rss/actu_rss_Football.xml"
-    private val rssFootTransferts = "http://www.lequipe.fr/rss/actu_rss_Transferts.xml"
-    private val rssTennis         = "http://www.lequipe.fr/rss/actu_rss_Tennis.xml"
-    private val rssRugby          = "http://www.lequipe.fr/rss/actu_rss_Rugby.xml"
-    private val rssBasket         = "http://www.lequipe.fr/rss/actu_rss_Basket.xml"
-    private val rssCyclisme       = "http://www.lequipe.fr/rss/actu_rss_Cyclisme.xml"
+    companion object{
 
-    private val imageSize: Int = 210
-    private val imagesPreload: Int = 25
+        const val rssActu           = "https://www.lequipe.fr/rss/actu_rss.xml"
+        const val rssFoot           = "http://www.lequipe.fr/rss/actu_rss_Football.xml"
+        const val rssFootTransferts = "http://www.lequipe.fr/rss/actu_rss_Transferts.xml"
+        const val rssTennis         = "http://www.lequipe.fr/rss/actu_rss_Tennis.xml"
+        const val rssRugby          = "http://www.lequipe.fr/rss/actu_rss_Rugby.xml"
+        const val rssBasket         = "http://www.lequipe.fr/rss/actu_rss_Basket.xml"
+        const val rssCyclisme       = "http://www.lequipe.fr/rss/actu_rss_Cyclisme.xml"
 
-    private lateinit var viewAdapter: ArticleAdapter
-    private lateinit var viewModel:   FeedViewModel
+    }
 
     private lateinit var currentMenuItem: MenuItem
-    private var currentArticles: MutableList<MyArticle> = mutableListOf()
-
-    private lateinit var preloadSizeProvider : FixedPreloadSizeProvider<MyArticle>
+    private lateinit var viewAdapter: ArticleAdapter
 
     private inline fun <VM : ViewModel> viewModelFactory(crossinline f: () -> VM) =
         object : ViewModelProvider.Factory {
@@ -77,10 +73,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val imagesPreload = 25
+
+        var currentArticles: MutableList<MyArticle> = mutableListOf()
+        var preloadSizeProvider : FixedPreloadSizeProvider<MyArticle>
+
         network_state.visibility = View.GONE
         progress_bar.visibility = View.VISIBLE
 
-        viewModel = ViewModelProviders.of(this@MainActivity,
+        var viewModel = ViewModelProviders.of(this@MainActivity,
                                           viewModelFactory { FeedViewModel(rssActu) }).get(FeedViewModel::class.java)
 
         list_articles.layoutManager = LinearLayoutManager(this)
@@ -98,7 +99,7 @@ class MainActivity : AppCompatActivity() {
                     list_articles.adapter = viewAdapter
 
                     // glide image preloading
-                    preloadSizeProvider = FixedPreloadSizeProvider(imageSize, imageSize)
+                    preloadSizeProvider = FixedPreloadSizeProvider(IMAGE_SIZE, IMAGE_SIZE)
                     val preloader : RecyclerViewPreloader<MyArticle> = RecyclerViewPreloader(GlideApp.with(this),
                         viewAdapter, preloadSizeProvider, imagesPreload)
                     list_articles.addOnScrollListener(preloader)
