@@ -1,1 +1,1 @@
-A RSS reader for l'équipe news paper.
+A RSS reader for l'équipe website.
