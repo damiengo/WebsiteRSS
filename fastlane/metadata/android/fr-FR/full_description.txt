@@ -1,0 +1,2 @@
+Un lectueur RSS pour le site L'équipe.
+Les articles sont affichés en liste, le détail de l'article est accessible.
