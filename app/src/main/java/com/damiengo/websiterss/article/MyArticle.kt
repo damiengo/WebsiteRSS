@@ -6,8 +6,10 @@ import android.text.Spanned
 import androidx.annotation.RequiresApi
 import androidx.core.text.HtmlCompat
 import com.prof.rssparser.Article
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
 class MyArticle(_article: Article) {
@@ -43,10 +45,10 @@ class MyArticle(_article: Article) {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setArticleTime(article: Article) {
-        var rssFormatter = DateTimeFormatter.RFC_1123_DATE_TIME
-        val date = LocalDateTime.parse(article.pubDate, rssFormatter)
-        var formatter = DateTimeFormatter.ofPattern(hhmmFormat)
-        article.pubDate = date.format(formatter)
+        val inputFormat = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH)
+        val outputFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
+        val outputStr = outputFormat.format(inputFormat.parse(article.pubDate))
+        article.pubDate = outputStr
     }
 
 }

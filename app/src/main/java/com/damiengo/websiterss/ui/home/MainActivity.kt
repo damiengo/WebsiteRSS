@@ -11,7 +11,6 @@ import android.view.View
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.logging.Logger
 import androidx.appcompat.app.ActionBarDrawerToggle
 import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
