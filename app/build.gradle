@@ -40,6 +40,11 @@ android {
         sourceCompatibility 1.8
         targetCompatibility 1.8
     }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -62,4 +67,5 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+    testImplementation "org.robolectric:robolectric:4.3"
 }
