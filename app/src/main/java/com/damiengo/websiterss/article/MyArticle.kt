@@ -7,14 +7,11 @@ import androidx.annotation.RequiresApi
 import androidx.core.text.HtmlCompat
 import com.prof.rssparser.Article
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
 class MyArticle(_article: Article) {
 
-    private val hhmmFormat = "HH:mm"
     var timeCat: Spanned
     val article: Article
 
