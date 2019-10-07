@@ -1,8 +1,5 @@
 package com.damiengo.websiterss.article
 
-/**
- * Utils for article.
- */
 class ArticleUtil {
 
     companion object{
@@ -11,7 +8,7 @@ class ArticleUtil {
 
     }
 
-    fun setTitle(title: String): String {
+    fun genTitle(title: String): String {
         val lastIdx = categoryLastIndex(title)
 
         if(lastIdx != -1) {
@@ -19,6 +16,16 @@ class ArticleUtil {
         }
 
         return title
+    }
+
+    fun genCategories(title: String): MutableList<String> {
+        val lastIdx = categoryLastIndex(title)
+
+        if(lastIdx != -1) {
+            return title.substring(0, lastIdx).split(" - ").toMutableList()
+        }
+
+        return arrayListOf()
     }
 
     /**
