@@ -4,6 +4,9 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.damiengo.websiterss.article.ArticleUtil
+import com.damiengo.websiterss.article.DaggerBox
+import com.damiengo.websiterss.article.DaggerDaggerBox
 import com.damiengo.websiterss.article.MyArticle
 import com.prof.rssparser.Article
 import com.prof.rssparser.Parser
@@ -12,8 +15,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.util.logging.Logger
+import javax.inject.Inject
 
 class FeedViewModel(var url: String) : ViewModel() {
+
+    @Inject
+    lateinit var util: ArticleUtil
 
     private val log = Logger.getLogger(FeedViewModel::class.java.name)
 
@@ -41,14 +48,15 @@ class FeedViewModel(var url: String) : ViewModel() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun fetchFeed() {
+        DaggerDaggerBox.create().inject(this)
         coroutineScope.launch(Dispatchers.IO) {
             try {
                 val parser = Parser()
-                val myArticleList: MutableList<MyArticle> = mutableListOf<MyArticle>()
+                val myArticleList: MutableList<MyArticle> = mutableListOf()
                 val articleList = parser.getArticles(url)
                 articleList.forEach { article: Article ->
 
-                    val myArticle: MyArticle = MyArticle(article)
+                    val myArticle = MyArticle(article, util)
                     myArticleList.add(myArticle)
 
                 }

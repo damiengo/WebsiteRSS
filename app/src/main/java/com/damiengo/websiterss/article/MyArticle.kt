@@ -10,38 +10,32 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
-class MyArticle(_article: Article) {
+class MyArticle(_article: Article, _util: ArticleUtil) {
 
     var timeCat: Spanned
-    val article: Article
+    val article: Article = _article
+    val util: ArticleUtil = _util
 
     init {
-        setArticleCategoryText(_article)
-        setArticleTime(_article)
+        setCategoryText()
+        setTime()
 
-        _article.description = _article.categories.joinToString(separator = " • ")
-        timeCat = HtmlCompat.fromHtml("<b>" + _article.pubDate + "</b> "+_article.description, Html.FROM_HTML_MODE_LEGACY)
-        article = _article
+        article.description = _article.categories.joinToString(separator = " • ")
+        timeCat = HtmlCompat.fromHtml("<b>" + article.pubDate + "</b> "+article.description, Html.FROM_HTML_MODE_LEGACY)
     }
 
-    private fun setArticleCategoryText(article: Article) {
+    private fun setCategoryText() {
         val title = article.title
+        article.title = util.genTitle(title)
+        val categories = util.genCategories(title)
 
-        val lastIdx = title?.substring(0, 30)!!.lastIndexOf(" - ")
-
-        if(lastIdx != -1) {
-            // Setting title
-            article.title = title.substring(lastIdx+3)
-            // Setting categories
-            title.substring(0, lastIdx).split(" - ").iterator().forEach {
-                article.addCategory(it)
-            }
-
+        categories.iterator().forEach {
+            article.addCategory(it)
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun setArticleTime(article: Article) {
+    private fun setTime() {
         val inputFormat = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH)
         val outputFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
         val outputStr = outputFormat.format(inputFormat.parse(article.pubDate))

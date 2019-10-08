@@ -1,6 +1,8 @@
 package com.damiengo.websiterss.article
 
-class ArticleUtil {
+import javax.inject.Inject
+
+class ArticleUtil @Inject constructor() {
 
     companion object{
 
@@ -8,21 +10,27 @@ class ArticleUtil {
 
     }
 
-    fun genTitle(title: String): String {
-        val lastIdx = categoryLastIndex(title)
+    fun genTitle(title: String?): String {
+        title?.let{
+            val lastIdx = categoryLastIndex(title)
 
-        if(lastIdx != -1) {
-            return title.substring(lastIdx+3)
+            if(lastIdx != -1) {
+                return title.substring(lastIdx+3)
+            }
+
+            return title
         }
 
-        return title
+        return ""
     }
 
-    fun genCategories(title: String): MutableList<String> {
-        val lastIdx = categoryLastIndex(title)
+    fun genCategories(title: String?): MutableList<String> {
+        title?.let {
+            val lastIdx = categoryLastIndex(title)
 
-        if(lastIdx != -1) {
-            return title.substring(0, lastIdx).split(" - ").toMutableList()
+            if(lastIdx != -1) {
+                return title.substring(0, lastIdx).split(" - ").toMutableList()
+            }
         }
 
         return arrayListOf()
@@ -37,7 +45,7 @@ class ArticleUtil {
             titleCatLength = title.length
         }
 
-        return title?.substring(0, titleCatLength)!!.lastIndexOf(" - ")
+        return title.substring(0, titleCatLength).lastIndexOf(" - ")
     }
 
 }
