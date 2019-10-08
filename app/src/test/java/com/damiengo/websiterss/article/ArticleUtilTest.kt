@@ -50,7 +50,7 @@ class ArticleUtilTest {
 
     @Test
     fun genCategoriesNoCategory() {
-        assertEquals(mutableListOf<String>(), u.genCategories("A title with no category detected because to lon title - Title"))
+        assertEquals(mutableListOf<String>(), u.genCategories("A title with no category detected because to long title - Title"))
     }
 
 }

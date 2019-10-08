@@ -2,6 +2,7 @@
   <dictionary name="dam">
     <words>
       <w>preloader</w>
+      <w>robolectric</w>
     </words>
   </dictionary>
 </component>
