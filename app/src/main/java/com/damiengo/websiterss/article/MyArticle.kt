@@ -20,7 +20,7 @@ class MyArticle(_article: Article, _util: ArticleUtil) {
         setCategoryText()
         setTime()
 
-        article.description = _article.categories.joinToString(separator = " • ")
+        article.description = article.categories.joinToString(separator = " • ")
         timeCat = HtmlCompat.fromHtml("<b>" + article.pubDate + "</b> "+article.description, Html.FROM_HTML_MODE_LEGACY)
     }
 
@@ -34,12 +34,8 @@ class MyArticle(_article: Article, _util: ArticleUtil) {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun setTime() {
-        val inputFormat = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH)
-        val outputFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
-        val outputStr = outputFormat.format(inputFormat.parse(article.pubDate))
-        article.pubDate = outputStr
+        article.pubDate = util.genPubDate(article.pubDate)
     }
 
 }

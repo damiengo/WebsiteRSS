@@ -1,5 +1,7 @@
 package com.damiengo.websiterss.article
 
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 class ArticleUtil @Inject constructor() {
@@ -7,6 +9,8 @@ class ArticleUtil @Inject constructor() {
     companion object{
 
         const val titleCatMaxLength = 30
+        const val inputDateFormat = "EEE, dd MMM yyyy HH:mm:ss z"
+        const val outputValFormat = "HH:mm"
 
     }
 
@@ -34,6 +38,19 @@ class ArticleUtil @Inject constructor() {
         }
 
         return arrayListOf()
+    }
+
+    fun genPubDate(pubDate: String?): String {
+        pubDate?.let {
+            if(pubDate == "") {
+                return ""
+            }
+            val inputFormat = SimpleDateFormat(inputDateFormat, Locale.ENGLISH)
+            val outputFormat = SimpleDateFormat(outputValFormat, Locale.ENGLISH)
+            return outputFormat.format(inputFormat.parse(it))
+        }
+
+        return ""
     }
 
     /**

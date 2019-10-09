@@ -53,4 +53,14 @@ class ArticleUtilTest {
         assertEquals(mutableListOf<String>(), u.genCategories("A title with no category detected because to long title - Title"))
     }
 
+    @Test
+    fun getPubDateFormatOk() {
+        assertEquals("20:51", u.genPubDate("Wed, 09 Oct 2019 20:51:02 +0200"))
+    }
+
+    @Test
+    fun genPubDateNoDate() {
+        assertEquals("", u.genPubDate(""))
+    }
+
 }
