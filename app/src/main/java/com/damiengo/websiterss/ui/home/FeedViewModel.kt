@@ -4,10 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.damiengo.websiterss.article.ArticleUtil
-import com.damiengo.websiterss.article.DaggerBox
-import com.damiengo.websiterss.article.DaggerDaggerBox
-import com.damiengo.websiterss.article.MyArticle
+import com.damiengo.websiterss.article.*
 import com.prof.rssparser.Article
 import com.prof.rssparser.Parser
 import kotlinx.coroutines.CoroutineScope
@@ -48,7 +45,7 @@ class FeedViewModel(var url: String) : ViewModel() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun fetchFeed() {
-        DaggerDaggerBox.create().inject(this)
+        DaggerMagicBox.create().inject(this)
         coroutineScope.launch(Dispatchers.IO) {
             try {
                 val parser = Parser()

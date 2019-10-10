@@ -16,13 +16,13 @@ class ArticleUtil @Inject constructor() {
 
     fun genTitle(title: String?): String {
         title?.let{
-            val lastIdx = categoryLastIndex(title)
+            val lastIdx = categoryLastIndex(it)
 
             if(lastIdx != -1) {
-                return title.substring(lastIdx+3)
+                return it.substring(lastIdx+3)
             }
 
-            return title
+            return it
         }
 
         return ""
@@ -30,10 +30,10 @@ class ArticleUtil @Inject constructor() {
 
     fun genCategories(title: String?): MutableList<String> {
         title?.let {
-            val lastIdx = categoryLastIndex(title)
+            val lastIdx = categoryLastIndex(it)
 
             if(lastIdx != -1) {
-                return title.substring(0, lastIdx).split(" - ").toMutableList()
+                return it.substring(0, lastIdx).split(" - ").toMutableList()
             }
         }
 

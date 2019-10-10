@@ -4,6 +4,6 @@ import com.damiengo.websiterss.ui.home.FeedViewModel
 import dagger.Component
 
 @Component
-interface DaggerBox {
+interface MagicBox {
     fun inject(mviewModel: FeedViewModel)
 }

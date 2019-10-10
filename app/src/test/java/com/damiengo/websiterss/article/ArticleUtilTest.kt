@@ -39,6 +39,16 @@ class ArticleUtilTest {
     }
 
     @Test
+    fun genTitleEmpty() {
+        assertEquals("", u.genTitle(""))
+    }
+
+    @Test
+    fun genTitleNull() {
+        assertEquals("", u.genTitle(null))
+    }
+
+    @Test
     fun genCategoriesOneCategory() {
         assertEquals(mutableListOf("Category 1"), u.genCategories("Category 1 - A title with only one category"))
     }
@@ -54,6 +64,11 @@ class ArticleUtilTest {
     }
 
     @Test
+    fun genCategoriesNullCategory() {
+        assertEquals(mutableListOf<String>(), u.genCategories(null))
+    }
+
+    @Test
     fun getPubDateFormatOk() {
         assertEquals("20:51", u.genPubDate("Wed, 09 Oct 2019 20:51:02 +0200"))
     }
@@ -61,6 +76,11 @@ class ArticleUtilTest {
     @Test
     fun genPubDateNoDate() {
         assertEquals("", u.genPubDate(""))
+    }
+
+    @Test
+    fun genPubDateNullDate() {
+        assertEquals("", u.genPubDate(null))
     }
 
 }
