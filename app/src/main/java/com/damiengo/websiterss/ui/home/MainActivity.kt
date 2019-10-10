@@ -6,6 +6,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBar
@@ -25,6 +26,7 @@ import com.bumptech.glide.util.FixedPreloadSizeProvider
 import com.damiengo.websiterss.ui.articledetail.ArticleDetailActivity
 import com.damiengo.websiterss.R
 import com.damiengo.websiterss.article.MyArticle
+import com.damiengo.websiterss.category.Category
 import com.damiengo.websiterss.util.GlideApp
 
 const val IMAGE_SIZE = 210
@@ -33,13 +35,15 @@ class MainActivity : AppCompatActivity() {
 
     companion object{
 
-        const val rssActu           = "https://www.lequipe.fr/rss/actu_rss.xml"
-        const val rssFoot           = "http://www.lequipe.fr/rss/actu_rss_Football.xml"
-        const val rssFootTransferts = "http://www.lequipe.fr/rss/actu_rss_Transferts.xml"
-        const val rssTennis         = "http://www.lequipe.fr/rss/actu_rss_Tennis.xml"
-        const val rssRugby          = "http://www.lequipe.fr/rss/actu_rss_Rugby.xml"
-        const val rssBasket         = "http://www.lequipe.fr/rss/actu_rss_Basket.xml"
-        const val rssCyclisme       = "http://www.lequipe.fr/rss/actu_rss_Cyclisme.xml"
+        val categories = mapOf(
+            R.id.nav_actu       to Category("Actualité",  "http://www.lequipe.fr/rss/actu_rss.xml"),
+            R.id.nav_foot       to Category("Football",   "http://www.lequipe.fr/rss/actu_rss_Football.xml"),
+            R.id.nav_transferts to Category("Transferts", "http://www.lequipe.fr/rss/actu_rss_Transferts.xml"),
+            R.id.nav_basket     to Category("Basket",     "http://www.lequipe.fr/rss/actu_rss_Basket.xml"),
+            R.id.nav_tennis     to Category("Tennis",     "http://www.lequipe.fr/rss/actu_rss_Tennis.xml"),
+            R.id.nav_rugby      to Category("Rugby",      "http://www.lequipe.fr/rss/actu_rss_Rugby.xml"),
+            R.id.nav_cyclisme   to Category("Cyclisme",   "http://www.lequipe.fr/rss/actu_rss_Cyclisme.xml")
+        )
 
     }
 
@@ -65,8 +69,14 @@ class MainActivity : AppCompatActivity() {
         network_state.visibility = View.GONE
         progress_bar.visibility = View.VISIBLE
 
+        var defaultUrl: String = ""
+        categories[R.id.nav_actu]?.let {
+            defaultUrl = it.url
+        }
+        Log.i("--> main", defaultUrl)
+
         var viewModel = ViewModelProviders.of(this@MainActivity,
-                                          viewModelFactory { FeedViewModel(rssActu) }).get(FeedViewModel::class.java)
+                                          viewModelFactory { FeedViewModel(defaultUrl) }).get(FeedViewModel::class.java)
 
         list_articles.layoutManager = LinearLayoutManager(this)
         list_articles.setHasFixedSize(true)
@@ -157,57 +167,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setTitleFromCategory() {
-        when (currentMenuItem.itemId) {
-            R.id.nav_actu -> {
-                title = "Actualité"
-            }
-            R.id.nav_foot -> {
-                title = "Football"
-            }
-            R.id.nav_transferts -> {
-                title = "Transferts"
-            }
-            R.id.nav_basket -> {
-                title = "Basket"
-            }
-            R.id.nav_tennis -> {
-                title = "Tennis"
-            }
-            R.id.nav_rugby -> {
-                title = "Rugby"
-            }
-            R.id.nav_cyclisme -> {
-                title = "Cyclisme"
-            }
+        title = ""
+        categories[currentMenuItem.itemId]?.let {
+            title = it.title
         }
     }
 
     private fun getUrlFromCategory(): String {
-        when (currentMenuItem.itemId) {
-            R.id.nav_actu -> {
-                return rssActu
-            }
-            R.id.nav_foot -> {
-                return rssFoot
-            }
-            R.id.nav_transferts -> {
-                return rssFootTransferts
-            }
-            R.id.nav_basket -> {
-                return rssBasket
-            }
-            R.id.nav_tennis -> {
-                return rssTennis
-            }
-            R.id.nav_rugby -> {
-                return rssRugby
-            }
-            R.id.nav_cyclisme -> {
-                return rssCyclisme
-            }
+        categories[currentMenuItem.itemId]?.let {
+            return it.url
         }
 
-        return rssActu
+        categories[R.id.nav_actu]?.let {
+            return it.url
+        }
+
+        return ""
     }
 
     private fun articleClicked(myArticle : MyArticle) {
