@@ -6,7 +6,6 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBar
@@ -26,8 +25,11 @@ import com.bumptech.glide.util.FixedPreloadSizeProvider
 import com.damiengo.websiterss.ui.articledetail.ArticleDetailActivity
 import com.damiengo.websiterss.R
 import com.damiengo.websiterss.article.MyArticle
+import com.damiengo.websiterss.category.CategoriesBuilder
 import com.damiengo.websiterss.category.Category
+import com.damiengo.websiterss.util.DaggerMagicBox
 import com.damiengo.websiterss.util.GlideApp
+import javax.inject.Inject
 
 const val IMAGE_SIZE = 210
 
@@ -35,20 +37,17 @@ class MainActivity : AppCompatActivity() {
 
     companion object{
 
-        val categories = mapOf(
-            R.id.nav_actu       to Category("Actualité",  "http://www.lequipe.fr/rss/actu_rss.xml"),
-            R.id.nav_foot       to Category("Football",   "http://www.lequipe.fr/rss/actu_rss_Football.xml"),
-            R.id.nav_transferts to Category("Transferts", "http://www.lequipe.fr/rss/actu_rss_Transferts.xml"),
-            R.id.nav_basket     to Category("Basket",     "http://www.lequipe.fr/rss/actu_rss_Basket.xml"),
-            R.id.nav_tennis     to Category("Tennis",     "http://www.lequipe.fr/rss/actu_rss_Tennis.xml"),
-            R.id.nav_rugby      to Category("Rugby",      "http://www.lequipe.fr/rss/actu_rss_Rugby.xml"),
-            R.id.nav_cyclisme   to Category("Cyclisme",   "http://www.lequipe.fr/rss/actu_rss_Cyclisme.xml")
-        )
+        const val imagesPreload = 25
 
     }
 
     private lateinit var currentMenuItem: MenuItem
     private lateinit var viewAdapter: ArticleAdapter
+
+    @Inject
+    lateinit var categoriesBuilder: CategoriesBuilder
+
+    lateinit var categories: Map<Int, Category>
 
     private inline fun <VM : ViewModel> viewModelFactory(crossinline f: () -> VM) =
         object : ViewModelProvider.Factory {
@@ -61,7 +60,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val imagesPreload = 25
+        DaggerMagicBox.create().inject(this)
+        categories = categoriesBuilder.build()
 
         var currentArticles: MutableList<MyArticle> = mutableListOf()
         var preloadSizeProvider : FixedPreloadSizeProvider<MyArticle>
@@ -73,7 +73,6 @@ class MainActivity : AppCompatActivity() {
         categories[R.id.nav_actu]?.let {
             defaultUrl = it.url
         }
-        Log.i("--> main", defaultUrl)
 
         var viewModel = ViewModelProviders.of(this@MainActivity,
                                           viewModelFactory { FeedViewModel(defaultUrl) }).get(FeedViewModel::class.java)
@@ -137,7 +136,7 @@ class MainActivity : AppCompatActivity() {
 
             list_articles.visibility = View.GONE
             progress_bar.visibility = View.VISIBLE
-            setTitleFromCategory()
+            title = getTitleFromCategory()
             viewModel.url = getUrlFromCategory()
             currentArticles = mutableListOf()
             viewModel.fetchFeed()
@@ -161,16 +160,17 @@ class MainActivity : AppCompatActivity() {
             network_state.visibility = View.VISIBLE
         }
         else {
-            setTitleFromCategory()
+            title = getTitleFromCategory()
             viewModel.fetchFeed()
         }
     }
 
-    private fun setTitleFromCategory() {
-        title = ""
+    private fun getTitleFromCategory(): String {
         categories[currentMenuItem.itemId]?.let {
-            title = it.title
+            return it.title
         }
+
+        return ""
     }
 
     private fun getUrlFromCategory(): String {
