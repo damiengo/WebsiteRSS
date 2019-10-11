@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.damiengo.websiterss.article.*
+import com.damiengo.websiterss.util.DaggerMagicBox
 import com.prof.rssparser.Article
 import com.prof.rssparser.Parser
 import kotlinx.coroutines.CoroutineScope
