@@ -5,7 +5,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.damiengo.websiterss.article.*
-import com.damiengo.websiterss.util.DaggerMagicBox
+import com.damiengo.websiterss.util.DaggerDaggerComponent
 import com.prof.rssparser.Article
 import com.prof.rssparser.Parser
 import kotlinx.coroutines.CoroutineScope
@@ -27,6 +27,10 @@ class FeedViewModel(var url: String) : ViewModel() {
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.IO + viewModelJob)
 
+    init {
+        DaggerDaggerComponent.create().inject(this)
+    }
+
 
     fun getArticleList(): MutableLiveData<MutableList<MyArticle>> {
         if (!::articleListLive.isInitialized) {
@@ -46,7 +50,6 @@ class FeedViewModel(var url: String) : ViewModel() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun fetchFeed() {
-        DaggerMagicBox.create().inject(this)
         coroutineScope.launch(Dispatchers.IO) {
             try {
                 val parser = Parser()
