@@ -25,9 +25,8 @@ import com.bumptech.glide.util.FixedPreloadSizeProvider
 import com.damiengo.websiterss.ui.articledetail.ArticleDetailActivity
 import com.damiengo.websiterss.R
 import com.damiengo.websiterss.article.MyArticle
-import com.damiengo.websiterss.category.CategoriesBuilder
-import com.damiengo.websiterss.category.Category
-import com.damiengo.websiterss.util.DaggerMagicBox
+import com.damiengo.websiterss.category.CategoryHolder
+import com.damiengo.websiterss.util.DaggerDaggerComponent
 import com.damiengo.websiterss.util.GlideApp
 import javax.inject.Inject
 
@@ -45,9 +44,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewAdapter: ArticleAdapter
 
     @Inject
-    lateinit var categoriesBuilder: CategoriesBuilder
-
-    lateinit var categories: Map<Int, Category>
+    lateinit var categoryHolder: CategoryHolder
 
     private inline fun <VM : ViewModel> viewModelFactory(crossinline f: () -> VM) =
         object : ViewModelProvider.Factory {
@@ -60,8 +57,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        DaggerMagicBox.create().inject(this)
-        categories = categoriesBuilder.build()
+        DaggerDaggerComponent.create().inject(this)
 
         var currentArticles: MutableList<MyArticle> = mutableListOf()
         var preloadSizeProvider : FixedPreloadSizeProvider<MyArticle>
@@ -69,13 +65,8 @@ class MainActivity : AppCompatActivity() {
         network_state.visibility = View.GONE
         progress_bar.visibility = View.VISIBLE
 
-        var defaultUrl: String = ""
-        categories[R.id.nav_actu]?.let {
-            defaultUrl = it.url
-        }
-
         var viewModel = ViewModelProviders.of(this@MainActivity,
-                                          viewModelFactory { FeedViewModel(defaultUrl) }).get(FeedViewModel::class.java)
+                                          viewModelFactory { FeedViewModel(categoryHolder.getDefaultUrl()) }).get(FeedViewModel::class.java)
 
         list_articles.layoutManager = LinearLayoutManager(this)
         list_articles.setHasFixedSize(true)
@@ -136,8 +127,8 @@ class MainActivity : AppCompatActivity() {
 
             list_articles.visibility = View.GONE
             progress_bar.visibility = View.VISIBLE
-            title = getTitleFromCategory()
-            viewModel.url = getUrlFromCategory()
+            title = categoryHolder.getCurrentTitle(currentMenuItem.itemId)
+            viewModel.url = categoryHolder.getCurrentUrl(currentMenuItem.itemId)
             currentArticles = mutableListOf()
             viewModel.fetchFeed()
 
@@ -160,29 +151,9 @@ class MainActivity : AppCompatActivity() {
             network_state.visibility = View.VISIBLE
         }
         else {
-            title = getTitleFromCategory()
+            title = categoryHolder.getCurrentTitle(currentMenuItem.itemId)
             viewModel.fetchFeed()
         }
-    }
-
-    private fun getTitleFromCategory(): String {
-        categories[currentMenuItem.itemId]?.let {
-            return it.title
-        }
-
-        return ""
-    }
-
-    private fun getUrlFromCategory(): String {
-        categories[currentMenuItem.itemId]?.let {
-            return it.url
-        }
-
-        categories[R.id.nav_actu]?.let {
-            return it.url
-        }
-
-        return ""
     }
 
     private fun articleClicked(myArticle : MyArticle) {
