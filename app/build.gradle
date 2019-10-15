@@ -42,11 +42,19 @@ android {
             includeAndroidResources = true
         }
     }
+    def isRunningOnTravis = System.getenv("CI") == "true"
+
+    if (isRunningOnTravis) {
+        // configure keystore
+        signingConfigs.release.storeFile = file("../keystore.jks")
+        signingConfigs.release.storePassword = System.getenv("keystore_password")
+        signingConfigs.release.keyAlias = System.getenv("keystore_alias")
+        signingConfigs.release.keyPassword = System.getenv("keystore_alias_password")
+    }
 }
 
 dependencies {
-    def nav_version = "2.2.0-alpha03"
-    def robolectric_version = "4.3"
+    def nav_version = "2.2.0-beta01"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -63,10 +71,8 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.9.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
-    testImplementation "org.robolectric:robolectric:$robolectric_version"
-    testImplementation "org.robolectric:shadows-httpclient:$robolectric_version"
+    androidTestImplementation 'com.android.support:support-annotations:28.0.0'
     implementation 'com.google.dagger:dagger:2.13'
     kapt 'com.google.dagger:dagger-compiler:2.13'
 }
