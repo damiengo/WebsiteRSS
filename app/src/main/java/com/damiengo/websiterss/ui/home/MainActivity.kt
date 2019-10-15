@@ -1,9 +1,6 @@
 package com.damiengo.websiterss.ui.home
 
-import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
@@ -45,6 +42,9 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var categoryHolder: CategoryHolder
+
+    @Inject
+    lateinit var networkInformation: NetworkInformation
 
     private inline fun <VM : ViewModel> viewModelFactory(crossinline f: () -> VM) =
         object : ViewModelProvider.Factory {
@@ -145,7 +145,7 @@ class MainActivity : AppCompatActivity() {
 
         list_articles.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
 
-        if( ! isNetworkAvailable(this)) {
+        if( ! networkInformation.isAvailable(this)) {
             network_state.text = getString(R.string.no_network)
             progress_bar.visibility = View.GONE
             network_state.visibility = View.VISIBLE
@@ -165,12 +165,6 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra("link",        myArticle.article.link)
         intent.putExtra("categories",  myArticle.article.categories.joinToString(separator = " • "))
         startActivity(intent)
-    }
-
-    private fun isNetworkAvailable(context : Context) : Boolean {
-        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
-        return activeNetwork?.isConnected == true
     }
 
 }

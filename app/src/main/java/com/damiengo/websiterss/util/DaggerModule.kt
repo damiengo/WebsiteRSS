@@ -7,6 +7,7 @@ import com.damiengo.websiterss.category.ClassCategoriesBuilder
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
+import com.damiengo.websiterss.ui.home.NetworkInformation
 
 @Module
 class DaggerModule {
@@ -28,6 +29,12 @@ class DaggerModule {
     @Provides
     internal fun provideArticleUtil(): ArticleUtil {
         return ArticleUtil()
+    }
+
+    @Singleton
+    @Provides
+    internal fun provideNetworkInformation(): NetworkInformation {
+        return NetworkInformation()
     }
 
 }
