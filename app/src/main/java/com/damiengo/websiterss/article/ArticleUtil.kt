@@ -1,5 +1,6 @@
 package com.damiengo.websiterss.article
 
+import org.jsoup.nodes.Document
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -51,6 +52,14 @@ class ArticleUtil @Inject constructor() {
         }
 
         return ""
+    }
+
+    fun genChapoFromDom(dom: Document) {
+
+    }
+
+    fun genDescriptionFromDom(dom: Document) {
+
     }
 
     /**
