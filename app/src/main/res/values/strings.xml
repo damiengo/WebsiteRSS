@@ -26,4 +26,7 @@
     <string name="menu_cyclisme">Cyclisme</string>
     <string name="no_network">No network</string>
     <string name="menu_header_title">L\'Équipe RSS</string>
+
+    <string name="referrer">http://www.lequipe.fr</string>
+    <string name="user_agent">Mozilla/5.0 (Linux; U; Android 4.0.3; ko-kr; LG-L160L Build/IML74K) AppleWebkit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30</string>
 </resources>

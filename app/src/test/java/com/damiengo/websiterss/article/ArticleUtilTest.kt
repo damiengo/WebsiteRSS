@@ -1,8 +1,12 @@
 package com.damiengo.websiterss.article
 
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import java.io.File
+import java.io.FileInputStream
 
 class ArticleUtilTest {
 
@@ -81,6 +85,13 @@ class ArticleUtilTest {
     @Test
     fun genPubDateNullDate() {
         assertEquals("", u.genPubDate(null))
+    }
+
+    @Test
+    fun genChapoFromDomOK() {
+        // https://stackoverflow.com/a/56246565
+        val dom = Jsoup.parse(File("lequipe_article.html"), "UTF-8")
+        assertEquals("Chapo OK", u.genChapoFromDom(dom))
     }
 
 }

@@ -53,8 +53,8 @@ class ArticleDetailActivity : AppCompatActivity() {
         coroutineScope.launch(Dispatchers.Main) {
             val document = withContext(Dispatchers.IO) {
                 Jsoup.connect(link)
-                    .userAgent("Mozilla/5.0 (Linux; U; Android 4.0.3; ko-kr; LG-L160L Build/IML74K) AppleWebkit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30")
-                    .referrer("http://www.google.com")
+                    .userAgent(resources.getString(R.string.user_agent))
+                    .referrer(resources.getString(R.string.referrer))
                     .get()
             }
             val chapo = document.select(".Article__chapo").text()
