@@ -1,5 +1,8 @@
 package com.damiengo.websiterss.article
 
+import android.text.Html
+import android.text.Spanned
+import androidx.core.text.HtmlCompat
 import org.jsoup.nodes.Document
 import java.text.SimpleDateFormat
 import java.util.*
@@ -54,12 +57,27 @@ class ArticleUtil @Inject constructor() {
         return ""
     }
 
-    fun genChapoFromDom(dom: Document) {
-
+    fun genChapoFromDom(dom: Document): String {
+        return dom.select(".Article__chapo").text()
     }
 
-    fun genDescriptionFromDom(dom: Document) {
+    fun genDescriptionFromDom(dom: Document): Spanned {
+        val builder = StringBuilder()
+        dom.select(".article__body .Paragraph").forEach { ele ->
+            builder.append(ele.html()).append("<br /><br />")
+        }
+        var htmlDesc = builder.toString()
+        // Delete paragraph
+        htmlDesc = htmlDesc.replace("<p[^>]*>".toRegex(), "")
+        htmlDesc = htmlDesc.replace("</p>", "")
+        // Delete links
+        htmlDesc = htmlDesc.replace("<a[^>]*>".toRegex(), "")
+        htmlDesc = htmlDesc.replace("</a>", "")
+        // Replace title
+        htmlDesc = htmlDesc.replace("<h3[^>]*>".toRegex(), "<p><b>")
+        htmlDesc = htmlDesc.replace("</h3>", "</b></p>")
 
+        return HtmlCompat.fromHtml(htmlDesc, Html.FROM_HTML_MODE_LEGACY)
     }
 
     /**

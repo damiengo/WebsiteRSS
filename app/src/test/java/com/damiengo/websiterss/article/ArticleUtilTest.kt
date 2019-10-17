@@ -7,6 +7,7 @@ import org.junit.Before
 import org.junit.Test
 import java.io.File
 import java.io.FileInputStream
+import java.io.InputStream
 
 class ArticleUtilTest {
 
@@ -89,9 +90,17 @@ class ArticleUtilTest {
 
     @Test
     fun genChapoFromDomOK() {
-        // https://stackoverflow.com/a/56246565
-        val dom = Jsoup.parse(File("lequipe_article.html"), "UTF-8")
-        assertEquals("Chapo OK", u.genChapoFromDom(dom))
+        assertEquals("Le nouvel entraîneur de la Sampdoria veut éviter au club de Gênes de descendre en Serie B.", u.genChapoFromDom(getDom()))
+    }
+
+    @Test
+    fun genDescriptionFromDomOK() {
+        assertEquals("zzzz", u.genDescriptionFromDom(getDom()).toString())
+    }
+
+    private fun getDom(): Document {
+        val res = javaClass.classLoader.getResourceAsStream("lequipe_article.html")
+        return Jsoup.parse(res, "UTF-8", "www.lequipe.fr")
     }
 
 }

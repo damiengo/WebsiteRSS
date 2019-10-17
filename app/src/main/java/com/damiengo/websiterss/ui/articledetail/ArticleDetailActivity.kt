@@ -58,9 +58,9 @@ class ArticleDetailActivity : AppCompatActivity() {
                     .get()
             }
             val chapo = document.select(".Article__chapo").text()
-            val builder = StringBuilder()
             article_chapo.text = chapo
 
+            val builder = StringBuilder()
             document.select(".article__body .Paragraph").forEach { ele ->
                 builder.append(ele.html()).append("<br /><br />")
             }
