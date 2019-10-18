@@ -12,12 +12,18 @@ import android.view.MenuItem
 import android.view.View
 import androidx.core.text.HtmlCompat
 import com.damiengo.websiterss.R
+import com.damiengo.websiterss.article.ArticleUtil
+import com.damiengo.websiterss.util.DaggerDaggerComponent
 import com.damiengo.websiterss.util.GlideApp
 import kotlinx.android.synthetic.main.article_detail_activity.progress_bar
+import javax.inject.Inject
 
 class ArticleDetailActivity : AppCompatActivity() {
 
     val log = Logger.getLogger(ArticleDetailActivity::class.java.name)
+
+    @Inject
+    lateinit var util: ArticleUtil
 
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -25,6 +31,8 @@ class ArticleDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.article_detail_activity)
+
+        DaggerDaggerComponent.create().inject(this)
 
         progress_bar.visibility = View.VISIBLE
 
@@ -57,24 +65,9 @@ class ArticleDetailActivity : AppCompatActivity() {
                     .referrer(resources.getString(R.string.referrer))
                     .get()
             }
-            val chapo = document.select(".Article__chapo").text()
-            article_chapo.text = chapo
 
-            val builder = StringBuilder()
-            document.select(".article__body .Paragraph").forEach { ele ->
-                builder.append(ele.html()).append("<br /><br />")
-            }
-            var htmlDesc = builder.toString()
-            // Delete paragraph
-            htmlDesc = htmlDesc.replace("<p[^>]*>".toRegex(), "")
-            htmlDesc = htmlDesc.replace("</p>", "")
-            // Delete links
-            htmlDesc = htmlDesc.replace("<a[^>]*>".toRegex(), "")
-            htmlDesc = htmlDesc.replace("</a>", "")
-            // Replace title
-            htmlDesc = htmlDesc.replace("<h3[^>]*>".toRegex(), "<p><b>")
-            htmlDesc = htmlDesc.replace("</h3>", "</b></p>")
-            article_description.text = HtmlCompat.fromHtml(htmlDesc, Html.FROM_HTML_MODE_LEGACY)
+            article_chapo.text = util.genChapoFromDom(document)
+            article_description.text = HtmlCompat.fromHtml(util.genDescriptionFromDom(document), Html.FROM_HTML_MODE_LEGACY)
 
             progress_bar.visibility = View.INVISIBLE
         }

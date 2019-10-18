@@ -61,7 +61,7 @@ class ArticleUtil @Inject constructor() {
         return dom.select(".Article__chapo").text()
     }
 
-    fun genDescriptionFromDom(dom: Document): Spanned {
+    fun genDescriptionFromDom(dom: Document): String {
         val builder = StringBuilder()
         dom.select(".article__body .Paragraph").forEach { ele ->
             builder.append(ele.html()).append("<br /><br />")
@@ -77,7 +77,7 @@ class ArticleUtil @Inject constructor() {
         htmlDesc = htmlDesc.replace("<h3[^>]*>".toRegex(), "<p><b>")
         htmlDesc = htmlDesc.replace("</h3>", "</b></p>")
 
-        return HtmlCompat.fromHtml(htmlDesc, Html.FROM_HTML_MODE_LEGACY)
+        return htmlDesc
     }
 
     /**
