@@ -6,13 +6,13 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.article_detail_activity.*
 import kotlinx.coroutines.*
-import org.jsoup.Jsoup
 import java.util.logging.Logger
 import android.view.MenuItem
 import android.view.View
 import androidx.core.text.HtmlCompat
 import com.damiengo.websiterss.R
-import com.damiengo.websiterss.article.ArticleUtil
+import com.damiengo.websiterss.article.ArticleDetailProvider
+import com.damiengo.websiterss.article.DomProviderStrategy
 import com.damiengo.websiterss.util.DaggerDaggerComponent
 import com.damiengo.websiterss.util.GlideApp
 import kotlinx.android.synthetic.main.article_detail_activity.progress_bar
@@ -23,7 +23,7 @@ class ArticleDetailActivity : AppCompatActivity() {
     val log = Logger.getLogger(ArticleDetailActivity::class.java.name)
 
     @Inject
-    lateinit var util: ArticleUtil
+    lateinit var domProvider: DomProviderStrategy
 
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -58,16 +58,13 @@ class ArticleDetailActivity : AppCompatActivity() {
              .centerCrop()
              .into(article_image)
 
-        coroutineScope.launch(Dispatchers.Main) {
-            val document = withContext(Dispatchers.IO) {
-                Jsoup.connect(link)
-                    .userAgent(resources.getString(R.string.user_agent))
-                    .referrer(resources.getString(R.string.referrer))
-                    .get()
-            }
+        val domArticleDetailProvider = ArticleDetailProvider(domProvider)
 
-            article_chapo.text = util.genChapoFromDom(document)
-            article_description.text = HtmlCompat.fromHtml(util.genDescriptionFromDom(document), Html.FROM_HTML_MODE_LEGACY)
+        coroutineScope.launch(Dispatchers.Main) {
+            domArticleDetailProvider.getArticle(link)
+
+            article_chapo.text = domArticleDetailProvider.getChapo()
+            article_description.text = HtmlCompat.fromHtml(domArticleDetailProvider.getDescription(), Html.FROM_HTML_MODE_LEGACY)
 
             progress_bar.visibility = View.INVISIBLE
         }
