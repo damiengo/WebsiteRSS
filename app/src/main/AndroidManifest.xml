@@ -11,6 +11,7 @@
             android:value=".screens.MainActivity" />
 
     <application
+            android:name=".App"
             android:allowBackup="false"
             android:fullBackupContent="false"
             android:restoreAnyVersion="false"

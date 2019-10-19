@@ -1,7 +1,5 @@
 package com.damiengo.websiterss.ui.home
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.damiengo.websiterss.article.*
@@ -48,7 +46,6 @@ class FeedViewModel(var url: String) : ViewModel() {
         viewModelJob.cancel()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun fetchFeed() {
         coroutineScope.launch(Dispatchers.IO) {
             try {

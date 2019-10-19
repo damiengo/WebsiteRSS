@@ -1,6 +1,7 @@
 package com.damiengo.websiterss.util
 
 import com.damiengo.websiterss.article.ArticleUtil
+import com.damiengo.websiterss.article.DomProviderStrategy
 import com.damiengo.websiterss.category.Category
 import com.damiengo.websiterss.category.CategoryHolder
 import com.damiengo.websiterss.category.ClassCategoriesBuilder
@@ -35,6 +36,12 @@ class DaggerModule {
     @Provides
     internal fun provideNetworkInformation(): NetworkInformation {
         return NetworkInformation()
+    }
+
+    @Singleton
+    @Provides
+    internal fun provideDomProviderStrategy(): DomProviderStrategy {
+        return DomProviderStrategy()
     }
 
 }
