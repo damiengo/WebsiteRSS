@@ -12,7 +12,7 @@ import android.view.View
 import androidx.core.text.HtmlCompat
 import com.damiengo.websiterss.R
 import com.damiengo.websiterss.article.ArticleDetailProvider
-import com.damiengo.websiterss.article.DomProviderStrategy
+import com.damiengo.websiterss.article.ProviderStrategy
 import com.damiengo.websiterss.util.DaggerDaggerComponent
 import com.damiengo.websiterss.util.GlideApp
 import kotlinx.android.synthetic.main.article_detail_activity.progress_bar
@@ -23,7 +23,7 @@ class ArticleDetailActivity : AppCompatActivity() {
     val log = Logger.getLogger(ArticleDetailActivity::class.java.name)
 
     @Inject
-    lateinit var domProvider: DomProviderStrategy
+    lateinit var provider: ProviderStrategy
 
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -58,7 +58,7 @@ class ArticleDetailActivity : AppCompatActivity() {
              .centerCrop()
              .into(article_image)
 
-        val domArticleDetailProvider = ArticleDetailProvider(domProvider)
+        val domArticleDetailProvider = ArticleDetailProvider(provider)
 
         coroutineScope.launch(Dispatchers.Main) {
             domArticleDetailProvider.getArticle(link)
