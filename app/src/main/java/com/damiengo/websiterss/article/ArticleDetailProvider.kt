@@ -2,7 +2,7 @@ package com.damiengo.websiterss.article
 
 class ArticleDetailProvider(_strategy: ProviderStrategy) {
 
-    val strategy = _strategy
+    private val strategy = _strategy
 
     suspend fun getArticle(url: String) {
         strategy.read(url)

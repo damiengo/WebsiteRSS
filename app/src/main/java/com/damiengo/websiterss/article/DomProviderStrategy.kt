@@ -1,11 +1,8 @@
 package com.damiengo.websiterss.article
 
-import com.damiengo.websiterss.App
-import com.damiengo.websiterss.R
 import com.damiengo.websiterss.util.DaggerDaggerComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import javax.inject.Inject
 
@@ -13,6 +10,9 @@ class DomProviderStrategy : ProviderStrategy {
 
     @Inject
     lateinit var util: ArticleUtil
+
+    @Inject
+    lateinit var articleReader: ArticleReader
 
     private lateinit var dom: Document
 
@@ -22,18 +22,30 @@ class DomProviderStrategy : ProviderStrategy {
 
     override suspend fun read(url: String) {
         dom = withContext(Dispatchers.IO) {
-            Jsoup.connect(url)
-                .userAgent(App.getRes().getString(R.string.user_agent))
-                .referrer(App.getRes().getString(R.string.referrer))
-                .get()
+            articleReader.read(url)
         }
     }
 
     override fun getChapo(): String {
-        return util.genChapoFromDom(dom)
+        return dom.select(".Article__chapo").text()
     }
 
     override fun getDescription(): String {
-        return util.genDescriptionFromDom(dom)
+        val builder = StringBuilder()
+        dom.select(".article__body .Paragraph").forEach { ele ->
+            builder.append(ele.html()).append("<br /><br />")
+        }
+        var htmlDesc = builder.toString()
+        // Delete paragraph
+        htmlDesc = htmlDesc.replace("<p[^>]*>".toRegex(), "")
+        htmlDesc = htmlDesc.replace("</p>", "")
+        // Delete links
+        htmlDesc = htmlDesc.replace("<a[^>]*>".toRegex(), "")
+        htmlDesc = htmlDesc.replace("</a>", "")
+        // Replace title
+        htmlDesc = htmlDesc.replace("<h3[^>]*>".toRegex(), "<p><b>")
+        htmlDesc = htmlDesc.replace("</h3>", "</b></p>")
+
+        return htmlDesc
     }
 }

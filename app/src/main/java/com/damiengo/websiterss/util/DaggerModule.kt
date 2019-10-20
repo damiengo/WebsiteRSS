@@ -1,7 +1,6 @@
 package com.damiengo.websiterss.util
 
-import com.damiengo.websiterss.article.ArticleUtil
-import com.damiengo.websiterss.article.DomProviderStrategy
+import com.damiengo.websiterss.article.*
 import com.damiengo.websiterss.category.Category
 import com.damiengo.websiterss.category.CategoryHolder
 import com.damiengo.websiterss.category.ClassCategoriesBuilder
@@ -40,8 +39,14 @@ class DaggerModule {
 
     @Singleton
     @Provides
-    internal fun provideDomProviderStrategy(): DomProviderStrategy {
+    internal fun provideProviderStrategy(): ProviderStrategy {
         return DomProviderStrategy()
+    }
+
+    @Singleton
+    @Provides
+    internal fun provideArticleReader(): ArticleReader {
+        return JsoupArticleReader()
     }
 
 }

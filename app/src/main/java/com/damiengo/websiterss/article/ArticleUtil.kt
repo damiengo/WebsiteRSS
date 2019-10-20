@@ -57,29 +57,6 @@ class ArticleUtil @Inject constructor() {
         return ""
     }
 
-    fun genChapoFromDom(dom: Document): String {
-        return dom.select(".Article__chapo").text()
-    }
-
-    fun genDescriptionFromDom(dom: Document): String {
-        val builder = StringBuilder()
-        dom.select(".article__body .Paragraph").forEach { ele ->
-            builder.append(ele.html()).append("<br /><br />")
-        }
-        var htmlDesc = builder.toString()
-        // Delete paragraph
-        htmlDesc = htmlDesc.replace("<p[^>]*>".toRegex(), "")
-        htmlDesc = htmlDesc.replace("</p>", "")
-        // Delete links
-        htmlDesc = htmlDesc.replace("<a[^>]*>".toRegex(), "")
-        htmlDesc = htmlDesc.replace("</a>", "")
-        // Replace title
-        htmlDesc = htmlDesc.replace("<h3[^>]*>".toRegex(), "<p><b>")
-        htmlDesc = htmlDesc.replace("</h3>", "</b></p>")
-
-        return htmlDesc
-    }
-
     /**
      * Last index of dash in title.
      */
