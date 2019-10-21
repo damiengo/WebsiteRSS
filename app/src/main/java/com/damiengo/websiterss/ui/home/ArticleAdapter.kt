@@ -41,7 +41,6 @@ class ArticleAdapter(private val dataSource: MutableList<MyArticle>,
     }
 
     // Must be quick, on the main thread
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         val myArticle: MyArticle = dataSource[position]
 
