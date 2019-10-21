@@ -1,12 +1,10 @@
 package com.damiengo.websiterss.ui.articledetail
 
 import android.os.Bundle
-import android.text.Html
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.article_detail_activity.*
 import kotlinx.coroutines.*
-import java.util.logging.Logger
 import android.view.MenuItem
 import android.view.View
 import androidx.core.text.HtmlCompat
@@ -20,13 +18,11 @@ import javax.inject.Inject
 
 class ArticleDetailActivity : AppCompatActivity() {
 
-    val log = Logger.getLogger(ArticleDetailActivity::class.java.name)
-
     @Inject
     lateinit var provider: ProviderStrategy
 
     private val viewModelJob = Job()
-    private val coroutineScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    private val scope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,11 +56,11 @@ class ArticleDetailActivity : AppCompatActivity() {
 
         val domArticleDetailProvider = ArticleDetailProvider(provider)
 
-        coroutineScope.launch(Dispatchers.Main) {
+        scope.launch(Dispatchers.Main) {
             domArticleDetailProvider.getArticle(link)
 
             article_chapo.text = domArticleDetailProvider.getChapo()
-            article_description.text = HtmlCompat.fromHtml(domArticleDetailProvider.getDescription(), Html.FROM_HTML_MODE_LEGACY)
+            article_description.text = HtmlCompat.fromHtml(domArticleDetailProvider.getDescription(), HtmlCompat.FROM_HTML_MODE_COMPACT)
 
             progress_bar.visibility = View.INVISIBLE
         }
