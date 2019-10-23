@@ -51,7 +51,6 @@ class MainActivity : AppCompatActivity() {
             override fun <T : ViewModel> create(aClass: Class<T>):T = f() as T
         }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)

@@ -99,12 +99,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
+            <!--
             <TextView
                     android:id="@+id/article_description"
                     android:textSize="14sp"
                     android:padding="4dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
+            -->
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/article_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
