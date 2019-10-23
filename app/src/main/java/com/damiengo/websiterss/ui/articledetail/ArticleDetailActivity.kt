@@ -7,10 +7,11 @@ import kotlinx.android.synthetic.main.article_detail_activity.*
 import kotlinx.coroutines.*
 import android.view.MenuItem
 import android.view.View
-import androidx.core.text.HtmlCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.damiengo.websiterss.R
 import com.damiengo.websiterss.article.ArticleDetailProvider
 import com.damiengo.websiterss.article.ProviderStrategy
+import com.damiengo.websiterss.ui.articledetail.model.ParagraphModel
 import com.damiengo.websiterss.util.DaggerDaggerComponent
 import com.damiengo.websiterss.util.GlideApp
 import kotlinx.android.synthetic.main.article_detail_activity.progress_bar
@@ -20,6 +21,8 @@ class ArticleDetailActivity : AppCompatActivity() {
 
     @Inject
     lateinit var provider: ProviderStrategy
+
+    private lateinit var viewAdapter: ArticleDetailAdapter
 
     private val viewModelJob = Job()
     private val scope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -31,6 +34,8 @@ class ArticleDetailActivity : AppCompatActivity() {
         DaggerDaggerComponent.create().inject(this)
 
         progress_bar.visibility = View.VISIBLE
+
+        article_content.layoutManager = LinearLayoutManager(this)
 
         setSupportActionBar(article_toolbar)
         val actionbar: ActionBar? = supportActionBar
@@ -60,7 +65,13 @@ class ArticleDetailActivity : AppCompatActivity() {
             domArticleDetailProvider.getArticle(link)
 
             article_chapo.text = domArticleDetailProvider.getChapo()
-            article_description.text = HtmlCompat.fromHtml(domArticleDetailProvider.getDescription(), HtmlCompat.FROM_HTML_MODE_COMPACT)
+
+            viewAdapter = ArticleDetailAdapter(this@ArticleDetailActivity)
+
+            val paragraph = ParagraphModel(domArticleDetailProvider.getDescription())
+            viewAdapter.addModel(paragraph)
+
+            article_content.adapter = viewAdapter
 
             progress_bar.visibility = View.INVISIBLE
         }

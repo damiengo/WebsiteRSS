@@ -5,16 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.damiengo.websiterss.R
+import com.damiengo.websiterss.ui.articledetail.model.Model
 import com.damiengo.websiterss.ui.articledetail.model.ParagraphModel
 
 class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<BaseViewHolder<*>>() {
 
-    private var adapterDataList: List<Any> = emptyList()
+    private var adapterDataList = mutableListOf<Model>()
 
     companion object {
         private const val TYPE_PARAGRAPH = 0
+    }
+
+    fun addModel(model: Model) {
+        adapterDataList.add(model)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
@@ -36,16 +42,14 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
         }
     }
 
-    override fun getItemCount(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getItemCount(): Int = adapterDataList.size
 
     inner class ParagraphViewHolder(itemView: View) : BaseViewHolder<ParagraphModel>(itemView) {
 
         private val textView = itemView.findViewById<TextView>(R.id.paragraph_content)
 
         override fun bind(item: ParagraphModel) {
-            textView.text = item.content
+            textView.text = HtmlCompat.fromHtml(item.content, HtmlCompat.FROM_HTML_MODE_COMPACT)
         }
 
     }
