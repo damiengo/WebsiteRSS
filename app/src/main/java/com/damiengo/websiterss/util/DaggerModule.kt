@@ -39,7 +39,7 @@ class DaggerModule {
 
     @Singleton
     @Provides
-    internal fun provideProviderStrategy(): ProviderStrategy {
+    internal fun provideDomProviderStrategy(): DomProviderStrategy {
         return DomProviderStrategy()
     }
 

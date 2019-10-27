@@ -10,7 +10,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.damiengo.websiterss.R
 import com.damiengo.websiterss.article.ArticleDetailProvider
-import com.damiengo.websiterss.article.ProviderStrategy
+import com.damiengo.websiterss.article.DomProviderStrategy
 import com.damiengo.websiterss.ui.articledetail.model.ParagraphModel
 import com.damiengo.websiterss.util.DaggerDaggerComponent
 import com.damiengo.websiterss.util.GlideApp
@@ -20,7 +20,7 @@ import javax.inject.Inject
 class ArticleDetailActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var provider: ProviderStrategy
+    lateinit var provider: DomProviderStrategy
 
     private lateinit var viewAdapter: ArticleDetailAdapter
 
