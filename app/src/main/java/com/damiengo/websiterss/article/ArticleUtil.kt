@@ -1,5 +1,6 @@
 package com.damiengo.websiterss.article
 
+import android.net.Uri
 import android.text.Html
 import android.text.Spanned
 import androidx.core.text.HtmlCompat
@@ -52,6 +53,22 @@ class ArticleUtil @Inject constructor() {
             val inputFormat = SimpleDateFormat(inputDateFormat, Locale.ENGLISH)
             val outputFormat = SimpleDateFormat(outputValFormat, Locale.ENGLISH)
             return outputFormat.format(inputFormat.parse(it))
+        }
+
+        return ""
+    }
+
+    fun getArticleIdFromUrl(url: String): String {
+        val splitted = url.split("/")
+
+        if(splitted.isNotEmpty()) {
+            val urlEnd = splitted.last()
+            val hashtagPos = urlEnd.indexOf("#")
+            if(hashtagPos > 0) {
+                return urlEnd.substring(0, hashtagPos)
+            }
+
+            return ""
         }
 
         return ""
