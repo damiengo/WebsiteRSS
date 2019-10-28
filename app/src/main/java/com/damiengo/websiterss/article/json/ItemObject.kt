@@ -2,9 +2,9 @@ package com.damiengo.websiterss.article.json
 
 import com.google.gson.annotations.SerializedName
 
-class Item {
+class ItemObject {
 
-    @SerializedName("objet")
-    lateinit var objet: ItemObject
+    @SerializedName("paragraphs")
+    lateinit var paragraphs: List<Paragraph>
 
 }

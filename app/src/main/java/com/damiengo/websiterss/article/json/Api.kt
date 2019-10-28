@@ -6,7 +6,7 @@ import retrofit2.http.Path
 
 interface Api {
 
-    @GET("/{article_id}")
+    @GET("/efr/news/{article_id}")
     fun getItems(@Path("article_id") articleId: String): Call<ItemList>
 
 }
