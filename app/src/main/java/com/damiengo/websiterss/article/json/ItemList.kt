@@ -5,6 +5,6 @@ import com.google.gson.annotations.SerializedName
 class ItemList {
 
     @SerializedName("items")
-    lateinit var item: List<Item>
+    lateinit var items: List<Item>
 
 }
