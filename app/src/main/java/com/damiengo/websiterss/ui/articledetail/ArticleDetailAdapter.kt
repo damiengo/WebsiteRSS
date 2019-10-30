@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.damiengo.websiterss.R
+import com.damiengo.websiterss.ui.articledetail.model.ChapoModel
 import com.damiengo.websiterss.ui.articledetail.model.Model
 import com.damiengo.websiterss.ui.articledetail.model.ParagraphModel
 
@@ -17,6 +18,7 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
 
     companion object {
         private const val TYPE_PARAGRAPH = 0
+        private const val TYPE_CHAPO     = 1
     }
 
     fun addModel(model: Model) {
@@ -30,6 +32,11 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
                     .inflate(R.layout.article_detail_paragraph_item, parent, false)
                 ParagraphViewHolder(view)
             }
+            TYPE_CHAPO -> {
+                val view = LayoutInflater.from(context)
+                    .inflate(R.layout.article_detail_chapo_item, parent, false)
+                ChapoViewHolder(view)
+            }
             else -> throw IllegalArgumentException("Invalid view type")
         }
     }
@@ -38,11 +45,33 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
         val element = adapterDataList[position]
         when (holder) {
             is ParagraphViewHolder -> holder.bind(element as ParagraphModel)
+            is ChapoViewHolder     -> holder.bind(element as ChapoModel)
             else -> throw IllegalArgumentException()
         }
     }
 
+    override fun getItemViewType(position: Int): Int {
+        val comparable = adapterDataList[position]
+        return when (comparable) {
+            is ParagraphModel -> TYPE_PARAGRAPH
+            is ChapoModel     -> TYPE_CHAPO
+            else -> throw IllegalArgumentException("Invalid type of data " + position)
+        }
+    }
+
     override fun getItemCount(): Int = adapterDataList.size
+
+
+
+    inner class ChapoViewHolder(itemView: View) : BaseViewHolder<ChapoModel>(itemView) {
+
+        private val textView = itemView.findViewById<TextView>(R.id.chapo_content)
+
+        override fun bind(item: ChapoModel) {
+            textView.text = HtmlCompat.fromHtml(item.content, HtmlCompat.FROM_HTML_MODE_COMPACT)
+        }
+
+    }
 
     inner class ParagraphViewHolder(itemView: View) : BaseViewHolder<ParagraphModel>(itemView) {
 

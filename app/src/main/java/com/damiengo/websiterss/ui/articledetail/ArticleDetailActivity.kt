@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.damiengo.websiterss.R
 import com.damiengo.websiterss.article.ArticleDetailProvider
 import com.damiengo.websiterss.article.DomProviderStrategy
-import com.damiengo.websiterss.ui.articledetail.model.ParagraphModel
 import com.damiengo.websiterss.util.DaggerDaggerComponent
 import com.damiengo.websiterss.util.GlideApp
 import kotlinx.android.synthetic.main.article_detail_activity.progress_bar
@@ -62,14 +61,12 @@ class ArticleDetailActivity : AppCompatActivity() {
         val domArticleDetailProvider = ArticleDetailProvider(provider)
 
         scope.launch(Dispatchers.Main) {
-            domArticleDetailProvider.getArticle(link)
-
-            article_chapo.text = domArticleDetailProvider.getChapo()
-
+            val models = domArticleDetailProvider.getArticle(link)
             viewAdapter = ArticleDetailAdapter(this@ArticleDetailActivity)
 
-            val paragraph = ParagraphModel(domArticleDetailProvider.getDescription())
-            viewAdapter.addModel(paragraph)
+            models.forEach {
+                viewAdapter.addModel(it)
+            }
 
             article_content.adapter = viewAdapter
 
