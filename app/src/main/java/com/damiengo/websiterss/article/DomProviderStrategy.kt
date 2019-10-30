@@ -1,5 +1,9 @@
 package com.damiengo.websiterss.article
 
+import android.graphics.ColorSpace
+import com.damiengo.websiterss.ui.articledetail.model.ChapoModel
+import com.damiengo.websiterss.ui.articledetail.model.Model
+import com.damiengo.websiterss.ui.articledetail.model.ParagraphModel
 import com.damiengo.websiterss.util.DaggerDaggerComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -20,17 +24,23 @@ class DomProviderStrategy : ProviderStrategy {
         DaggerDaggerComponent.create().inject(this)
     }
 
-    override suspend fun read(url: String) {
+    override suspend fun read(url: String): MutableList<Model> {
         dom = withContext(Dispatchers.IO) {
             articleReader.read(url)
         }
+
+        var models = mutableListOf<Model>()
+        models.add(ChapoModel(getChapo()))
+        models.add(ParagraphModel(getDescription()))
+
+        return models
     }
 
-    override fun getChapo(): String {
+    private fun getChapo(): String {
         return dom.select(".Article__chapo").text()
     }
 
-    override fun getDescription(): String {
+    private fun getDescription(): String {
         val builder = StringBuilder()
         dom.select(".article__body .Paragraph").forEach { ele ->
             builder.append(ele.html()).append("<br /><br />")

@@ -13,7 +13,7 @@ class JsonProviderStrategy : ProviderStrategy {
     @Inject
     lateinit var service: Api
 
-    suspend fun read(articleId: String) {
+    override suspend fun read(articleId: String): MutableList<Model> {
         var models = mutableListOf<Model>()
 
         val itemList = service.getItems(articleId)
@@ -31,6 +31,7 @@ class JsonProviderStrategy : ProviderStrategy {
             }
         }
 
+        return models
     }
 
 }
