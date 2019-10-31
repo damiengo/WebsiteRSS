@@ -11,6 +11,7 @@ import javax.inject.Singleton
 import com.damiengo.websiterss.ui.home.NetworkInformation
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 
 @Module
 class DaggerModule {
@@ -42,8 +43,13 @@ class DaggerModule {
 
     @Singleton
     @Provides
-    internal fun provideDomProviderStrategy(): DomProviderStrategy {
-        return DomProviderStrategy()
+    // SO says MutableList is better: https://stackoverflow.com/a/45461344
+    internal fun provideProvidersStrategy(): MutableList<ProviderStrategy> {
+        var providers = mutableListOf<ProviderStrategy>()
+        //providers.add(JsonProviderStrategy())
+        providers.add(DomProviderStrategy())
+
+        return providers
     }
 
     @Singleton
