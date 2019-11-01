@@ -24,11 +24,31 @@
         <activity android:name="com.damiengo.websiterss.ui.home.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity android:name="com.damiengo.websiterss.ui.articledetail.ArticleDetailActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="https"
+                    android:host="lequipe.fr"
+                    android:pathPrefix="/" />
+                <data
+                    android:scheme="https"
+                    android:host="www.lequipe.fr"
+                    android:pathPrefix="/" />
+                <data
+                    android:scheme="http"
+                    android:host="lequipe.fr"
+                    android:pathPrefix="/" />
+                <data
+                    android:scheme="http"
+                    android:host="www.lequipe.fr"
+                    android:pathPrefix="/" />
+            </intent-filter>
         </activity>
     </application>
 

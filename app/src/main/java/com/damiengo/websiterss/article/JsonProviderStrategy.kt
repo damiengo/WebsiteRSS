@@ -22,25 +22,10 @@ class JsonProviderStrategy : ProviderStrategy {
     }
 
     override suspend fun read(url: String): MutableList<Model> {
-        var models = mutableListOf<Model>()
-
         val articleId = util.getArticleIdFromUrl(url)
         val itemList = service.getItems(articleId)
 
-        itemList?.let {list: ItemList ->
-            if(list.items.isNotEmpty()) {
-                list.items.forEach {item: Item ->
-                    if(item.objet.paragraphs.isNotEmpty()) {
-                        item.objet.paragraphs.forEach {paragraph: Paragraph ->
-                            val model = ParagraphModel(paragraph.content)
-                            models.add(model)
-                        }
-                    }
-                }
-            }
-        }
-
-        return models
+        return itemList.getModels()
     }
 
 }
