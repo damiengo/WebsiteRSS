@@ -16,6 +16,7 @@ class DomProviderStrategyTest {
         t = DomProviderStrategy()
     }
 
+    /*
     @Test
     fun getChapoOK() {
         t.articleReader = FileArticleReader()
@@ -105,6 +106,7 @@ class DomProviderStrategyTest {
             return Jsoup.parse(url)
         }
     }
+    */
 
 }
 

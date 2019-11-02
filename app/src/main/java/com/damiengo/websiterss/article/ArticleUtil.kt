@@ -68,7 +68,7 @@ class ArticleUtil @Inject constructor() {
                 return urlEnd.substring(0, hashtagPos)
             }
 
-            return ""
+            return urlEnd
         }
 
         return ""

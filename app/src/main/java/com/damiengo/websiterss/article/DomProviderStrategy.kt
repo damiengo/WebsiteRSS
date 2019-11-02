@@ -1,6 +1,5 @@
 package com.damiengo.websiterss.article
 
-import android.graphics.ColorSpace
 import com.damiengo.websiterss.ui.articledetail.model.ChapoModel
 import com.damiengo.websiterss.ui.articledetail.model.Model
 import com.damiengo.websiterss.ui.articledetail.model.ParagraphModel

@@ -8,7 +8,7 @@ class Item {
     @SerializedName("objet")
     lateinit var objet: ItemObject
 
-    fun getModels(): List<Model> {
+    fun getModels(): MutableList<Model> {
         return objet.getModels()
     }
 
