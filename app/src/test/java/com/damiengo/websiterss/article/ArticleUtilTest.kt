@@ -86,8 +86,13 @@ class ArticleUtilTest {
     }
 
     @Test
-    fun getArticleIdFromUrlOk() {
+    fun getArticleIdFromUrlOkWithHashtag() {
         assertEquals("1065515", u.getArticleIdFromUrl("https://www.lequipe.fr/Football/Actualites/Om-jacques-henri-eyraud-suspendu-quatre-matches-dont-deux-avec-sursis/1065515#xtor=RSS-1"))
+    }
+
+    @Test
+    fun getArticleIdFromUrlOkNoHashtag() {
+        assertEquals("1065515", u.getArticleIdFromUrl("http://lequipe.fr/Football/Actualites/Om-jacques-henri-eyraud-suspendu-quatre-matches-dont-deux-avec-sursis/1065515"))
     }
 
 }

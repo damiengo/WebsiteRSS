@@ -12,7 +12,7 @@ class ItemList {
         var models = mutableListOf<Model>()
         if (items.isNotEmpty()) {
             items.forEach {
-                it.getModels()
+                return it.getModels()
             }
         }
         return models

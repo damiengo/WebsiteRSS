@@ -1,5 +1,6 @@
 package com.damiengo.websiterss.ui.articledetail
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
@@ -11,9 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.damiengo.websiterss.R
 import com.damiengo.websiterss.article.ArticleDetailProvider
 import com.damiengo.websiterss.article.ProviderStrategy
+import com.damiengo.websiterss.ui.articledetail.model.Model
 import com.damiengo.websiterss.util.DaggerDaggerComponent
 import com.damiengo.websiterss.util.GlideApp
 import kotlinx.android.synthetic.main.article_detail_activity.progress_bar
+import java.net.URI
 import javax.inject.Inject
 
 class ArticleDetailActivity : AppCompatActivity() {
@@ -45,8 +48,13 @@ class ArticleDetailActivity : AppCompatActivity() {
         val title      = intent.getStringExtra("title")
         val image      = intent.getStringExtra("image")
         val pubDate    = intent.getStringExtra("pubDate")
-        val link       = intent.getStringExtra("link")
+        var link       = intent.getStringExtra("link")
         val categories = intent.getStringExtra("categories")
+
+        if(link.isNullOrEmpty()) {
+            val uri: Uri = intent.data
+            link = uri.scheme+"://"+uri.host+uri.path
+        }
 
         article_date.text        = pubDate
         article_categories.text  = categories
@@ -58,26 +66,26 @@ class ArticleDetailActivity : AppCompatActivity() {
              .centerCrop()
              .into(article_image)
 
-        scope.launch(Dispatchers.Main) {
-
-            providers.forEach {
-                val articleDetailProvider = ArticleDetailProvider(it)
+        providers.forEach {ps: ProviderStrategy ->
+            val articleDetailProvider = ArticleDetailProvider(ps)
+            scope.launch(Dispatchers.IO) {
                 val models = articleDetailProvider.getArticle(link)
 
-                if(models.isNotEmpty()) {
-                    viewAdapter = ArticleDetailAdapter(this@ArticleDetailActivity)
+                withContext(Dispatchers.Main) {
+                    if(models.isNotEmpty()) {
+                        viewAdapter = ArticleDetailAdapter(this@ArticleDetailActivity)
 
-                    models.forEach {
-                        viewAdapter.addModel(it)
+                        models.forEach { model: Model ->
+                            viewAdapter.addModel(model)
+                        }
+
+                        article_content.adapter = viewAdapter
+                        progress_bar.visibility = View.INVISIBLE
                     }
-                    return@forEach
+                    //return@forEach
                 }
             }
-
-            article_content.adapter = viewAdapter
-            progress_bar.visibility = View.INVISIBLE
         }
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

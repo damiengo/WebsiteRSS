@@ -10,6 +10,7 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 import com.damiengo.websiterss.ui.home.NetworkInformation
+import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -46,7 +47,7 @@ class DaggerModule {
     // SO says MutableList is better: https://stackoverflow.com/a/45461344
     internal fun provideProvidersStrategy(): MutableList<ProviderStrategy> {
         var providers = mutableListOf<ProviderStrategy>()
-        providers.add(JsonProviderStrategy())
+        //providers.add(JsonProviderStrategy())
         providers.add(DomProviderStrategy())
 
         return providers
@@ -65,7 +66,7 @@ class DaggerModule {
 
         val retrofit = Retrofit.Builder()
             .baseUrl(jsonApi)
-            .addConverterFactory(GsonConverterFactory.create()).build()
+            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create())).build()
         return retrofit.create(Api::class.java!!)
     }
 

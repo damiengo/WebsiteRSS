@@ -8,7 +8,7 @@ class ItemObject {
     @SerializedName("paragraphs")
     lateinit var paragraphs: List<Paragraph>
 
-    fun getModels(): List<Model> {
+    fun getModels(): MutableList<Model> {
         var models = mutableListOf<Model>()
 
         if (hasParagraphs()) {
