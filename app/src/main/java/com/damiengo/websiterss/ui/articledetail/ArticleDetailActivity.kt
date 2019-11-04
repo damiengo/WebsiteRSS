@@ -66,23 +66,25 @@ class ArticleDetailActivity : AppCompatActivity() {
              .centerCrop()
              .into(article_image)
 
-        providers.forEach {ps: ProviderStrategy ->
-            val articleDetailProvider = ArticleDetailProvider(ps)
-            scope.launch(Dispatchers.IO) {
-                val models = articleDetailProvider.getArticle(link)
+        scope.launch(Dispatchers.IO) {
+            run breaker@{
+                providers.forEach { ps: ProviderStrategy ->
+                    val articleDetailProvider = ArticleDetailProvider(ps)
+                    val models = articleDetailProvider.getArticle(link)
 
-                withContext(Dispatchers.Main) {
-                    if(models.isNotEmpty()) {
-                        viewAdapter = ArticleDetailAdapter(this@ArticleDetailActivity)
+                    if (models.isNotEmpty()) {
+                        withContext(Dispatchers.Main) {
+                            viewAdapter = ArticleDetailAdapter(this@ArticleDetailActivity)
 
-                        models.forEach { model: Model ->
-                            viewAdapter.addModel(model)
+                            models.forEach { model: Model ->
+                                viewAdapter.addModel(model)
+                            }
+
+                            article_content.adapter = viewAdapter
+                            progress_bar.visibility = View.INVISIBLE
                         }
-
-                        article_content.adapter = viewAdapter
-                        progress_bar.visibility = View.INVISIBLE
+                        return@breaker
                     }
-                    //return@forEach
                 }
             }
         }

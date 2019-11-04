@@ -47,7 +47,7 @@ class DaggerModule {
     // SO says MutableList is better: https://stackoverflow.com/a/45461344
     internal fun provideProvidersStrategy(): MutableList<ProviderStrategy> {
         var providers = mutableListOf<ProviderStrategy>()
-        //providers.add(JsonProviderStrategy())
+        providers.add(JsonProviderStrategy())
         providers.add(DomProviderStrategy())
 
         return providers
