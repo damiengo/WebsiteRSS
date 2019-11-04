@@ -19,7 +19,14 @@ class JsonProviderStrategy : ProviderStrategy {
 
     override suspend fun read(url: String): MutableList<Model> {
         val articleId = util.getArticleIdFromUrl(url)
-        return service.getItems(articleId).getModels()
+
+        val response = service.getItems(articleId)
+
+        if(response.isSuccessful) {
+            return response.body()!!.getModels()
+        }
+
+        return mutableListOf<Model>()
     }
 
 }
