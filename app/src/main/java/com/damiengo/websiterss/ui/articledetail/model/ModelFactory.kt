@@ -13,7 +13,7 @@ class ModelFactory {
         return when(p.layout) {
             LAYOUT_CHAPO -> ChapoModel(p.content)
             LAYOUT_PARAGRAPH -> ParagraphModel(p.getContentText())
-            else -> ParagraphModel("")
+            else -> EmptyModel()
         }
     }
 

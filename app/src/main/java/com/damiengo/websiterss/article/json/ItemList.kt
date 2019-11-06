@@ -15,6 +15,7 @@ class ItemList {
                 models.addAll(it.getModels())
             }
         }
+
         return models
     }
 

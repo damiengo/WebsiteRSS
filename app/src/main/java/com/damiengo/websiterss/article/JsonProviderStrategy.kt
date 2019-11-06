@@ -26,7 +26,7 @@ class JsonProviderStrategy : ProviderStrategy {
             return response.body()!!.getModels()
         }
 
-        return mutableListOf<Model>()
+        return mutableListOf()
     }
 
 }
