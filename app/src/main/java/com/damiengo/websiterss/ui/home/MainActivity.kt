@@ -1,7 +1,6 @@
 package com.damiengo.websiterss.ui.home
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -10,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import android.widget.LinearLayout
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -25,6 +23,7 @@ import com.damiengo.websiterss.article.MyArticle
 import com.damiengo.websiterss.category.CategoryHolder
 import com.damiengo.websiterss.util.DaggerDaggerComponent
 import com.damiengo.websiterss.util.GlideApp
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 const val IMAGE_SIZE = 210
@@ -39,12 +38,16 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var currentMenuItem: MenuItem
     private lateinit var viewAdapter: ArticleAdapter
+    private lateinit var viewModel: FeedViewModel
 
     @Inject
     lateinit var categoryHolder: CategoryHolder
 
     @Inject
     lateinit var networkInformation: NetworkInformation
+
+    private val activityJob = Job()
+    private val scope = CoroutineScope(Dispatchers.Main + activityJob)
 
     private inline fun <VM : ViewModel> viewModelFactory(crossinline f: () -> VM) =
         object : ViewModelProvider.Factory {
@@ -61,10 +64,10 @@ class MainActivity : AppCompatActivity() {
         var currentArticles: MutableList<MyArticle> = mutableListOf()
         var preloadSizeProvider : FixedPreloadSizeProvider<MyArticle>
 
-        network_state.visibility = View.GONE
+        error.visibility = View.GONE
         progress_bar.visibility = View.VISIBLE
 
-        var viewModel = ViewModelProviders.of(this@MainActivity,
+        viewModel = ViewModelProviders.of(this@MainActivity,
                                           viewModelFactory { FeedViewModel(categoryHolder.getDefaultUrl()) }).get(FeedViewModel::class.java)
 
         list_articles.layoutManager = LinearLayoutManager(this)
@@ -129,7 +132,7 @@ class MainActivity : AppCompatActivity() {
             title = categoryHolder.getCurrentTitle(currentMenuItem.itemId)
             viewModel.url = categoryHolder.getCurrentUrl(currentMenuItem.itemId)
             currentArticles = mutableListOf()
-            viewModel.fetchFeed()
+            fetchFeed()
 
             true
         }
@@ -138,21 +141,38 @@ class MainActivity : AppCompatActivity() {
 
         swipe_refresh.setOnRefreshListener {
             swipe_refresh.isRefreshing = true
-            viewModel.fetchFeed()
+            fetchFeed()
             swipe_refresh.isRefreshing = false
         }
 
         list_articles.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
 
         if( ! networkInformation.isAvailable(this)) {
-            network_state.text = getString(R.string.no_network)
-            progress_bar.visibility = View.GONE
-            network_state.visibility = View.VISIBLE
+            showError(getString(R.string.no_network))
         }
         else {
             title = categoryHolder.getCurrentTitle(currentMenuItem.itemId)
-            viewModel.fetchFeed()
+            fetchFeed()
         }
+    }
+
+    private fun fetchFeed() {
+        error.visibility = View.GONE
+        scope.launch(Dispatchers.IO) {
+            try {
+                viewModel.fetchFeed()
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    showError(e.message!!)
+                }
+            }
+        }
+    }
+
+    private fun showError(message: String) {
+        error.text = message
+        error.visibility = View.VISIBLE
+        progress_bar.visibility = View.GONE
     }
 
     private fun articleClicked(myArticle : MyArticle) {

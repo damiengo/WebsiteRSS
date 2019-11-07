@@ -46,24 +46,17 @@ class FeedViewModel(var url: String) : ViewModel() {
         viewModelJob.cancel()
     }
 
-    fun fetchFeed() {
-        coroutineScope.launch(Dispatchers.IO) {
-            try {
-                val parser = Parser()
-                val myArticleList: MutableList<MyArticle> = mutableListOf()
-                val articleList = parser.getArticles(url)
-                articleList.forEach { article: Article ->
+    suspend fun fetchFeed() {
+        val parser = Parser()
+        val myArticleList: MutableList<MyArticle> = mutableListOf()
+        val articleList = parser.getArticles(url)
+        articleList.forEach { article: Article ->
 
-                    val myArticle = MyArticle(article, util)
-                    myArticleList.add(myArticle)
+            val myArticle = MyArticle(article, util)
+            myArticleList.add(myArticle)
 
-                }
-                setArticleList(myArticleList)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                setArticleList(mutableListOf())
-            }
         }
+        setArticleList(myArticleList)
     }
 
 }
