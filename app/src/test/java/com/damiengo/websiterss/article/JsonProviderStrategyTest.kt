@@ -1,10 +1,7 @@
 package com.damiengo.websiterss.article
 
 import com.damiengo.websiterss.article.json.*
-import com.damiengo.websiterss.ui.articledetail.model.ChapoModel
-import com.damiengo.websiterss.ui.articledetail.model.DigitModel
-import com.damiengo.websiterss.ui.articledetail.model.EmbedModel
-import com.damiengo.websiterss.ui.articledetail.model.ParagraphModel
+import com.damiengo.websiterss.ui.articledetail.model.*
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers
 import org.junit.Assert
@@ -27,7 +24,7 @@ class JsonProviderStrategyTest {
     fun readNbModelsOK() {
         runBlocking {
             val models=  t.read("")
-            Assert.assertEquals(5, models.size)
+            Assert.assertEquals(8, models.size)
         }
     }
 
@@ -72,6 +69,39 @@ class JsonProviderStrategyTest {
         }
     }
 
+    @Test
+    fun readCitationOK() {
+        runBlocking {
+            val models = t.read("")
+            val model = models[5]
+            Assert.assertThat(model, CoreMatchers.instanceOf(CitationModel::class.java))
+            Assert.assertEquals("Content of the citation", (model as CitationModel).content)
+            Assert.assertEquals("Caption...", model.caption)
+        }
+    }
+
+    @Test
+    fun readNoteOK() {
+        runBlocking {
+            val models = t.read("")
+            val model = models[6]
+            Assert.assertThat(model, CoreMatchers.instanceOf(NoteModel::class.java))
+            Assert.assertEquals("Content of the note", (model as NoteModel).content)
+            Assert.assertEquals("Zidane", model.player)
+            Assert.assertEquals("8.5", model.rating)
+        }
+    }
+
+    @Test
+    fun readFocusOK() {
+        runBlocking {
+            val models = t.read("")
+            val model = models[7]
+            Assert.assertThat(model, CoreMatchers.instanceOf(FocusModel::class.java))
+            Assert.assertEquals("Content of the focus", (model as FocusModel).content)
+        }
+    }
+
     class ApiTest : Api {
         override suspend fun getItems(articleId: String): Response<ItemList> {
             val itemList = ItemList()
@@ -96,6 +126,20 @@ class JsonProviderStrategyTest {
 
             val par5 = buildParagraph("digit", "48", "Content of the digit")
             paragraphs.add(par5)
+
+            val par6 = buildParagraph("citation", "", "Content of the citation")
+            par6.caption = "Caption..."
+            paragraphs.add(par6)
+
+            val par7 = buildParagraph("note", "", "Content of the note")
+            val note = Note()
+            note.label = "Zidane"
+            note.rating = "8.5"
+            par7.note = note
+            paragraphs.add(par7)
+
+            val par8 = buildParagraph("focus", "", "Content of the focus")
+            paragraphs.add(par8)
 
             object1.paragraphs = paragraphs
             item1.objet = object1

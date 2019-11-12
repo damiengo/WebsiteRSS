@@ -29,6 +29,12 @@ class Paragraph {
     @SerializedName("title")
     lateinit var title: String
 
+    @SerializedName("caption")
+    lateinit var caption: String
+
+    @SerializedName("note")
+    lateinit var note: Note
+
     init {
         DaggerDaggerComponent.create().inject(this)
     }
@@ -43,6 +49,10 @@ class Paragraph {
         }
 
         return ""
+    }
+
+    fun hasTitle(): Boolean {
+        return ::title.isInitialized
     }
 
 }
