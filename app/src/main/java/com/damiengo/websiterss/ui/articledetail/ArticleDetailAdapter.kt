@@ -21,6 +21,9 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
         private const val TYPE_EMPTY     = 2
         private const val TYPE_EMBED     = 3
         private const val TYPE_DIGIT     = 4
+        private const val TYPE_CITATION  = 5
+        private const val TYPE_NOTE      = 6
+        private const val TYPE_FOCUS     = 7
     }
 
     fun addModel(model: Model) {
@@ -49,6 +52,21 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
                     .inflate(R.layout.article_detail_digit_item, parent, false)
                 DigitViewHolder(view)
             }
+            TYPE_CITATION -> {
+                val view = LayoutInflater.from(context)
+                    .inflate(R.layout.article_detail_citation_item, parent, false)
+                CitationViewHolder(view)
+            }
+            TYPE_NOTE -> {
+                val view = LayoutInflater.from(context)
+                    .inflate(R.layout.article_detail_note_item, parent, false)
+                NoteViewHolder(view)
+            }
+            TYPE_FOCUS -> {
+                val view = LayoutInflater.from(context)
+                    .inflate(R.layout.article_detail_focus_item, parent, false)
+                FocusViewHolder(view)
+            }
             TYPE_EMPTY -> {
                 val view = LayoutInflater.from(context)
                     .inflate(R.layout.article_detail_empty_item, parent, false)
@@ -65,6 +83,9 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
             is ChapoViewHolder     -> holder.bind(element as ChapoModel)
             is EmbedViewHolder     -> holder.bind(element as EmbedModel)
             is DigitViewHolder     -> holder.bind(element as DigitModel)
+            is CitationViewHolder  -> holder.bind(element as CitationModel)
+            is NoteViewHolder      -> holder.bind(element as NoteModel)
+            is FocusViewHolder     -> holder.bind(element as FocusModel)
             is EmptyViewHolder     -> holder.bind(element as EmptyModel)
             else -> throw IllegalArgumentException()
         }
@@ -77,6 +98,9 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
             is ChapoModel     -> TYPE_CHAPO
             is EmbedModel     -> TYPE_EMBED
             is DigitModel     -> TYPE_DIGIT
+            is CitationModel  -> TYPE_CITATION
+            is NoteModel      -> TYPE_NOTE
+            is FocusModel     -> TYPE_FOCUS
             is EmptyModel     -> TYPE_EMPTY
             else -> throw IllegalArgumentException("Invalid type of data " + position)
         }
@@ -122,6 +146,40 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
 
         override fun bind(item: DigitModel) {
             titleView.text = item.title
+            contentView.text = HtmlCompat.fromHtml(item.content, HtmlCompat.FROM_HTML_MODE_COMPACT)
+        }
+
+    }
+
+    inner class CitationViewHolder(itemView: View) : BaseViewHolder<CitationModel>(itemView) {
+
+        private val contentView = itemView.findViewById<TextView>(R.id.citation_content)
+        private val captionView = itemView.findViewById<TextView>(R.id.citation_caption)
+
+        override fun bind(item: CitationModel) {
+            contentView.text = HtmlCompat.fromHtml(item.content, HtmlCompat.FROM_HTML_MODE_COMPACT)
+            captionView.text = HtmlCompat.fromHtml(item.caption, HtmlCompat.FROM_HTML_MODE_COMPACT)
+        }
+
+    }
+
+    inner class NoteViewHolder(itemView: View) : BaseViewHolder<NoteModel>(itemView) {
+
+        private val playerView = itemView.findViewById<TextView>(R.id.note_player)
+        private val contentView = itemView.findViewById<TextView>(R.id.note_content)
+
+        override fun bind(item: NoteModel) {
+            playerView.text = HtmlCompat.fromHtml(item.player+": "+item.rating, HtmlCompat.FROM_HTML_MODE_COMPACT)
+            contentView.text = HtmlCompat.fromHtml(item.content, HtmlCompat.FROM_HTML_MODE_COMPACT)
+        }
+
+    }
+
+    inner class FocusViewHolder(itemView: View) : BaseViewHolder<FocusModel>(itemView) {
+
+        private val contentView = itemView.findViewById<TextView>(R.id.focus_content)
+
+        override fun bind(item: FocusModel) {
             contentView.text = HtmlCompat.fromHtml(item.content, HtmlCompat.FROM_HTML_MODE_COMPACT)
         }
 
