@@ -16,20 +16,14 @@ class ModelFactory {
 
     fun buildFromParagraph(p: Paragraph): Model {
         return when(p.layout) {
-            LAYOUT_CHAPO -> ChapoModel(p.content)
+            LAYOUT_CHAPO     -> ChapoModel(p.getContentText())
             LAYOUT_PARAGRAPH -> ParagraphModel(p.getContentText())
-            LAYOUT_EMBED -> EmbedModel(p.getContentText())
-            LAYOUT_DIGIT -> {
-                var title = ""
-                if(p.hasTitle()) {
-                    title = p.title
-                }
-                DigitModel(title, p.getContentText())
-            }
-            LAYOUT_CITATION -> CitationModel(p.getContentText(), p.caption)
-            LAYOUT_NOTE -> NoteModel(p.getContentText(), p.note.label, p.note.rating)
-            LAYOUT_FOCUS -> FocusModel(p.getContentText())
-            else -> EmptyModel()
+            LAYOUT_EMBED     -> EmbedModel(p.getContentText())
+            LAYOUT_DIGIT     -> DigitModel(p.getTitleText(), p.getContentText())
+            LAYOUT_CITATION  -> CitationModel(p.getContentText(), p.getCaptionText())
+            LAYOUT_NOTE      -> NoteModel(p.getContentText(), p.getNoteLabelText(), p.getNoteRatingText())
+            LAYOUT_FOCUS     -> FocusModel(p.getContentText())
+            else             -> EmptyModel()
         }
     }
 

@@ -10,4 +10,20 @@ class Note {
     @SerializedName("rating")
     lateinit var rating: String
 
+    fun getLabelText(): String {
+        if(::label.isInitialized) {
+            return label
+        }
+
+        return ""
+    }
+
+    fun getRatingText(): String {
+        if(::rating.isInitialized) {
+            return rating
+        }
+
+        return ""
+    }
+
 }
