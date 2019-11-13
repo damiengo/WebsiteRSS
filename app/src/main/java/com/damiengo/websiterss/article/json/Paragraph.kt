@@ -51,8 +51,28 @@ class Paragraph {
         return ""
     }
 
-    fun hasTitle(): Boolean {
-        return ::title.isInitialized
+    fun getTitleText(): String {
+        if(::title.isInitialized) {
+            return title
+        }
+
+        return ""
+    }
+
+    fun getCaptionText(): String {
+        if(::caption.isInitialized) {
+            return caption
+        }
+
+        return ""
+    }
+
+    fun getNoteLabelText(): String {
+        return note.getLabelText()
+    }
+
+    fun getNoteRatingText(): String {
+        return note.getRatingText()
     }
 
 }
