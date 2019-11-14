@@ -24,6 +24,7 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
         private const val TYPE_CITATION  = 5
         private const val TYPE_NOTE      = 6
         private const val TYPE_FOCUS     = 7
+        private const val TYPE_TWITTER   = 8
     }
 
     fun addModel(model: Model) {
@@ -67,6 +68,11 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
                     .inflate(R.layout.article_detail_focus_item, parent, false)
                 FocusViewHolder(view)
             }
+            TYPE_TWITTER -> {
+                val view = LayoutInflater.from(context)
+                    .inflate(R.layout.article_detail_twitter_item, parent, false)
+                TwitterViewHolder(view)
+            }
             TYPE_EMPTY -> {
                 val view = LayoutInflater.from(context)
                     .inflate(R.layout.article_detail_empty_item, parent, false)
@@ -86,6 +92,7 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
             is CitationViewHolder  -> holder.bind(element as CitationModel)
             is NoteViewHolder      -> holder.bind(element as NoteModel)
             is FocusViewHolder     -> holder.bind(element as FocusModel)
+            is TwitterViewHolder   -> holder.bind(element as TwitterModel)
             is EmptyViewHolder     -> holder.bind(element as EmptyModel)
             else -> throw IllegalArgumentException()
         }
@@ -101,6 +108,7 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
             is CitationModel  -> TYPE_CITATION
             is NoteModel      -> TYPE_NOTE
             is FocusModel     -> TYPE_FOCUS
+            is TwitterModel   -> TYPE_TWITTER
             is EmptyModel     -> TYPE_EMPTY
             else -> throw IllegalArgumentException("Invalid type of data " + position)
         }
@@ -181,6 +189,18 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
 
         override fun bind(item: FocusModel) {
             contentView.text = HtmlCompat.fromHtml(item.content, HtmlCompat.FROM_HTML_MODE_COMPACT)
+        }
+
+    }
+
+    inner class TwitterViewHolder(itemView: View) : BaseViewHolder<TwitterModel>(itemView) {
+
+        private val contentView = itemView.findViewById<TextView>(R.id.twitter_content)
+        private val authorView = itemView.findViewById<TextView>(R.id.twitter_author)
+
+        override fun bind(item: TwitterModel) {
+            contentView.text = HtmlCompat.fromHtml(item.content, HtmlCompat.FROM_HTML_MODE_COMPACT)
+            authorView.text = HtmlCompat.fromHtml(item.author, HtmlCompat.FROM_HTML_MODE_COMPACT)
         }
 
     }
