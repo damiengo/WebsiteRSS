@@ -24,7 +24,7 @@ class JsonProviderStrategyTest {
     fun readNbModelsOK() {
         runBlocking {
             val models=  t.read("")
-            Assert.assertEquals(12, models.size)
+            Assert.assertEquals(13, models.size)
         }
     }
 
@@ -49,12 +49,26 @@ class JsonProviderStrategyTest {
     }
 
     @Test
-    fun readEmbedOK() {
+    fun readEmbedEmptyOK() {
         runBlocking {
             val models = t.read("")
             val model = models[3]
-            Assert.assertThat(model, CoreMatchers.instanceOf(EmbedModel::class.java))
-            Assert.assertEquals("<iframe src=\"https://www.test.fr/index.html\"></iframe>", (model as EmbedModel).html)
+            Assert.assertThat(model, CoreMatchers.instanceOf(EmptyModel::class.java))
+        }
+    }
+
+    @Test
+    fun readEmbedTwitterOK() {
+        runBlocking {
+            val models = t.read("")
+            val model = models[12]
+            Assert.assertThat(model, CoreMatchers.instanceOf(TwitterModel::class.java))
+            Assert.assertEquals("Un rêve incroyable qui se réalise <br>CHAMPIONNES DU MONDE Corinne Dubreuil/ FFT",
+                (model as TwitterModel).content)
+            Assert.assertEquals("pic.twitter.com/arn4kEUsFO", model.picture)
+            Assert.assertEquals("November 10, 2019", model.date)
+            Assert.assertEquals("https://twitter.com/KikiMladenovic/status/1193623935155224577?ref_src=twsrc%5Etfw", model.link)
+            Assert.assertEquals("— Kristina Mladenovic (@KikiMladenovic)", model.author)
         }
     }
 
@@ -208,6 +222,14 @@ class JsonProviderStrategyTest {
             note2.label = "Zizou"
             par12.note = note2
             paragraphs.add(par12)
+
+            val par13 = buildParagraph("embed", "", "<blockquote class=\"twitter-tweet\">\n" +
+                    "<p lang=\"fr\" dir=\"ltr\">\n" +
+                    "Un rêve incroyable qui se réalise <br>CHAMPIONNES DU MONDE Corinne Dubreuil/ FFT\n" +
+                    "<a href=\"https://t.co/arn4kEUsFO\">pic.twitter.com/arn4kEUsFO</a>\n" +
+                    "</p>&mdash; Kristina Mladenovic (@KikiMladenovic) <a href=\"https://twitter.com/KikiMladenovic/status/1193623935155224577?ref_src=twsrc%5Etfw\">November 10, 2019</a>\n" +
+                    "</blockquote>")
+            paragraphs.add(par13)
 
             object1.paragraphs = paragraphs
             item1.objet = object1
