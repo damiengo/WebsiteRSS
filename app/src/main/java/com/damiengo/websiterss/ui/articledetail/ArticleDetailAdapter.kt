@@ -1,11 +1,15 @@
 package com.damiengo.websiterss.ui.articledetail
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
+import android.widget.Button
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.damiengo.websiterss.R
@@ -197,10 +201,18 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
 
         private val contentView = itemView.findViewById<TextView>(R.id.twitter_content)
         private val authorView = itemView.findViewById<TextView>(R.id.twitter_author)
+        private val buttonView = itemView.findViewById<Button>(R.id.twitter_button)
 
         override fun bind(item: TwitterModel) {
             contentView.text = HtmlCompat.fromHtml(item.content, HtmlCompat.FROM_HTML_MODE_COMPACT)
             authorView.text = HtmlCompat.fromHtml(item.author, HtmlCompat.FROM_HTML_MODE_COMPACT)
+
+            buttonView.setOnClickListener {
+                val uri = Uri.parse(item.link)
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = uri
+                startActivity(context, intent, null)
+            }
         }
 
     }

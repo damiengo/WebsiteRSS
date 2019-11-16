@@ -27,4 +27,17 @@
         android:padding="4dp"
         />
 
+    <Button
+        android:id="@+id/twitter_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:autoLink="web"
+        android:linksClickable="true"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:text="@string/open_tweet_external"
+        android:textSize="12sp"
+        />
+
 </LinearLayout>
