@@ -38,8 +38,8 @@ class ModelFactory {
 
     private fun buildTwitterModelFromParagraph(p: Paragraph): TwitterModel {
         val htmlTweet = Jsoup.parse(p.getContentText())
-        val content = htmlTweet.select("blockquote > p").html().replace("<a[^>]*>.*<\\/a>".toRegex(), "").trim()
-        val picture = htmlTweet.select("blockquote > p a").text().trim()
+        val content = htmlTweet.select("blockquote > p").html().replace("<a[^>]*>(.*)<\\/a>".toRegex(), "$1").trim()
+        val picture = ""
         val date = htmlTweet.select("blockquote > a").text().trim()
         val link = htmlTweet.select("blockquote > a").attr("href")
         val author = htmlTweet.select("blockquote").html().replace("<p[^>]*>.*<\\/p>".toRegex(), "").replace("<a[^>]*>.*<\\/a>".toRegex(), "").trim()
