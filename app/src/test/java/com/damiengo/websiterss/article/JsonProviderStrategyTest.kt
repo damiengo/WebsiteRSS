@@ -63,9 +63,9 @@ class JsonProviderStrategyTest {
             val models = t.read("")
             val model = models[12]
             Assert.assertThat(model, CoreMatchers.instanceOf(TwitterModel::class.java))
-            Assert.assertEquals("Un rêve incroyable qui se réalise <br>CHAMPIONNES DU MONDE Corinne Dubreuil/ FFT",
+            Assert.assertEquals("Un rêve incroyable qui se réalise <br>CHAMPIONNES DU MONDE Corinne Dubreuil/ FFT pic.twitter.com/arn4kEUsFO",
                 (model as TwitterModel).content)
-            Assert.assertEquals("pic.twitter.com/arn4kEUsFO", model.picture)
+            Assert.assertEquals("", model.picture)
             Assert.assertEquals("November 10, 2019", model.date)
             Assert.assertEquals("https://twitter.com/KikiMladenovic/status/1193623935155224577?ref_src=twsrc%5Etfw", model.link)
             Assert.assertEquals("— Kristina Mladenovic (@KikiMladenovic)", model.author)
