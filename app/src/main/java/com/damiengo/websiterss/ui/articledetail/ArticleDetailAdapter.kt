@@ -13,9 +13,15 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.damiengo.websiterss.R
+import com.damiengo.websiterss.article.ArticleUtil
 import com.damiengo.websiterss.ui.articledetail.model.*
+import com.damiengo.websiterss.util.DaggerDaggerComponent
+import javax.inject.Inject
 
 class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<BaseViewHolder<*>>() {
+
+    @Inject
+    lateinit var util: ArticleUtil
 
     private var adapterDataList = mutableListOf<Model>()
 
@@ -29,6 +35,10 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
         private const val TYPE_NOTE      = 6
         private const val TYPE_FOCUS     = 7
         private const val TYPE_TWITTER   = 8
+    }
+
+    init {
+        DaggerDaggerComponent.create().inject(this)
     }
 
     fun addModel(model: Model) {
@@ -135,7 +145,8 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
         private val textView = itemView.findViewById<TextView>(R.id.paragraph_content)
 
         override fun bind(item: ParagraphModel) {
-            textView.text = HtmlCompat.fromHtml(item.content, HtmlCompat.FROM_HTML_MODE_COMPACT)
+            val textWithoutLinks = util.removeLinksFromText(item.content)
+            textView.text = HtmlCompat.fromHtml(textWithoutLinks, HtmlCompat.FROM_HTML_MODE_COMPACT)
         }
 
     }

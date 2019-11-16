@@ -74,9 +74,6 @@ class ArticleUtil @Inject constructor() {
         return ""
     }
 
-    /**
-     * Last index of dash in title.
-     */
     private fun categoryLastIndex(title: String): Int {
         var titleCatLength = titleCatMaxLength
         if(title.length < titleCatMaxLength) {
@@ -84,6 +81,10 @@ class ArticleUtil @Inject constructor() {
         }
 
         return title.substring(0, titleCatLength).lastIndexOf(" - ")
+    }
+
+    fun removeLinksFromText(text: String): String {
+        return text.replace("<a[^>]*>".toRegex(), "").replace("</a>", "")
     }
 
 }

@@ -5,6 +5,7 @@ import com.damiengo.websiterss.article.JsonProviderStrategy
 import com.damiengo.websiterss.article.json.Paragraph
 import com.damiengo.websiterss.category.CategoryHolder
 import com.damiengo.websiterss.ui.articledetail.ArticleDetailActivity
+import com.damiengo.websiterss.ui.articledetail.ArticleDetailAdapter
 import com.damiengo.websiterss.ui.home.FeedViewModel
 import com.damiengo.websiterss.ui.home.MainActivity
 import dagger.Component
@@ -21,5 +22,6 @@ interface DaggerComponent {
     fun inject(domProviderStrategy: DomProviderStrategy)
     fun inject(jsonProviderStrategy: JsonProviderStrategy)
     fun inject(paragraph: Paragraph)
+    fun inject(articleDetailAdapter: ArticleDetailAdapter)
 
 }

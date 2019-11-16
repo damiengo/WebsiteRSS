@@ -95,4 +95,24 @@ class ArticleUtilTest {
         assertEquals("1065515", u.getArticleIdFromUrl("http://lequipe.fr/Football/Actualites/Om-jacques-henri-eyraud-suspendu-quatre-matches-dont-deux-avec-sursis/1065515"))
     }
 
+    @Test
+    fun removeLinksFromTextOneLinkOK() {
+        assertEquals("text without links", u.removeLinksFromText("text <a href=\"href_dest\">without</a> links"))
+    }
+
+    @Test
+    fun removeLinksFromTextTwoLinksOK() {
+        assertEquals("text without linkz", u.removeLinksFromText("text <a href=\"href_dest\">without</a> <a href=\"href_dest2\">linkz</a>"))
+    }
+
+    @Test
+    fun removeLinksFromTextNoLinkOK() {
+        assertEquals("text without link", u.removeLinksFromText("text without link"))
+    }
+
+    @Test
+    fun removeLinksFromTextNoLinkButPOK() {
+        assertEquals("text <p>without</p> link", u.removeLinksFromText("text <p>without</p> link"))
+    }
+
 }
