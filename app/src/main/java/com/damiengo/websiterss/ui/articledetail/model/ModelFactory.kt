@@ -55,4 +55,8 @@ class ModelFactory {
         return model
     }
 
+    fun buildTitle(title: String): TitleModel {
+        return TitleModel(title)
+    }
+
 }

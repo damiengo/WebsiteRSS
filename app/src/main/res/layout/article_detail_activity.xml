@@ -78,19 +78,6 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/article_title"
-                android:textSize="20sp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:gravity="center"
-                app:fontFamily="sans-serif-medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/article_content"
                 android:layout_width="match_parent"

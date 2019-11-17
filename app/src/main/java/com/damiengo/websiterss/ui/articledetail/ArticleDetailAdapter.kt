@@ -3,6 +3,7 @@ package com.damiengo.websiterss.ui.articledetail
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import com.damiengo.websiterss.R
 import com.damiengo.websiterss.article.ArticleUtil
 import com.damiengo.websiterss.ui.articledetail.model.*
 import com.damiengo.websiterss.util.DaggerDaggerComponent
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import javax.inject.Inject
 
 class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<BaseViewHolder<*>>() {
@@ -35,6 +37,7 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
         private const val TYPE_NOTE      = 6
         private const val TYPE_FOCUS     = 7
         private const val TYPE_TWITTER   = 8
+        private const val TYPE_TITLE     = 9
     }
 
     init {
@@ -87,6 +90,11 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
                     .inflate(R.layout.article_detail_twitter_item, parent, false)
                 TwitterViewHolder(view)
             }
+            TYPE_TITLE -> {
+                val view = LayoutInflater.from(context)
+                    .inflate(R.layout.article_detail_title_item, parent, false)
+                TitleViewHolder(view)
+            }
             TYPE_EMPTY -> {
                 val view = LayoutInflater.from(context)
                     .inflate(R.layout.article_detail_empty_item, parent, false)
@@ -107,6 +115,7 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
             is NoteViewHolder      -> holder.bind(element as NoteModel)
             is FocusViewHolder     -> holder.bind(element as FocusModel)
             is TwitterViewHolder   -> holder.bind(element as TwitterModel)
+            is TitleViewHolder     -> holder.bind(element as TitleModel)
             is EmptyViewHolder     -> holder.bind(element as EmptyModel)
             else -> throw IllegalArgumentException()
         }
@@ -123,6 +132,7 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
             is NoteModel      -> TYPE_NOTE
             is FocusModel     -> TYPE_FOCUS
             is TwitterModel   -> TYPE_TWITTER
+            is TitleModel     -> TYPE_TITLE
             is EmptyModel     -> TYPE_EMPTY
             else -> throw IllegalArgumentException("Invalid type of data " + position)
         }
@@ -181,6 +191,10 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
         override fun bind(item: CitationModel) {
             contentView.text = HtmlCompat.fromHtml(item.content, HtmlCompat.FROM_HTML_MODE_COMPACT)
             captionView.text = HtmlCompat.fromHtml(item.caption, HtmlCompat.FROM_HTML_MODE_COMPACT)
+
+            if(item.caption.isEmpty()) {
+                captionView.visibility = View.GONE
+            }
         }
 
     }
@@ -233,4 +247,15 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
         }
 
     }
+
+    inner class TitleViewHolder(itemView: View) : BaseViewHolder<TitleModel>(itemView) {
+
+        private val textView = itemView.findViewById<TextView>(R.id.article_detail_title)
+
+        override fun bind(item: TitleModel) {
+            textView.text = HtmlCompat.fromHtml(item.title, HtmlCompat.FROM_HTML_MODE_COMPACT)
+        }
+
+    }
+
 }
