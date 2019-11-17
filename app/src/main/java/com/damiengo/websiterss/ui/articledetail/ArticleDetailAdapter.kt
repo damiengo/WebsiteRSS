@@ -135,7 +135,7 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
         private val textView = itemView.findViewById<TextView>(R.id.chapo_content)
 
         override fun bind(item: ChapoModel) {
-            textView.text = HtmlCompat.fromHtml(item.content, HtmlCompat.FROM_HTML_MODE_COMPACT)
+            textView.text = HtmlCompat.fromHtml(util.removeLinksFromText(item.content), HtmlCompat.FROM_HTML_MODE_COMPACT)
         }
 
     }
@@ -145,8 +145,7 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
         private val textView = itemView.findViewById<TextView>(R.id.paragraph_content)
 
         override fun bind(item: ParagraphModel) {
-            val textWithoutLinks = util.removeLinksFromText(item.content)
-            textView.text = HtmlCompat.fromHtml(textWithoutLinks, HtmlCompat.FROM_HTML_MODE_COMPACT)
+            textView.text = HtmlCompat.fromHtml(util.removeLinksFromText(item.content), HtmlCompat.FROM_HTML_MODE_COMPACT)
         }
 
     }
@@ -203,7 +202,7 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
         private val contentView = itemView.findViewById<TextView>(R.id.focus_content)
 
         override fun bind(item: FocusModel) {
-            contentView.text = HtmlCompat.fromHtml(item.content, HtmlCompat.FROM_HTML_MODE_COMPACT)
+            contentView.text = HtmlCompat.fromHtml(util.removeLinksFromText(item.content), HtmlCompat.FROM_HTML_MODE_COMPACT)
         }
 
     }
@@ -215,7 +214,7 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
         private val buttonView = itemView.findViewById<Button>(R.id.twitter_button)
 
         override fun bind(item: TwitterModel) {
-            contentView.text = HtmlCompat.fromHtml(item.content, HtmlCompat.FROM_HTML_MODE_COMPACT)
+            contentView.text = HtmlCompat.fromHtml(util.removeLinksFromText(item.content), HtmlCompat.FROM_HTML_MODE_COMPACT)
             authorView.text = HtmlCompat.fromHtml(item.author, HtmlCompat.FROM_HTML_MODE_COMPACT)
 
             buttonView.setOnClickListener {
