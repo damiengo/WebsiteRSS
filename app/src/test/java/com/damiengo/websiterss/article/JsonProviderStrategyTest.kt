@@ -24,7 +24,7 @@ class JsonProviderStrategyTest {
     fun readNbModelsOK() {
         runBlocking {
             val models=  t.read("")
-            Assert.assertEquals(13, models.size)
+            Assert.assertEquals(14, models.size)
         }
     }
 
@@ -32,7 +32,7 @@ class JsonProviderStrategyTest {
     fun readChapoOK() {
         runBlocking {
             val models = t.read("")
-            val model = models[0]
+            val model = models[1]
             Assert.assertThat(model, CoreMatchers.instanceOf(ChapoModel::class.java))
             Assert.assertEquals("Chapo content", (model as ChapoModel).content)
         }
@@ -42,7 +42,7 @@ class JsonProviderStrategyTest {
     fun readParagraphOK() {
         runBlocking {
             val models = t.read("")
-            val model = models[1]
+            val model = models[2]
             Assert.assertThat(model, CoreMatchers.instanceOf(ParagraphModel::class.java))
             Assert.assertEquals("Content of the paragraph", (model as ParagraphModel).content)
         }
@@ -52,7 +52,7 @@ class JsonProviderStrategyTest {
     fun readEmbedEmptyOK() {
         runBlocking {
             val models = t.read("")
-            val model = models[3]
+            val model = models[4]
             Assert.assertThat(model, CoreMatchers.instanceOf(EmptyModel::class.java))
         }
     }
@@ -61,7 +61,7 @@ class JsonProviderStrategyTest {
     fun readEmbedTwitterOK() {
         runBlocking {
             val models = t.read("")
-            val model = models[12]
+            val model = models[13]
             Assert.assertThat(model, CoreMatchers.instanceOf(TwitterModel::class.java))
             Assert.assertEquals("Un rêve incroyable qui se réalise <br>CHAMPIONNES DU MONDE Corinne Dubreuil/ FFT pic.twitter.com/arn4kEUsFO",
                 (model as TwitterModel).content)
@@ -76,7 +76,7 @@ class JsonProviderStrategyTest {
     fun readDigitOK() {
         runBlocking {
             val models = t.read("")
-            val model = models[4]
+            val model = models[5]
             Assert.assertThat(model, CoreMatchers.instanceOf(DigitModel::class.java))
             Assert.assertEquals("48", (model as DigitModel).title)
             Assert.assertEquals("Content of the digit", model.content)
@@ -87,7 +87,7 @@ class JsonProviderStrategyTest {
     fun readDigitNoTitleOK() {
         runBlocking {
             val models = t.read("")
-            val model = models[8]
+            val model = models[9]
             Assert.assertThat(model, CoreMatchers.instanceOf(DigitModel::class.java))
             Assert.assertEquals("", (model as DigitModel).title)
             Assert.assertEquals("Content of the digit no title", model.content)
@@ -98,7 +98,7 @@ class JsonProviderStrategyTest {
     fun readCitationOK() {
         runBlocking {
             val models = t.read("")
-            val model = models[5]
+            val model = models[6]
             Assert.assertThat(model, CoreMatchers.instanceOf(CitationModel::class.java))
             Assert.assertEquals("Content of the citation", (model as CitationModel).content)
             Assert.assertEquals("Caption...", model.caption)
@@ -109,7 +109,7 @@ class JsonProviderStrategyTest {
     fun readCitationNoCaptionOK() {
         runBlocking {
             val models = t.read("")
-            val model = models[9]
+            val model = models[10]
             Assert.assertThat(model, CoreMatchers.instanceOf(CitationModel::class.java))
             Assert.assertEquals("Content of the citation no caption", (model as CitationModel).content)
             Assert.assertEquals("", model.caption)
@@ -120,7 +120,7 @@ class JsonProviderStrategyTest {
     fun readNoteOK() {
         runBlocking {
             val models = t.read("")
-            val model = models[6]
+            val model = models[7]
             Assert.assertThat(model, CoreMatchers.instanceOf(NoteModel::class.java))
             Assert.assertEquals("Content of the note", (model as NoteModel).content)
             Assert.assertEquals("Zidane", model.player)
@@ -132,7 +132,7 @@ class JsonProviderStrategyTest {
     fun readNoteNoPlayerOK() {
         runBlocking {
             val models = t.read("")
-            val model = models[10]
+            val model = models[11]
             Assert.assertThat(model, CoreMatchers.instanceOf(NoteModel::class.java))
             Assert.assertEquals("Content of the note", (model as NoteModel).content)
             Assert.assertEquals("", model.player)
@@ -144,7 +144,7 @@ class JsonProviderStrategyTest {
     fun readNoteNoRatingOK() {
         runBlocking {
             val models = t.read("")
-            val model = models[11]
+            val model = models[12]
             Assert.assertThat(model, CoreMatchers.instanceOf(NoteModel::class.java))
             Assert.assertEquals("Content of the note", (model as NoteModel).content)
             Assert.assertEquals("Zizou", model.player)
@@ -156,9 +156,19 @@ class JsonProviderStrategyTest {
     fun readFocusOK() {
         runBlocking {
             val models = t.read("")
-            val model = models[7]
+            val model = models[8]
             Assert.assertThat(model, CoreMatchers.instanceOf(FocusModel::class.java))
             Assert.assertEquals("Content of the focus", (model as FocusModel).content)
+        }
+    }
+
+    @Test
+    fun readTitleOK() {
+        runBlocking {
+            val models = t.read("")
+            val model = models[0]
+            Assert.assertThat(model, CoreMatchers.instanceOf(TitleModel::class.java))
+            Assert.assertEquals("Item title", (model as TitleModel).title)
         }
     }
 
@@ -232,6 +242,7 @@ class JsonProviderStrategyTest {
             paragraphs.add(par13)
 
             object1.paragraphs = paragraphs
+            object1.title = "Item title"
             item1.objet = object1
 
             items.add(item1)
