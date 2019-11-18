@@ -3,3 +3,4 @@ dist: trusty
 before_install:
 - openssl aes-256-cbc -K $encrypted_6d8fc9b5d958_key -iv $encrypted_6d8fc9b5d958_iv
   -in keystore.jks.enc -out keystore.jks -d
+- yes | sdkmanager "platforms;android-28"
