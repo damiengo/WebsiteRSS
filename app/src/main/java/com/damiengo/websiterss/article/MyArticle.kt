@@ -1,6 +1,5 @@
 package com.damiengo.websiterss.article
 
-import android.text.Html
 import android.text.Spanned
 import androidx.core.text.HtmlCompat
 import com.prof.rssparser.Article
@@ -16,7 +15,7 @@ class MyArticle(_article: Article, _util: ArticleUtil) {
 
         article.pubDate = util.genPubDate(article.pubDate)
         article.description = article.categories.joinToString(separator = " • ")
-        timeCat = HtmlCompat.fromHtml("<b>" + article.pubDate + "</b> "+article.description, Html.FROM_HTML_MODE_LEGACY)
+        timeCat = HtmlCompat.fromHtml("<b>" + article.pubDate + "</b> "+article.description, HtmlCompat.FROM_HTML_MODE_COMPACT)
     }
 
     private fun setCategoryText() {
