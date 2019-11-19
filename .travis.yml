@@ -12,4 +12,4 @@ after_failure:
   - w3m -dump /home/travis/build/damiengo/WebsiteRSS/app/build/reports/tests/testDebugUnitTest/index.html
 
 script:
-  - ./gradlew assembleDebug
+  - ./gradlew testDebugUnitTest --info
