@@ -51,7 +51,9 @@ class ArticleUtil @Inject constructor() {
                 return ""
             }
             val inputFormat = SimpleDateFormat(inputDateFormat, Locale.ENGLISH)
+            inputFormat.timeZone = TimeZone.getTimeZone("Europe/Paris")
             val outputFormat = SimpleDateFormat(outputValFormat, Locale.ENGLISH)
+            outputFormat.timeZone = TimeZone.getTimeZone("Europe/Paris")
             return outputFormat.format(inputFormat.parse(it))
         }
 
