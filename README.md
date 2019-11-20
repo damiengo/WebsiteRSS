@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/damiengo/WebsiteRSS.svg?branch=master)](https://travis-ci.org/damiengo/WebsiteRSS)
+
 # Equipe RSS
 
 This project is a RSS reader for *L'équipe* french newspaper in Android, inspired by [LeMondeRssReader](https://github.com/MBach/LeMondeRssReader) project.
