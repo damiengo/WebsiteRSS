@@ -11,5 +11,5 @@ after_failure:
   - echo '*** Debug Unit Test Results ***'
   - w3m -dump /home/travis/build/damiengo/WebsiteRSS/app/build/reports/tests/testDebugUnitTest/index.html
 
-script:
-  - ./gradlew testDebugUnitTest --info
+#script:
+#  - ./gradlew testDebugUnitTest --info
