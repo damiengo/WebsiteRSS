@@ -1,7 +1,9 @@
 package com.damiengo.websiterss.ui.articledetail.model
 
+import com.damiengo.websiterss.article.json.Element
 import com.damiengo.websiterss.article.json.Paragraph
 import org.jsoup.Jsoup
+import java.util.*
 
 class ModelFactory {
 
@@ -57,6 +59,10 @@ class ModelFactory {
 
     fun buildTitle(title: String): TitleModel {
         return TitleModel(title)
+    }
+
+    fun buildInfoModel(pubDate: Date, elements: List<Element>): InfoModel {
+        return InfoModel(pubDate, elements.joinToString(separator = " • ") { it.libelle })
     }
 
 }
