@@ -9,7 +9,7 @@ class ItemList {
     lateinit var items: List<Item>
 
     fun getModels(): MutableList<Model> {
-        var models = mutableListOf<Model>()
+        val models = mutableListOf<Model>()
         if (items.isNotEmpty()) {
             items.forEach {
                 models.addAll(it.getModels())

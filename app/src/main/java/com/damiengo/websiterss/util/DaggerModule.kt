@@ -46,7 +46,7 @@ class DaggerModule {
     @Provides
     // SO says MutableList is better: https://stackoverflow.com/a/45461344
     internal fun provideProvidersStrategy(): MutableList<ProviderStrategy> {
-        var providers = mutableListOf<ProviderStrategy>()
+        val providers = mutableListOf<ProviderStrategy>()
         providers.add(JsonProviderStrategy())
         providers.add(DomProviderStrategy())
 
@@ -67,7 +67,7 @@ class DaggerModule {
         val retrofit = Retrofit.Builder()
             .baseUrl(jsonApi)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create())).build()
-        return retrofit.create(Api::class.java!!)
+        return retrofit.create(Api::class.java)
     }
 
     @Singleton

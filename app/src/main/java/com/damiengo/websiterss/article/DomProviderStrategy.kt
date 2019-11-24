@@ -28,7 +28,7 @@ class DomProviderStrategy : ProviderStrategy {
             articleReader.read(url)
         }
 
-        var models = mutableListOf<Model>()
+        val models = mutableListOf<Model>()
         models.add(ChapoModel(getChapo()))
         models.add(ParagraphModel(getDescription()))
 

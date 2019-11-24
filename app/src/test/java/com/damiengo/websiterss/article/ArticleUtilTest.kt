@@ -1,7 +1,5 @@
 package com.damiengo.websiterss.article
 
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test

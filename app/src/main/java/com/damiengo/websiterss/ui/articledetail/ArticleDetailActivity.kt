@@ -2,12 +2,10 @@ package com.damiengo.websiterss.ui.articledetail
 
 import android.net.Uri
 import android.os.Bundle
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.article_detail_activity.*
-import kotlinx.coroutines.*
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.damiengo.websiterss.R
 import com.damiengo.websiterss.article.ArticleDetailProvider
@@ -15,8 +13,8 @@ import com.damiengo.websiterss.article.ProviderStrategy
 import com.damiengo.websiterss.ui.articledetail.model.Model
 import com.damiengo.websiterss.util.DaggerDaggerComponent
 import com.damiengo.websiterss.util.GlideApp
-import kotlinx.android.synthetic.main.article_detail_activity.progress_bar
-import java.net.URI
+import kotlinx.android.synthetic.main.article_detail_activity.*
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 class ArticleDetailActivity : AppCompatActivity() {
@@ -52,7 +50,7 @@ class ArticleDetailActivity : AppCompatActivity() {
         val categories = intent.getStringExtra("categories")
 
         if(link.isNullOrEmpty()) {
-            val uri: Uri = intent.data
+            val uri: Uri = intent.data!!
             link = uri.scheme+"://"+uri.host+uri.path
         }
 

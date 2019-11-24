@@ -1,6 +1,6 @@
 package com.damiengo.websiterss.ui.articledetail.model
 
-class TwitterModel() : Model {
+class TwitterModel : Model {
 
     lateinit var content: String
     lateinit var author: String

@@ -8,13 +8,13 @@ import java.util.*
 class ModelFactory {
 
     companion object {
-        val LAYOUT_CHAPO: String = "chapo"
-        val LAYOUT_PARAGRAPH: String = "text"
-        val LAYOUT_EMBED: String = "embed"
-        val LAYOUT_DIGIT: String = "digit"
-        val LAYOUT_CITATION: String = "citation"
-        val LAYOUT_NOTE: String = "note"
-        val LAYOUT_FOCUS: String = "focus"
+        const val LAYOUT_CHAPO: String = "chapo"
+        const val LAYOUT_PARAGRAPH: String = "text"
+        const val LAYOUT_EMBED: String = "embed"
+        const val LAYOUT_DIGIT: String = "digit"
+        const val LAYOUT_CITATION: String = "citation"
+        const val LAYOUT_NOTE: String = "note"
+        const val LAYOUT_FOCUS: String = "focus"
     }
 
     fun buildFromParagraph(p: Paragraph): Model {
@@ -40,11 +40,11 @@ class ModelFactory {
 
     private fun buildTwitterModelFromParagraph(p: Paragraph): TwitterModel {
         val htmlTweet = Jsoup.parse(p.getContentText())
-        val content = htmlTweet.select("blockquote > p").html().replace("<a[^>]*>(.*)<\\/a>".toRegex(), "$1").trim()
+        val content = htmlTweet.select("blockquote > p").html().replace("<a[^>]*>(.*)</a>".toRegex(), "$1").trim()
         val picture = ""
         val date = htmlTweet.select("blockquote > a").text().trim()
         val link = htmlTweet.select("blockquote > a").attr("href")
-        val author = htmlTweet.select("blockquote").html().replace("<p[^>]*>.*<\\/p>".toRegex(), "").replace("<a[^>]*>.*<\\/a>".toRegex(), "").trim()
+        val author = htmlTweet.select("blockquote").html().replace("<p[^>]*>.*</p>".toRegex(), "").replace("<a[^>]*>.*<\\/a>".toRegex(), "").trim()
 
         val model = TwitterModel()
 
