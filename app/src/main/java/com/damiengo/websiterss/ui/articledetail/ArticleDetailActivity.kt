@@ -54,8 +54,6 @@ class ArticleDetailActivity : AppCompatActivity() {
             link = uri.scheme+"://"+uri.host+uri.path
         }
 
-        article_date.text        = pubDate
-        article_categories.text  = categories
         collapsing_toolbar.title = title
 
         GlideApp.with(this)
