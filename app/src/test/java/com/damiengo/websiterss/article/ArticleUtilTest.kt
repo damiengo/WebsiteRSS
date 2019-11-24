@@ -69,18 +69,18 @@ class ArticleUtilTest {
     }
 
     @Test
-    fun getPubDateFormatOk() {
-        assertEquals("20:51", u.genPubDate("Wed, 09 Oct 2019 20:51:02 +0200"))
+    fun getPubDateFromRSSFormatOk() {
+        assertEquals("20:51", u.genPubDateFromRSS("Wed, 09 Oct 2019 20:51:02 +0200"))
     }
 
     @Test
-    fun genPubDateNoDate() {
-        assertEquals("", u.genPubDate(""))
+    fun genPubDateFromRSSNoDate() {
+        assertEquals("", u.genPubDateFromRSS(""))
     }
 
     @Test
-    fun genPubDateNullDate() {
-        assertEquals("", u.genPubDate(null))
+    fun genPubDateFromRSSNullDate() {
+        assertEquals("", u.genPubDateFromRSS(null))
     }
 
     @Test

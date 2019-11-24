@@ -13,7 +13,7 @@ class MyArticle(_article: Article, _util: ArticleUtil) {
     init {
         setCategoryText()
 
-        article.pubDate = util.genPubDate(article.pubDate)
+        article.pubDate = util.genPubDateFromRSS(article.pubDate)
         article.description = article.categories.joinToString(separator = " • ")
         timeCat = HtmlCompat.fromHtml("<b>" + article.pubDate + "</b> "+article.description, HtmlCompat.FROM_HTML_MODE_COMPACT)
     }

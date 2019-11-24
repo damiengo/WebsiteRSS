@@ -31,12 +31,12 @@ class ItemObject {
     fun getModels(): MutableList<Model> {
         val models = mutableListOf<Model>()
 
-        if(hasTitle()) {
-            models.add(modelFactory.buildTitle(title))
-        }
-
         if(hasSubhead()) {
             models.add(modelFactory.buildInfoModel(dateUpdate, subhead.elements))
+        }
+
+        if(hasTitle()) {
+            models.add(modelFactory.buildTitle(title))
         }
 
         if(hasParagraphs()) {

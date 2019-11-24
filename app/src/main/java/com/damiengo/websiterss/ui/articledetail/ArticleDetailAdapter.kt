@@ -37,6 +37,7 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
         private const val TYPE_FOCUS     = 7
         private const val TYPE_TWITTER   = 8
         private const val TYPE_TITLE     = 9
+        private const val TYPE_INFO      = 10
     }
 
     init {
@@ -94,6 +95,11 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
                     .inflate(R.layout.article_detail_title_item, parent, false)
                 TitleViewHolder(view)
             }
+            TYPE_INFO -> {
+                val view = LayoutInflater.from(context)
+                    .inflate(R.layout.article_detail_info_item, parent, false)
+                InfoViewHolder(view)
+            }
             TYPE_EMPTY -> {
                 val view = LayoutInflater.from(context)
                     .inflate(R.layout.article_detail_empty_item, parent, false)
@@ -115,6 +121,7 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
             is FocusViewHolder     -> holder.bind(element as FocusModel)
             is TwitterViewHolder   -> holder.bind(element as TwitterModel)
             is TitleViewHolder     -> holder.bind(element as TitleModel)
+            is InfoViewHolder      -> holder.bind(element as InfoModel)
             is EmptyViewHolder     -> holder.bind(element as EmptyModel)
             else -> throw IllegalArgumentException()
         }
@@ -131,6 +138,7 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
             is FocusModel     -> TYPE_FOCUS
             is TwitterModel   -> TYPE_TWITTER
             is TitleModel     -> TYPE_TITLE
+            is InfoModel      -> TYPE_INFO
             is EmptyModel     -> TYPE_EMPTY
             else -> throw IllegalArgumentException("Invalid type of data $position")
         }
@@ -253,6 +261,18 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
 
         override fun bind(item: TitleModel) {
             textView.text = HtmlCompat.fromHtml(item.title, HtmlCompat.FROM_HTML_MODE_COMPACT)
+        }
+
+    }
+
+    inner class InfoViewHolder(itemView: View) : BaseViewHolder<InfoModel>(itemView) {
+
+        private val dateView = itemView.findViewById<TextView>(R.id.article_detail_date)
+        private val categoriesView = itemView.findViewById<TextView>(R.id.article_detail_categories)
+
+        override fun bind(item: InfoModel) {
+            dateView.text = HtmlCompat.fromHtml(util.genPubDateFromDate(item.pubDate), HtmlCompat.FROM_HTML_MODE_COMPACT)
+            categoriesView.text = HtmlCompat.fromHtml(item.categories, HtmlCompat.FROM_HTML_MODE_COMPACT)
         }
 
     }

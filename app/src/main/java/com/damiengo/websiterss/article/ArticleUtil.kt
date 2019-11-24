@@ -9,7 +9,7 @@ class ArticleUtil @Inject constructor() {
     companion object{
 
         const val titleCatMaxLength = 30
-        const val inputDateFormat = "EEE, dd MMM yyyy HH:mm:ss z"
+        const val rssInputDateFormat = "EEE, dd MMM yyyy HH:mm:ss z"
         const val outputValFormat = "HH:mm"
 
     }
@@ -40,19 +40,30 @@ class ArticleUtil @Inject constructor() {
         return arrayListOf()
     }
 
-    fun genPubDate(pubDate: String?): String {
+    fun genPubDateFromRSS(pubDate: String?): String {
         pubDate?.let {
             if(pubDate == "") {
                 return ""
             }
-            val inputFormat = SimpleDateFormat(inputDateFormat, Locale.ENGLISH)
+            val inputFormat = SimpleDateFormat(rssInputDateFormat, Locale.ENGLISH)
             inputFormat.timeZone = TimeZone.getTimeZone("Europe/Paris")
-            val outputFormat = SimpleDateFormat(outputValFormat, Locale.ENGLISH)
-            outputFormat.timeZone = TimeZone.getTimeZone("Europe/Paris")
+            val outputFormat = this.getOutputFormat()
             return outputFormat.format(inputFormat.parse(it)!!)
         }
 
         return ""
+    }
+
+    fun genPubDateFromDate(pubDate: Date): String {
+        val outputFormat = this.getOutputFormat()
+        return outputFormat.format(pubDate)
+    }
+
+    private fun getOutputFormat(): SimpleDateFormat {
+        val outputFormat = SimpleDateFormat(outputValFormat, Locale.ENGLISH)
+        outputFormat.timeZone = TimeZone.getTimeZone("Europe/Paris")
+
+        return outputFormat
     }
 
     fun getArticleIdFromUrl(url: String): String {
