@@ -110,7 +110,7 @@ class DomProviderStrategyTest {
 
     class FileArticleReader : ArticleReader {
         override fun read(url: String): Document {
-            val res = javaClass.classLoader.getResourceAsStream(url)
+            val res = javaClass.classLoader!!.getResourceAsStream(url)
             return Jsoup.parse(res, "UTF-8", "www.lequipe.fr")
         }
     }

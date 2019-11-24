@@ -29,7 +29,7 @@ class ItemObject {
     }
 
     fun getModels(): MutableList<Model> {
-        var models = mutableListOf<Model>()
+        val models = mutableListOf<Model>()
 
         if(hasTitle()) {
             models.add(modelFactory.buildTitle(title))

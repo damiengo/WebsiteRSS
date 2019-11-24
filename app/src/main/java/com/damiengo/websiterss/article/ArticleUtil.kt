@@ -1,10 +1,5 @@
 package com.damiengo.websiterss.article
 
-import android.net.Uri
-import android.text.Html
-import android.text.Spanned
-import androidx.core.text.HtmlCompat
-import org.jsoup.nodes.Document
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -54,7 +49,7 @@ class ArticleUtil @Inject constructor() {
             inputFormat.timeZone = TimeZone.getTimeZone("Europe/Paris")
             val outputFormat = SimpleDateFormat(outputValFormat, Locale.ENGLISH)
             outputFormat.timeZone = TimeZone.getTimeZone("Europe/Paris")
-            return outputFormat.format(inputFormat.parse(it))
+            return outputFormat.format(inputFormat.parse(it)!!)
         }
 
         return ""

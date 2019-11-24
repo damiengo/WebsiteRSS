@@ -1,9 +1,9 @@
 package com.damiengo.websiterss.ui.articledetail
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +17,6 @@ import com.damiengo.websiterss.R
 import com.damiengo.websiterss.article.ArticleUtil
 import com.damiengo.websiterss.ui.articledetail.model.*
 import com.damiengo.websiterss.util.DaggerDaggerComponent
-import com.google.android.material.appbar.CollapsingToolbarLayout
 import javax.inject.Inject
 
 class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<BaseViewHolder<*>>() {
@@ -122,8 +121,7 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
     }
 
     override fun getItemViewType(position: Int): Int {
-        val comparable = adapterDataList[position]
-        return when (comparable) {
+        return when (adapterDataList[position]) {
             is ParagraphModel -> TYPE_PARAGRAPH
             is ChapoModel     -> TYPE_CHAPO
             is EmbedModel     -> TYPE_EMBED
@@ -134,7 +132,7 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
             is TwitterModel   -> TYPE_TWITTER
             is TitleModel     -> TYPE_TITLE
             is EmptyModel     -> TYPE_EMPTY
-            else -> throw IllegalArgumentException("Invalid type of data " + position)
+            else -> throw IllegalArgumentException("Invalid type of data $position")
         }
     }
 
@@ -164,9 +162,10 @@ class ArticleDetailAdapter(private val context: Context): RecyclerView.Adapter<B
 
         private val webView = itemView.findViewById<WebView>(R.id.embed_webview)
 
+        @SuppressLint("SetJavaScriptEnabled")
         override fun bind(item: EmbedModel) {
             webView.loadData(item.html, "text/html", "")
-            webView.settings.setJavaScriptEnabled(true)
+            webView.settings.javaScriptEnabled = true
         }
 
     }
