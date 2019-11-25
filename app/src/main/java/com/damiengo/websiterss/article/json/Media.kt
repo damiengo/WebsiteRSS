@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 
 class Media {
 
-    @SerializedName("format")
+    @SerializedName("formats")
     lateinit var format: Format
 
     fun getModel(): Model {
