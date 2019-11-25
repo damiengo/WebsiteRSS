@@ -65,4 +65,16 @@ class ModelFactory {
         return InfoModel(pubDate, elements.joinToString(separator = " • ") { it.libelle })
     }
 
+    fun buildTitleImageModel(url: String): TitleImageModel {
+        val width = "1248"
+        val height = "832"
+        val quality = "75"
+
+        val realUrl = url.replace("{width}", width)
+                                .replace("{height}", height)
+                                .replace("{quality}", quality)
+
+        return TitleImageModel(realUrl)
+    }
+
 }

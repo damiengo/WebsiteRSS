@@ -24,12 +24,19 @@ class ItemObject {
     @SerializedName("subhead")
     lateinit var subhead: Subhead
 
+    @SerializedName("media")
+    lateinit var media: Media
+
     init {
         DaggerDaggerComponent.create().inject(this)
     }
 
     fun getModels(): MutableList<Model> {
         val models = mutableListOf<Model>()
+
+        if(hasMedia()) {
+            models.add(media.getModel())
+        }
 
         if(hasSubhead()) {
             models.add(modelFactory.buildInfoModel(dateUpdate, subhead.elements))
@@ -46,6 +53,10 @@ class ItemObject {
         }
 
         return models
+    }
+
+    private fun hasMedia(): Boolean {
+        return ::media.isInitialized
     }
 
     private fun hasTitle(): Boolean {

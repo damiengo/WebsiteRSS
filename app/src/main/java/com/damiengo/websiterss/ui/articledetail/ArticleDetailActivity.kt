@@ -43,11 +43,9 @@ class ArticleDetailActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
         }
 
-        val title      = intent.getStringExtra("title")
-        val image      = intent.getStringExtra("image")
-        val pubDate    = intent.getStringExtra("pubDate")
-        var link       = intent.getStringExtra("link")
-        val categories = intent.getStringExtra("categories")
+        val title= intent.getStringExtra("title")
+        val image= intent.getStringExtra("image")
+        var link = intent.getStringExtra("link")
 
         if(link.isNullOrEmpty()) {
             val uri: Uri = intent.data!!
