@@ -67,7 +67,7 @@ class ArticleDetailActivity : AppCompatActivity() {
 
                     if (models.isNotEmpty()) {
                         withContext(Dispatchers.Main) {
-                            viewAdapter = ArticleDetailAdapter(this@ArticleDetailActivity)
+                            viewAdapter = ArticleDetailAdapter(this@ArticleDetailActivity, article_image, collapsing_toolbar)
 
                             models.forEach { model: Model ->
                                 viewAdapter.addModel(model)
