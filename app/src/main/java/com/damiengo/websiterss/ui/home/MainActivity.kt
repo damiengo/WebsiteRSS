@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader
 import com.bumptech.glide.util.FixedPreloadSizeProvider
+import com.damiengo.websiterss.App
 import com.damiengo.websiterss.R
 import com.damiengo.websiterss.article.MyArticle
 import com.damiengo.websiterss.category.CategoryHolder
@@ -33,10 +34,8 @@ const val IMAGE_SIZE = 210
 
 class MainActivity : AppCompatActivity() {
 
-    companion object{
-
+    companion object {
         const val imagesPreload = 25
-
     }
 
     private lateinit var currentMenuItem: MenuItem
@@ -59,7 +58,6 @@ class MainActivity : AppCompatActivity() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -163,6 +161,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.mainactivity_right_menu, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem ) : Boolean {
+        when (item.itemId) {
+            R.id.dark_mode_menu -> darkMode(item.isChecked)
+            else -> showError("Bad menu selected")
+        }
+        return true
+    }
+
+    private fun darkMode(active: Boolean) {
     }
 
     private fun fetchFeed() {
