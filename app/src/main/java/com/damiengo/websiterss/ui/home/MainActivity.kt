@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -58,7 +59,9 @@ class MainActivity : AppCompatActivity() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        //setTheme(R.style.ThemeDark)
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
 
         DaggerDaggerComponent.create().inject(this)
