@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorSecondary">@android:color/white</item>
+        <item name="colorText">#111111</item>
     </style>
     <!-- Base application theme. -->
 
@@ -20,9 +22,11 @@
     <style name="ThemeDark" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="colorPrimary">@android:color/holo_green_dark</item>
-        <item name="colorPrimaryDark">@android:color/holo_orange_dark</item>
+        <item name="colorPrimary">#222831</item>
+        <item name="colorPrimaryDark">#222831</item>
         <item name="colorAccent">@android:color/holo_purple</item>
+        <item name="colorSecondary">#393E46</item>
+        <item name="colorText">#EEEEEE</item>
     </style>
 
 </resources>

@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="4dp"
+    android:background="?attr/colorSecondary"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ImageView
@@ -24,6 +25,7 @@
         android:layout_toRightOf="@+id/article_detail_image"
         android:layout_toEndOf="@+id/article_detail_image"
         android:layout_alignParentTop="true"
+        android:textColor="?attr/colorText"
         />
 
     <TextView
@@ -33,6 +35,7 @@
             android:layout_toRightOf="@+id/article_detail_image"
             android:layout_toEndOf="@+id/article_detail_image"
             android:layout_below="@+id/article_time_category"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:textColor="?attr/colorText" />
 
 </RelativeLayout>
