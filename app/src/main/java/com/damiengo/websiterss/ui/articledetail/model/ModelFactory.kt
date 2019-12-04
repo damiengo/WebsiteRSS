@@ -62,7 +62,7 @@ class ModelFactory {
     }
 
     fun buildInfoModel(pubDate: Date, elements: List<Element>): InfoModel {
-        return InfoModel(pubDate, elements.joinToString(separator = " • ") { it.libelle })
+        return InfoModel(pubDate, elements.joinToString(separator = " • ") { it.getLibelleText() })
     }
 
     fun buildTitleImageModel(url: String): TitleImageModel {
