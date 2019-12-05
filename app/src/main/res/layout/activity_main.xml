@@ -38,6 +38,7 @@
             android:layout_marginTop="200dp"
             android:layout_gravity="center"
             android:visibility="invisible"
+            android:textColor="?attr/colorText"
             />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -64,6 +65,8 @@
             android:fitsSystemWindows="true"
             app:headerLayout="@layout/menu_header"
             app:menu="@menu/activity_navigation_drawer"
+            android:background="?attr/colorSecondary"
+            app:itemTextColor="?attr/colorText"
         />
 
 </androidx.drawerlayout.widget.DrawerLayout>
