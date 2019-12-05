@@ -36,6 +36,7 @@
             android:layout_toEndOf="@+id/article_detail_image"
             android:layout_below="@+id/article_time_category"
             android:textSize="14sp"
-            android:textColor="?attr/colorText" />
+            android:textColor="?attr/colorText"
+        />
 
 </RelativeLayout>

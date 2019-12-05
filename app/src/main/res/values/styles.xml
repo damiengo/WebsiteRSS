@@ -26,6 +26,8 @@
         <item name="colorPrimaryDark">#222831</item>
         <item name="colorAccent">@android:color/holo_purple</item>
         <item name="colorSecondary">#393E46</item>
+        <item name="android:textColorPrimary">#EEEEEE</item>
+        <item name="android:textColor">#EEEEEE</item>
         <item name="colorText">#EEEEEE</item>
     </style>
 

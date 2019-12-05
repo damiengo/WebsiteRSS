@@ -15,6 +15,7 @@
             android:textSize="18sp"
             android:padding="4dp"
             android:textStyle="italic"
+            android:textColor="?attr/colorText"
             />
     </LinearLayout>
 
@@ -24,6 +25,7 @@
         android:layout_height="wrap_content"
         android:textSize="13sp"
         android:padding="4dp"
+        android:textColor="?attr/colorText"
         />
 
 </LinearLayout>

@@ -28,6 +28,7 @@ class ArticleDetailActivity : AppCompatActivity() {
     private val scope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.ThemeDark)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.article_detail_activity)
 

@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:textSize="14sp"
         android:padding="4dp"
-        android:textStyle="italic|bold" />
+        android:textStyle="italic|bold"
+        android:textColor="?attr/colorText" />
 
 </LinearLayout>
