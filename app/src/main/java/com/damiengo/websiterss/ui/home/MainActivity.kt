@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -28,6 +29,8 @@ import com.damiengo.websiterss.ui.articledetail.ArticleDetailActivity
 import com.damiengo.websiterss.util.DaggerDaggerComponent
 import com.damiengo.websiterss.util.GlideApp
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.menu_header.*
+import kotlinx.android.synthetic.main.menu_header.view.*
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
@@ -68,6 +71,10 @@ class MainActivity : AppCompatActivity() {
 
         var currentArticles: MutableList<MyArticle> = mutableListOf()
         var preloadSizeProvider : FixedPreloadSizeProvider<MyArticle>
+
+        nav_view.getHeaderView(0).switch_theme.setOnClickListener {
+            switch_theme.setImageResource(R.drawable.ic_sun)
+        }
 
         error.visibility = View.GONE
         progress_bar.visibility = View.VISIBLE
@@ -159,22 +166,6 @@ class MainActivity : AppCompatActivity() {
             title = categoryHolder.getCurrentTitle(currentMenuItem.itemId)
             fetchFeed()
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.mainactivity_right_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem ) : Boolean {
-        when (item.itemId) {
-            R.id.dark_mode_menu -> darkMode(item.isChecked)
-            else -> showError("Bad menu selected")
-        }
-        return true
-    }
-
-    private fun darkMode(active: Boolean) {
     }
 
     private fun fetchFeed() {
