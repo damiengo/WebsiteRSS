@@ -28,6 +28,7 @@ import com.damiengo.websiterss.category.CategoryHolder
 import com.damiengo.websiterss.ui.articledetail.ArticleDetailActivity
 import com.damiengo.websiterss.util.DaggerDaggerComponent
 import com.damiengo.websiterss.util.GlideApp
+import com.damiengo.websiterss.util.ThemeUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.menu_header.*
 import kotlinx.android.synthetic.main.menu_header.view.*
@@ -52,6 +53,9 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var networkInformation: NetworkInformation
 
+    @Inject
+    lateinit var themeUtil : ThemeUtil
+
     private val activityJob = Job()
     private val scope = CoroutineScope(Dispatchers.Main + activityJob)
 
@@ -62,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.ThemeDark)
+        themeUtil.applyTheme()
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
