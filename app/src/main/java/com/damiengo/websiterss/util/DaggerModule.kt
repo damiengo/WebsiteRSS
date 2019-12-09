@@ -76,4 +76,10 @@ class DaggerModule {
         return ModelFactory()
     }
 
+    @Singleton
+    @Provides
+    internal fun provideThemeUtil(): ThemeUtil {
+        return ThemeUtil()
+    }
+
 }

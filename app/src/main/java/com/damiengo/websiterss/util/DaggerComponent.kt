@@ -27,5 +27,6 @@ interface DaggerComponent {
     fun inject(itemObject: ItemObject)
     fun inject(itemObject: Landscape)
     fun inject(articleDetailAdapter: ArticleDetailAdapter)
+    fun inject(themeUtil: ThemeUtil)
 
 }
