@@ -1,18 +1,20 @@
 package com.damiengo.websiterss.util
 
+import android.app.Application
+import android.content.Context
 import com.damiengo.websiterss.article.*
 import com.damiengo.websiterss.article.json.Api
 import com.damiengo.websiterss.category.Category
 import com.damiengo.websiterss.category.CategoryHolder
 import com.damiengo.websiterss.category.ClassCategoriesBuilder
 import com.damiengo.websiterss.ui.articledetail.model.ModelFactory
-import dagger.Module
-import dagger.Provides
-import javax.inject.Singleton
 import com.damiengo.websiterss.ui.home.NetworkInformation
 import com.google.gson.GsonBuilder
+import dagger.Module
+import dagger.Provides
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
 @Module
 class DaggerModule {
@@ -78,8 +80,8 @@ class DaggerModule {
 
     @Singleton
     @Provides
-    internal fun provideThemeUtil(): ThemeUtil {
-        return ThemeUtil()
+    internal fun provideThemeUtil(@AppContext context: Context): ThemeUtil {
+        return ThemeUtil(context)
     }
 
 }
