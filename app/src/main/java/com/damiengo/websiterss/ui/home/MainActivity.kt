@@ -2,15 +2,12 @@ package com.damiengo.websiterss.ui.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -21,7 +18,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader
 import com.bumptech.glide.util.FixedPreloadSizeProvider
-import com.damiengo.websiterss.App
 import com.damiengo.websiterss.R
 import com.damiengo.websiterss.article.MyArticle
 import com.damiengo.websiterss.category.CategoryHolder
@@ -29,6 +25,7 @@ import com.damiengo.websiterss.ui.articledetail.ArticleDetailActivity
 import com.damiengo.websiterss.util.DaggerDaggerComponent
 import com.damiengo.websiterss.util.GlideApp
 import com.damiengo.websiterss.util.ThemeUtil
+import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.menu_header.*
 import kotlinx.android.synthetic.main.menu_header.view.*
@@ -53,8 +50,8 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var networkInformation: NetworkInformation
 
-    @Inject
-    lateinit var themeUtil : ThemeUtil
+    //@Inject
+    lateinit var themeUtil: ThemeUtil
 
     private val activityJob = Job()
     private val scope = CoroutineScope(Dispatchers.Main + activityJob)
@@ -66,10 +63,18 @@ class MainActivity : AppCompatActivity() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        themeUtil = ThemeUtil(this)
         themeUtil.applyTheme()
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_main)
+
+        // Theme icon
+        if(themeUtil.isDark()) {
+            nav_view.getHeaderView(0).switch_theme.setImageResource(R.drawable.ic_sun)
+        }
+        else {
+            nav_view.getHeaderView(0).switch_theme.setImageResource(R.drawable.ic_moon)
+        }
 
         DaggerDaggerComponent.create().inject(this)
 
@@ -77,7 +82,8 @@ class MainActivity : AppCompatActivity() {
         var preloadSizeProvider : FixedPreloadSizeProvider<MyArticle>
 
         nav_view.getHeaderView(0).switch_theme.setOnClickListener {
-            switch_theme.setImageResource(R.drawable.ic_sun)
+            themeUtil.switchTheme()
+            recreate()
         }
 
         error.visibility = View.GONE

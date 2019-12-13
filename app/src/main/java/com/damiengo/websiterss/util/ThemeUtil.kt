@@ -12,15 +12,14 @@ class ThemeUtil @Inject constructor(private val context: Context) {
 
     fun switchTheme() {
         changePref()
-        applyTheme()
     }
 
     fun applyTheme() {
         if(this.isDark()) {
-            context.setTheme(R.style.ThemeDark)
+            context.theme.applyStyle(R.style.ThemeDark, true)
         }
         else {
-            context.setTheme(R.style.AppTheme)
+            context.theme.applyStyle(R.style.AppTheme, true)
         }
     }
 
@@ -29,11 +28,10 @@ class ThemeUtil @Inject constructor(private val context: Context) {
         if(this.isDark()) {
             newIsDark = false
         }
-        this.prefs.edit().putBoolean(this.darkKey, newIsDark)
-        this.prefs.edit().commit()
+        this.prefs.edit().putBoolean(this.darkKey, newIsDark).apply()
     }
 
-    private fun isDark() : Boolean {
+    fun isDark() : Boolean {
         return this.prefs.getBoolean(this.darkKey, false)
     }
 
