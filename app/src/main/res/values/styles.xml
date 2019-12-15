@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorSecondary">@android:color/white</item>
         <item name="colorTwitterBack">@color/blue_light</item>
+        <item name="colorFocusBack">@color/red_light</item>
         <item name="android:textColorPrimary">@color/colorPrimary</item>
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="colorText">#111111</item>
@@ -30,6 +31,7 @@
         <item name="colorAccent">@android:color/holo_purple</item>
         <item name="colorSecondary">#393E46</item>
         <item name="colorTwitterBack">#222831</item>
+        <item name="colorFocusBack">#b55400</item>
         <item name="android:textColorPrimary">#EEEEEE</item>
         <item name="android:textColor">#EEEEEE</item>
         <item name="colorText">#EEEEEE</item>
