@@ -24,7 +24,7 @@ class DomProviderStrategyTest {
         t.articleReader = FileArticleReader()
         runBlocking {
             val models = t.read("lequipe_article.html")
-            val model = models[0]
+            val model = models[1]
             Assert.assertThat(model, instanceOf(ChapoModel::class.java))
             Assert.assertEquals(
                 "Le nouvel entraîneur de la Sampdoria veut éviter au club de Gênes de descendre en Serie B.",
@@ -37,7 +37,7 @@ class DomProviderStrategyTest {
         t.articleReader = TextArticleReader()
         runBlocking {
             val models = t.read("<html><body><div class='no_chapi'></class></body></html>")
-            val model = models[0]
+            val model = models[1]
             Assert.assertThat(model, instanceOf(ChapoModel::class.java))
             Assert.assertEquals("", (model as ChapoModel).content)
         }
@@ -48,7 +48,7 @@ class DomProviderStrategyTest {
         t.articleReader = FileArticleReader()
         runBlocking {
             val models = t.read("lequipe_article.html")
-            val model = models[1]
+            val model = models[2]
             Assert.assertThat(model, instanceOf(ParagraphModel::class.java))
             Assert.assertEquals(
                 "<!----> \n" +
@@ -66,7 +66,7 @@ class DomProviderStrategyTest {
         t.articleReader = TextArticleReader()
         runBlocking {
             val models = t.read("<html><body><div class='no_paragraph'></div></body></html>")
-            val model = models[1]
+            val model = models[2]
             Assert.assertThat(model, instanceOf(ParagraphModel::class.java))
             Assert.assertEquals("", (model as ParagraphModel).content)
         }
@@ -77,7 +77,7 @@ class DomProviderStrategyTest {
         t.articleReader = TextArticleReader()
         runBlocking {
             val models = t.read("<html><body><div class='article__body'><div class='Paragraph'><p>Inside p.</p><span>Outside p.</span></div></div></body></html>")
-            val model = models[1]
+            val model = models[2]
             Assert.assertThat(model, instanceOf(ParagraphModel::class.java))
             Assert.assertEquals("Inside p.\n" +
                     "<span>Outside p.</span><br /><br />", (model as ParagraphModel).content)
@@ -89,7 +89,7 @@ class DomProviderStrategyTest {
         t.articleReader = TextArticleReader()
         runBlocking {
             val models = t.read("<html><body><div class='article__body'><div class='Paragraph'>A tag <a href='http://link'>removed</a></div></div></body></html>")
-            val model = models[1]
+            val model = models[2]
             Assert.assertThat(model, instanceOf(ParagraphModel::class.java))
             Assert.assertEquals("A tag \n" +
                     "removed<br /><br />", (model as ParagraphModel).content)
@@ -101,7 +101,7 @@ class DomProviderStrategyTest {
         t.articleReader = TextArticleReader()
         runBlocking {
             val models = t.read("<html><body><div class='article__body'><div class='Paragraph'>H3 tag <h3>removed</h3></div></div></body></html>")
-            val model = models[1]
+            val model = models[2]
             Assert.assertThat(model, instanceOf(ParagraphModel::class.java))
             Assert.assertEquals("H3 tag \n" +
                     "<p><b>removed</b></p><br /><br />", (model as ParagraphModel).content)
@@ -122,4 +122,3 @@ class DomProviderStrategyTest {
     }
 
 }
-
