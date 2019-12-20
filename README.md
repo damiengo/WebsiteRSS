@@ -1,5 +1,11 @@
 [![Build Status](https://travis-ci.org/damiengo/WebsiteRSS.svg?branch=master)](https://travis-ci.org/damiengo/WebsiteRSS)
 
+# Download
+
+<a href="https://f-droid.org/packages/com.damiengo.websiterss/">
+<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="80">
+</a>
+
 # EquipeRSS
 This application is a RSS reader for the french newspaper *lequipe.fr*.
 
