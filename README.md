@@ -9,14 +9,14 @@ It has several goals:
  * no ad tracking
  * low battery consumption
 
-## Speed loading
-
+## Speed loading
+ 
 This application is optimized to load only relevant datas in articles.
 
-## No ad tracking
+## No ad tracking
 
 No tracking tool is included in this application.
 
-## Low battery consumption
+## Low battery consumption
 
 With dark theme, you can save battery life on your phone by displaying the application with dark colors.
