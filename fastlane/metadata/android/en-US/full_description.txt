@@ -1,2 +1,19 @@
-RSS reader for the french sport newspaper L’équipe.
-It reads RSS feeds from L’équipe, and displays full articles when the user clicks on it.
+This application is a RSS reader for the french newspaper *lequipe.fr*.
+
+It has several goals:
+
+ * speed loading
+ * no ad tracking
+ * low battery consumption
+
+<b>Speed loading</b>
+ 
+This application is optimized to load only relevant datas in articles.
+
+<b>No ad tracking</b>
+
+No tracking tool is included in this application.
+
+<b>Low battery consumption</b>
+
+With dark theme, you can save battery life on your phone by displaying the application with dark colors.
