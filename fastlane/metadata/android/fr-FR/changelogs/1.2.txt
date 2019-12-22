@@ -1,0 +1,3 @@
+Optimisation du chargement des données
+Ajout du thème foncé
+Corrections pour Android 9 et 10

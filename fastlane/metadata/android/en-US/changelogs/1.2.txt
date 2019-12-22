@@ -1,0 +1,3 @@
+* Data loading optimisations
+* Dark mode
+* Corrections for Android 9 and 10
