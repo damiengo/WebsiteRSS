@@ -1,2 +1,18 @@
-Un lectueur RSS pour le site L'équipe.
-Les articles sont affichés en liste, le détail de l'article est accessible au clic.
+L'équipe RSS est un lecteur RSS pour le site lequipe.fr.
+
+Les objectifs principaux de cette application sont :
+* rapidité de chargement
+* pas de tracking publicitaire
+* faible consommation de la batterie
+
+<b>Rapidité de chargement</b>
+
+L'application est optimisée pour charger les articles, seuls les contenus nécessaires aux articles sont récupérés.
+
+<b>Pas de tracking publicitaire</b>
+
+Aucun outil de tracking publicitaire n'est embarqué par l'application.
+
+<b>Faible consommation de la batterie</b>
+
+Avec le mode sombre, la batterie du téléphone est économisée en utilisant des couleurs foncées.
