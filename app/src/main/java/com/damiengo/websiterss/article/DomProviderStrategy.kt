@@ -31,7 +31,7 @@ class DomProviderStrategy : ProviderStrategy {
         val models = mutableListOf<Model>()
         models.add(TitleModel(getTitle()))
         models.add(ChapoModel(getChapo()))
-        models.add(ParagraphModel(getDescription()))
+        models.add(ParagraphModel("", getDescription()))
 
         return models
     }

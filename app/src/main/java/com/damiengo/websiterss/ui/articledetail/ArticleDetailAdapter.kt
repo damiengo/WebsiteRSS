@@ -172,10 +172,16 @@ class ArticleDetailAdapter(private val context: Context,
 
     inner class ParagraphViewHolder(itemView: View) : BaseViewHolder<ParagraphModel>(itemView) {
 
+        private val titleView = itemView.findViewById<TextView>(R.id.paragraph_title)
         private val textView = itemView.findViewById<TextView>(R.id.paragraph_content)
 
         override fun bind(item: ParagraphModel) {
+            titleView.text = HtmlCompat.fromHtml(util.removeLinksFromText(item.title), HtmlCompat.FROM_HTML_MODE_COMPACT)
             textView.text = HtmlCompat.fromHtml(util.removeLinksFromText(item.content), HtmlCompat.FROM_HTML_MODE_COMPACT)
+
+            if(item.title.isEmpty()) {
+                titleView.visibility = View.GONE
+            }
         }
 
     }

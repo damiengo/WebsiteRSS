@@ -20,7 +20,7 @@ class ModelFactory {
     fun buildFromParagraph(p: Paragraph): Model {
         return when(p.layout) {
             LAYOUT_CHAPO     -> ChapoModel(p.getContentText())
-            LAYOUT_PARAGRAPH -> ParagraphModel(p.getContentText())
+            LAYOUT_PARAGRAPH -> ParagraphModel(p.getTitleText(), p.getContentText())
             LAYOUT_EMBED     -> buildEmbedFromParagraph(p)
             LAYOUT_DIGIT     -> DigitModel(p.getTitleText(), p.getContentText())
             LAYOUT_CITATION  -> CitationModel(p.getContentText(), p.getCaptionText())
