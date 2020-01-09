@@ -5,6 +5,16 @@
     android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/paragraph_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:padding="4dp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorText"
+            />
+
+        <TextView
             android:id="@+id/paragraph_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
