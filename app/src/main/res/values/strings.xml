@@ -11,6 +11,11 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_closed">Closed</string>
     <string name="menu_cyclisme">Cyclisme</string>
+    <string name="menu_handball">Handball</string>
+    <string name="menu_automoto">Auto-Moto</string>
+    <string name="menu_athle">Athlétisme</string>
+    <string name="menu_ski">Ski</string>
+    <string name="menu_voile">Voile</string>
     <string name="no_network">No network</string>
     <string name="menu_header_title">L\'Équipe RSS</string>
 

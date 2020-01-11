@@ -32,6 +32,31 @@
             android:id="@+id/nav_cyclisme"
             android:icon="@drawable/ic_bike"
             android:title="@string/menu_cyclisme"/>
+
+        <item
+            android:id="@+id/nav_automoto"
+            android:icon="@drawable/ic_automoto"
+            android:title="@string/menu_automoto"/>
+
+        <item
+            android:id="@+id/nav_handball"
+            android:icon="@drawable/ic_handball"
+            android:title="@string/menu_handball"/>
+
+        <item
+            android:id="@+id/nav_athle"
+            android:icon="@drawable/ic_athle"
+            android:title="@string/menu_athle"/>
+
+        <item
+            android:id="@+id/nav_ski"
+            android:icon="@drawable/ic_ski"
+            android:title="@string/menu_ski"/>
+
+        <item
+            android:id="@+id/nav_voile"
+            android:icon="@drawable/ic_voile"
+            android:title="@string/menu_voile"/>
     </group>
 
 </menu>
