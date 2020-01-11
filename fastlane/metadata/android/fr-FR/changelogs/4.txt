@@ -1,0 +1,8 @@
+Amélioration du parsing des articles
+
+Ajout des catégories suivantes:
+ - Auto-Moto
+ - Handball
+ - Athlétisme
+ - Ski
+ - Voile

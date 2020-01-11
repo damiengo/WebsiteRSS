@@ -1,0 +1,8 @@
+Articles parsing optimisation
+
+Added following categories:
+ - Auto-Moto
+ - Handball
+ - Athlétisme
+ - Ski
+ - Voile
