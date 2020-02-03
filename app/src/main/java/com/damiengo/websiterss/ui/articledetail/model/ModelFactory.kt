@@ -77,4 +77,8 @@ class ModelFactory {
         return TitleImageModel(realUrl)
     }
 
+    fun buildCommentsLink(url: String) : CommentsLinkModel {
+        return CommentsLinkModel(url)
+    }
+
 }

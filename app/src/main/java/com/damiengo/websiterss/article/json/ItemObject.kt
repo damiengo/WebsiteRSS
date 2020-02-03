@@ -27,6 +27,9 @@ class ItemObject {
     @SerializedName("media")
     lateinit var media: Media
 
+    @SerializedName("url")
+    lateinit var url: String
+
     init {
         DaggerDaggerComponent.create().inject(this)
     }
@@ -52,6 +55,10 @@ class ItemObject {
             }
         }
 
+        if(hasUrl()) {
+            models.add(modelFactory.buildCommentsLink(url))
+        }
+
         return models
     }
 
@@ -69,6 +76,10 @@ class ItemObject {
 
     private fun hasParagraphs(): Boolean {
         return ::paragraphs.isInitialized && paragraphs.isNotEmpty()
+    }
+
+    private fun hasUrl(): Boolean {
+        return ::url.isInitialized
     }
 
 }
