@@ -31,7 +31,7 @@ class ModelFactory {
     }
 
     private fun buildEmbedFromParagraph(p: Paragraph): Model {
-        if(p.content.contains("twitter-tweet")) {
+        if(p.getContentText().contains("twitter-tweet")) {
             return buildTwitterModelFromParagraph(p)
         }
 
