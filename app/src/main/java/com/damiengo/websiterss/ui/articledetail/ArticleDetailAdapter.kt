@@ -33,18 +33,19 @@ class ArticleDetailAdapter(private val context: Context,
     private var adapterDataList = mutableListOf<Model>()
 
     companion object {
-        private const val TYPE_PARAGRAPH   = 0
-        private const val TYPE_CHAPO       = 1
-        private const val TYPE_EMPTY       = 2
-        private const val TYPE_EMBED       = 3
-        private const val TYPE_DIGIT       = 4
-        private const val TYPE_CITATION    = 5
-        private const val TYPE_NOTE        = 6
-        private const val TYPE_FOCUS       = 7
-        private const val TYPE_TWITTER     = 8
-        private const val TYPE_TITLE       = 9
-        private const val TYPE_INFO        = 10
-        private const val TYPE_TITLE_IMAGE = 11
+        private const val TYPE_PARAGRAPH     = 0
+        private const val TYPE_CHAPO         = 1
+        private const val TYPE_EMPTY         = 2
+        private const val TYPE_EMBED         = 3
+        private const val TYPE_DIGIT         = 4
+        private const val TYPE_CITATION      = 5
+        private const val TYPE_NOTE          = 6
+        private const val TYPE_FOCUS         = 7
+        private const val TYPE_TWITTER       = 8
+        private const val TYPE_TITLE         = 9
+        private const val TYPE_INFO          = 10
+        private const val TYPE_TITLE_IMAGE   = 11
+        private const val TYPE_COMMENTS_LINK = 12
     }
 
     init {
@@ -112,6 +113,11 @@ class ArticleDetailAdapter(private val context: Context,
                     .inflate(R.layout.article_detail_empty_item, parent, false)
                 return TitleImageViewHolder(view)
             }
+            TYPE_COMMENTS_LINK -> {
+                val view = LayoutInflater.from(context)
+                    .inflate(R.layout.article_detail_comments_link, parent, false)
+                return CommentsLinkViewHolder(view)
+            }
             TYPE_EMPTY -> {
                 val view = LayoutInflater.from(context)
                     .inflate(R.layout.article_detail_empty_item, parent, false)
@@ -124,36 +130,38 @@ class ArticleDetailAdapter(private val context: Context,
     override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
         val element = adapterDataList[position]
         when (holder) {
-            is ParagraphViewHolder  -> holder.bind(element as ParagraphModel)
-            is ChapoViewHolder      -> holder.bind(element as ChapoModel)
-            is EmbedViewHolder      -> holder.bind(element as EmbedModel)
-            is DigitViewHolder      -> holder.bind(element as DigitModel)
-            is CitationViewHolder   -> holder.bind(element as CitationModel)
-            is NoteViewHolder       -> holder.bind(element as NoteModel)
-            is FocusViewHolder      -> holder.bind(element as FocusModel)
-            is TwitterViewHolder    -> holder.bind(element as TwitterModel)
-            is TitleViewHolder      -> holder.bind(element as TitleModel)
-            is InfoViewHolder       -> holder.bind(element as InfoModel)
-            is TitleImageViewHolder -> holder.bind(element as TitleImageModel)
-            is EmptyViewHolder      -> holder.bind(element as EmptyModel)
-            else                    -> throw IllegalArgumentException()
+            is ParagraphViewHolder    -> holder.bind(element as ParagraphModel)
+            is ChapoViewHolder        -> holder.bind(element as ChapoModel)
+            is EmbedViewHolder        -> holder.bind(element as EmbedModel)
+            is DigitViewHolder        -> holder.bind(element as DigitModel)
+            is CitationViewHolder     -> holder.bind(element as CitationModel)
+            is NoteViewHolder         -> holder.bind(element as NoteModel)
+            is FocusViewHolder        -> holder.bind(element as FocusModel)
+            is TwitterViewHolder      -> holder.bind(element as TwitterModel)
+            is TitleViewHolder        -> holder.bind(element as TitleModel)
+            is InfoViewHolder         -> holder.bind(element as InfoModel)
+            is TitleImageViewHolder   -> holder.bind(element as TitleImageModel)
+            is CommentsLinkViewHolder -> holder.bind(element as CommentsLinkModel)
+            is EmptyViewHolder        -> holder.bind(element as EmptyModel)
+            else                      -> throw IllegalArgumentException()
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         return when (adapterDataList[position]) {
-            is ParagraphModel  -> TYPE_PARAGRAPH
-            is ChapoModel      -> TYPE_CHAPO
-            is EmbedModel      -> TYPE_EMBED
-            is DigitModel      -> TYPE_DIGIT
-            is CitationModel   -> TYPE_CITATION
-            is NoteModel       -> TYPE_NOTE
-            is FocusModel      -> TYPE_FOCUS
-            is TwitterModel    -> TYPE_TWITTER
-            is TitleModel      -> TYPE_TITLE
-            is InfoModel       -> TYPE_INFO
-            is TitleImageModel -> TYPE_TITLE_IMAGE
-            is EmptyModel      -> TYPE_EMPTY
+            is ParagraphModel    -> TYPE_PARAGRAPH
+            is ChapoModel        -> TYPE_CHAPO
+            is EmbedModel        -> TYPE_EMBED
+            is DigitModel        -> TYPE_DIGIT
+            is CitationModel     -> TYPE_CITATION
+            is NoteModel         -> TYPE_NOTE
+            is FocusModel        -> TYPE_FOCUS
+            is TwitterModel      -> TYPE_TWITTER
+            is TitleModel        -> TYPE_TITLE
+            is InfoModel         -> TYPE_INFO
+            is TitleImageModel   -> TYPE_TITLE_IMAGE
+            is CommentsLinkModel -> TYPE_COMMENTS_LINK
+            is EmptyModel        -> TYPE_EMPTY
             else -> throw IllegalArgumentException("Invalid type of data $position")
         }
     }
@@ -305,6 +313,16 @@ class ArticleDetailAdapter(private val context: Context,
                 .load(item.url)
                 .centerCrop()
                 .into(titleImageView)
+        }
+
+    }
+
+    inner class CommentsLinkViewHolder(itemView: View) : BaseViewHolder<CommentsLinkModel>(itemView) {
+
+        private val button = itemView.findViewById<Button>(R.id.comments_button)
+
+        override fun bind(item: CommentsLinkModel) {
+
         }
 
     }
