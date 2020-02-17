@@ -12,6 +12,7 @@
         <item name="android:textColorPrimary">@color/colorPrimary</item>
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="colorText">#111111</item>
+        <item name="colorLink">@color/colorPrimary</item>
     </style>
     <!-- Base application theme. -->
 
@@ -35,6 +36,7 @@
         <item name="android:textColorPrimary">#EEEEEE</item>
         <item name="android:textColor">#EEEEEE</item>
         <item name="colorText">#EEEEEE</item>
+        <item name="colorLink">@android:color/holo_purple</item>
     </style>
 
 </resources>

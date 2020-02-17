@@ -13,6 +13,7 @@
         <item name="android:statusBarColor">@color/colorPrimary</item>
         <item name="android:navigationBarColor">@android:color/white</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="colorLink">@color/colorPrimary</item>
     </style>
 
     <style name="ThemeDark" parent="Theme.AppCompat.Light.NoActionBar">
@@ -27,5 +28,6 @@
         <item name="colorFocusBack">#b55400</item>
         <item name="android:navigationBarColor">@android:color/white</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="colorLink">@android:color/holo_purple</item>
     </style>
 </resources>

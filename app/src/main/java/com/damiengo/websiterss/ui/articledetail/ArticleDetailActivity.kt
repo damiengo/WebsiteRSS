@@ -1,5 +1,6 @@
 package com.damiengo.websiterss.ui.articledetail
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
@@ -56,6 +57,13 @@ class ArticleDetailActivity : AppCompatActivity() {
         if(link.isNullOrEmpty()) {
             val uri: Uri = intent.data!!
             link = uri.scheme+"://"+uri.host+uri.path
+        }
+
+        article_open_link.setOnClickListener {
+            val uri = Uri.parse(link)
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = uri
+            startActivity(intent, null)
         }
 
         collapsing_toolbar.title = title

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="colorText" format="color" />
+    <attr name="colorLink" format="color" />
     <attr name="colorTwitterBack" format="color" />
     <attr name="colorFocusBack" format="color" />
 </resources>

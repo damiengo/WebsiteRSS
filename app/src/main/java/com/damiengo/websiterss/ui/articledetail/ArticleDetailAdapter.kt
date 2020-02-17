@@ -322,7 +322,7 @@ class ArticleDetailAdapter(private val context: Context,
         private val button = itemView.findViewById<Button>(R.id.comments_button)
 
         override fun bind(item: CommentsLinkModel) {
-
+            button.visibility = View.GONE
         }
 
     }
