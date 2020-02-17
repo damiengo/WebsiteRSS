@@ -22,6 +22,7 @@
     <string name="referrer">http://www.lequipe.fr</string>
     <string name="user_agent">Mozilla/5.0 (Linux; U; Android 4.0.3; ko-kr; LG-L160L Build/IML74K) AppleWebkit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30</string>
     <string name="open_tweet_external">Voir dans Twitter</string>
+    <string name="open_lequipe_external"><u>Ouvrir sur lequipe.fr</u></string>
     <string name="article_image">Article image</string>
     <string name="launcher_icon">Launcher icon</string>
     <string name="dark_mode">Dark mode</string>

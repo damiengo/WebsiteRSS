@@ -13,6 +13,7 @@
         <item name="colorTwitterBack">@color/blue_light</item>
         <item name="colorFocusBack">@color/red_light</item>
         <item name="colorText">@android:color/tab_indicator_text</item>
+        <item name="colorLink">@color/colorPrimary</item>
     </style>
 
     <style name="ThemeDark" parent="Theme.AppCompat.Light.NoActionBar">
@@ -26,5 +27,6 @@
         <item name="colorTwitterBack">#222831</item>
         <item name="colorFocusBack">#b55400</item>
         <item name="android:windowLightStatusBar">false</item>
+        <item name="colorLink">@android:color/holo_purple</item>
     </style>
 </resources>
