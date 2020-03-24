@@ -1,10 +1,12 @@
-package com.damiengo.websiterss.article
+package com.damiengo.websiterss.comment
 
+import com.damiengo.websiterss.article.ArticleUtil
+import com.damiengo.websiterss.article.EquipeApi
 import com.damiengo.websiterss.ui.articledetail.model.Model
 import com.damiengo.websiterss.util.DaggerDaggerComponent
 import javax.inject.Inject
 
-class JsonProviderStrategy : ProviderStrategy {
+class JsonProvider {
 
     @Inject
     lateinit var service: EquipeApi
@@ -16,10 +18,11 @@ class JsonProviderStrategy : ProviderStrategy {
         DaggerDaggerComponent.create().inject(this)
     }
 
-    override suspend fun read(url: String): MutableList<Model> {
+    suspend fun read(url: String): MutableList<Model> {
         val articleId = util.getArticleIdFromUrl(url)
+        val articleCategorySlug = util.getArticleCategorySlugFromUrl(url)
 
-        val response = service.getItems(articleId)
+        val response = service.getComments(articleCategorySlug, articleId, 100, 0)
 
         if(response.isSuccessful) {
             return response.body()!!.getModels()

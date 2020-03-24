@@ -9,7 +9,6 @@ import org.junit.Before
 import org.junit.Test
 import retrofit2.Response
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
 
 class JsonProviderStrategyTest {
@@ -201,7 +200,7 @@ class JsonProviderStrategyTest {
         }
     }
 
-    class ApiTest : Api {
+    class ApiTest : EquipeApi {
         override suspend fun getItems(articleId: String): Response<ItemList> {
             val itemList = ItemList()
             val items = mutableListOf<Item>()
@@ -303,6 +302,15 @@ class JsonProviderStrategyTest {
             itemList.items = items
 
             return Response.success(itemList)
+        }
+
+        override suspend fun getComments(
+            articleId: String,
+            article_id: String,
+            limits: Int,
+            lasts: Integer
+        ): Response<ItemList> {
+            TODO("Not yet implemented")
         }
 
         private fun buildParagraph(layout: String, title: String, content: String) : Paragraph {

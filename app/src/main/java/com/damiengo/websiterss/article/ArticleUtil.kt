@@ -11,6 +11,7 @@ class ArticleUtil @Inject constructor() {
         const val titleCatMaxLength = 30
         const val rssInputDateFormat = "EEE, dd MMM yyyy HH:mm:ss z"
         const val outputValFormat = "HH:mm"
+        const val domaineName = "lequipe.fr"
 
     }
 
@@ -77,6 +78,17 @@ class ArticleUtil @Inject constructor() {
             }
 
             return urlEnd
+        }
+
+        return ""
+    }
+
+    fun getArticleCategorySlugFromUrl(url: String): String {
+        val domainIndex = url.indexOf(domaineName)
+        val lastSlashIndex = url.lastIndexOf("/")
+
+        if(domainIndex != -1) {
+            return url.substring(domainIndex+domaineName.length+1, lastSlashIndex)
         }
 
         return ""

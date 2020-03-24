@@ -94,6 +94,11 @@ class ArticleUtilTest {
     }
 
     @Test
+    fun getArticleCategorySlugFromUrlOk() {
+        assertEquals("Football/Article/L-avant-match-de-france-rfa-1982-meme-s-il-n-y-a-qu-une-chance", u.getArticleCategorySlugFromUrl("https://www.lequipe.fr/Football/Article/L-avant-match-de-france-rfa-1982-meme-s-il-n-y-a-qu-une-chance/1122229"))
+    }
+
+    @Test
     fun removeLinksFromTextOneLinkOK() {
         assertEquals("text without links", u.removeLinksFromText("text <a href=\"href_dest\">without</a> links"))
     }
