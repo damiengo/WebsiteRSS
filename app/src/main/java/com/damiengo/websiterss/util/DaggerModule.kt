@@ -1,9 +1,8 @@
 package com.damiengo.websiterss.util
 
-import android.app.Application
 import android.content.Context
 import com.damiengo.websiterss.article.*
-import com.damiengo.websiterss.article.json.Api
+import com.damiengo.websiterss.article.EquipeApi
 import com.damiengo.websiterss.category.Category
 import com.damiengo.websiterss.category.CategoryHolder
 import com.damiengo.websiterss.category.ClassCategoriesBuilder
@@ -63,13 +62,13 @@ class DaggerModule {
 
     @Singleton
     @Provides
-    internal fun provideApi(): Api {
+    internal fun provideApi(): EquipeApi {
         val jsonApi = "https://dwh.lequipe.fr"
 
         val retrofit = Retrofit.Builder()
             .baseUrl(jsonApi)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create())).build()
-        return retrofit.create(Api::class.java)
+        return retrofit.create(EquipeApi::class.java)
     }
 
     @Singleton
