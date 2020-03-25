@@ -1,4 +1,4 @@
-package com.damiengo.websiterss.util
+package com.damiengo.websiterss.di
 
 import android.content.Context
 import com.damiengo.websiterss.article.*
@@ -6,8 +6,10 @@ import com.damiengo.websiterss.api.EquipeApi
 import com.damiengo.websiterss.category.Category
 import com.damiengo.websiterss.category.CategoryHolder
 import com.damiengo.websiterss.category.ClassCategoriesBuilder
+import com.damiengo.websiterss.comment.JsonProvider
 import com.damiengo.websiterss.ui.articledetail.model.ModelFactory
 import com.damiengo.websiterss.ui.home.NetworkInformation
+import com.damiengo.websiterss.util.ThemeUtil
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -81,6 +83,12 @@ class DaggerModule {
     @Provides
     internal fun provideThemeUtil(@AppContext context: Context): ThemeUtil {
         return ThemeUtil(context)
+    }
+
+    @Singleton
+    @Provides
+    internal fun provideJsonProvider(): JsonProvider {
+        return JsonProvider()
     }
 
 }

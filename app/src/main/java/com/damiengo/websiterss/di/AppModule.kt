@@ -1,9 +1,9 @@
-package com.damiengo.websiterss.util
+package com.damiengo.websiterss.di
 
 import android.content.Context
 import com.damiengo.websiterss.App
-import com.damiengo.websiterss.category.Category
 import com.damiengo.websiterss.category.CategoryHolder
+import com.damiengo.websiterss.di.AppContext
 import com.damiengo.websiterss.ui.home.MainActivity
 import dagger.Binds
 import dagger.Module

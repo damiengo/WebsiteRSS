@@ -11,8 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.damiengo.websiterss.R
 import com.damiengo.websiterss.article.ArticleDetailProvider
 import com.damiengo.websiterss.article.ProviderStrategy
+import com.damiengo.websiterss.comment.JsonProvider
+import com.damiengo.websiterss.di.DaggerDaggerComponent
 import com.damiengo.websiterss.ui.articledetail.model.Model
-import com.damiengo.websiterss.util.DaggerDaggerComponent
 import com.damiengo.websiterss.util.GlideApp
 import com.damiengo.websiterss.util.ThemeUtil
 import kotlinx.android.synthetic.main.article_detail_activity.*
@@ -23,6 +24,9 @@ class ArticleDetailActivity : AppCompatActivity() {
 
     @Inject
     lateinit var providers: MutableList<ProviderStrategy>
+
+    @Inject
+    lateinit var commentProvider : JsonProvider
 
     //@Inject
     lateinit var themeUtil: ThemeUtil
@@ -94,6 +98,7 @@ class ArticleDetailActivity : AppCompatActivity() {
                     }
                 }
             }
+            commentProvider.read(link)
         }
     }
 

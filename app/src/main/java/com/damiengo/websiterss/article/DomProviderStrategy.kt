@@ -1,7 +1,7 @@
 package com.damiengo.websiterss.article
 
+import com.damiengo.websiterss.di.DaggerDaggerComponent
 import com.damiengo.websiterss.ui.articledetail.model.*
-import com.damiengo.websiterss.util.DaggerDaggerComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.nodes.Document

@@ -21,13 +21,11 @@ import com.bumptech.glide.util.FixedPreloadSizeProvider
 import com.damiengo.websiterss.R
 import com.damiengo.websiterss.article.MyArticle
 import com.damiengo.websiterss.category.CategoryHolder
+import com.damiengo.websiterss.di.DaggerDaggerComponent
 import com.damiengo.websiterss.ui.articledetail.ArticleDetailActivity
-import com.damiengo.websiterss.util.DaggerDaggerComponent
 import com.damiengo.websiterss.util.GlideApp
 import com.damiengo.websiterss.util.ThemeUtil
-import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.menu_header.*
 import kotlinx.android.synthetic.main.menu_header.view.*
 import kotlinx.coroutines.*
 import javax.inject.Inject
