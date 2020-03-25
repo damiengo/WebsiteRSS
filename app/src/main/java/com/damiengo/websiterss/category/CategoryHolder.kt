@@ -1,6 +1,6 @@
 package com.damiengo.websiterss.category
 
-import com.damiengo.websiterss.util.DaggerDaggerComponent
+import com.damiengo.websiterss.di.DaggerDaggerComponent
 import javax.inject.Inject
 
 class CategoryHolder {

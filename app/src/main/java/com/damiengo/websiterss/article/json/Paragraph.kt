@@ -1,8 +1,8 @@
 package com.damiengo.websiterss.article.json
 
+import com.damiengo.websiterss.di.DaggerDaggerComponent
 import com.damiengo.websiterss.ui.articledetail.model.Model
 import com.damiengo.websiterss.ui.articledetail.model.ModelFactory
-import com.damiengo.websiterss.util.DaggerDaggerComponent
 import com.google.gson.annotations.SerializedName
 import javax.inject.Inject
 

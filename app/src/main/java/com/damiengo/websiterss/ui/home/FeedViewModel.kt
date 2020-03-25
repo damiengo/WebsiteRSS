@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.damiengo.websiterss.article.ArticleUtil
 import com.damiengo.websiterss.article.MyArticle
-import com.damiengo.websiterss.util.DaggerDaggerComponent
+import com.damiengo.websiterss.di.DaggerDaggerComponent
 import com.prof.rssparser.Article
 import com.prof.rssparser.Parser
 import javax.inject.Inject

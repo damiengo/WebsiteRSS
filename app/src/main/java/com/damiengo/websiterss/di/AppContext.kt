@@ -1,4 +1,4 @@
-package com.damiengo.websiterss.util
+package com.damiengo.websiterss.di
 
 import javax.inject.Qualifier
 

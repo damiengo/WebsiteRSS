@@ -1,4 +1,4 @@
-package com.damiengo.websiterss.util
+package com.damiengo.websiterss.di
 
 import com.damiengo.websiterss.article.DomProviderStrategy
 import com.damiengo.websiterss.article.JsonProviderStrategy
@@ -11,6 +11,7 @@ import com.damiengo.websiterss.ui.articledetail.ArticleDetailActivity
 import com.damiengo.websiterss.ui.articledetail.ArticleDetailAdapter
 import com.damiengo.websiterss.ui.home.FeedViewModel
 import com.damiengo.websiterss.ui.home.MainActivity
+import com.damiengo.websiterss.util.ThemeUtil
 import dagger.Component
 import javax.inject.Singleton
 

@@ -17,8 +17,8 @@ import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.damiengo.websiterss.R
 import com.damiengo.websiterss.article.ArticleUtil
+import com.damiengo.websiterss.di.DaggerDaggerComponent
 import com.damiengo.websiterss.ui.articledetail.model.*
-import com.damiengo.websiterss.util.DaggerDaggerComponent
 import com.damiengo.websiterss.util.GlideApp
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import javax.inject.Inject
