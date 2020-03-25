@@ -1,5 +1,6 @@
 package com.damiengo.websiterss.article
 
+import com.damiengo.websiterss.api.EquipeApi
 import com.damiengo.websiterss.article.json.*
 import com.damiengo.websiterss.ui.articledetail.model.*
 import kotlinx.coroutines.runBlocking
@@ -25,7 +26,7 @@ class JsonProviderStrategyTest {
     @Test
     fun readNbModelsOK() {
         runBlocking {
-            val models=  t.read("")
+            val models = t.read("")
             Assert.assertEquals(16, models.size)
         }
     }
@@ -65,11 +66,16 @@ class JsonProviderStrategyTest {
             val models = t.read("")
             val model = models[15]
             Assert.assertThat(model, CoreMatchers.instanceOf(TwitterModel::class.java))
-            Assert.assertEquals("Un rêve incroyable qui se réalise <br>CHAMPIONNES DU MONDE Corinne Dubreuil/ FFT pic.twitter.com/arn4kEUsFO",
-                (model as TwitterModel).content)
+            Assert.assertEquals(
+                "Un rêve incroyable qui se réalise <br>CHAMPIONNES DU MONDE Corinne Dubreuil/ FFT pic.twitter.com/arn4kEUsFO",
+                (model as TwitterModel).content
+            )
             Assert.assertEquals("", model.picture)
             Assert.assertEquals("November 10, 2019", model.date)
-            Assert.assertEquals("https://twitter.com/KikiMladenovic/status/1193623935155224577?ref_src=twsrc%5Etfw", model.link)
+            Assert.assertEquals(
+                "https://twitter.com/KikiMladenovic/status/1193623935155224577?ref_src=twsrc%5Etfw",
+                model.link
+            )
             Assert.assertEquals("— Kristina Mladenovic (@KikiMladenovic)", model.author)
         }
     }
@@ -113,7 +119,10 @@ class JsonProviderStrategyTest {
             val models = t.read("")
             val model = models[12]
             Assert.assertThat(model, CoreMatchers.instanceOf(CitationModel::class.java))
-            Assert.assertEquals("Content of the citation no caption", (model as CitationModel).content)
+            Assert.assertEquals(
+                "Content of the citation no caption",
+                (model as CitationModel).content
+            )
             Assert.assertEquals("", model.caption)
         }
     }
@@ -196,7 +205,10 @@ class JsonProviderStrategyTest {
             val models = t.read("")
             val model = models[0]
             Assert.assertThat(model, CoreMatchers.instanceOf(TitleImageModel::class.java))
-            Assert.assertEquals("https://medias.lequipe.fr/img-photo-jpg/title-equipe/1500000001264297/0:0,1998:1332-1248-832-75/383be", (model as TitleImageModel).url)
+            Assert.assertEquals(
+                "https://medias.lequipe.fr/img-photo-jpg/title-equipe/1500000001264297/0:0,1998:1332-1248-832-75/383be",
+                (model as TitleImageModel).url
+            )
         }
     }
 
@@ -219,7 +231,11 @@ class JsonProviderStrategyTest {
             val par3 = buildParagraph("unknown", "", "Content of the paragraph")
             paragraphs.add(par3)
 
-            val par4 = buildParagraph("embed", "", "<iframe src=\"https://www.test.fr/index.html\"></iframe>")
+            val par4 = buildParagraph(
+                "embed",
+                "",
+                "<iframe src=\"https://www.test.fr/index.html\"></iframe>"
+            )
             paragraphs.add(par4)
 
             val par5 = buildParagraph("digit", "48", "Content of the digit")
@@ -261,12 +277,14 @@ class JsonProviderStrategyTest {
             par12.note = note2
             paragraphs.add(par12)
 
-            val par13 = buildParagraph("embed", "", "<blockquote class=\"twitter-tweet\">\n" +
-                    "<p lang=\"fr\" dir=\"ltr\">\n" +
-                    "Un rêve incroyable qui se réalise <br>CHAMPIONNES DU MONDE Corinne Dubreuil/ FFT\n" +
-                    "<a href=\"https://t.co/arn4kEUsFO\">pic.twitter.com/arn4kEUsFO</a>\n" +
-                    "</p>&mdash; Kristina Mladenovic (@KikiMladenovic) <a href=\"https://twitter.com/KikiMladenovic/status/1193623935155224577?ref_src=twsrc%5Etfw\">November 10, 2019</a>\n" +
-                    "</blockquote>")
+            val par13 = buildParagraph(
+                "embed", "", "<blockquote class=\"twitter-tweet\">\n" +
+                        "<p lang=\"fr\" dir=\"ltr\">\n" +
+                        "Un rêve incroyable qui se réalise <br>CHAMPIONNES DU MONDE Corinne Dubreuil/ FFT\n" +
+                        "<a href=\"https://t.co/arn4kEUsFO\">pic.twitter.com/arn4kEUsFO</a>\n" +
+                        "</p>&mdash; Kristina Mladenovic (@KikiMladenovic) <a href=\"https://twitter.com/KikiMladenovic/status/1193623935155224577?ref_src=twsrc%5Etfw\">November 10, 2019</a>\n" +
+                        "</blockquote>"
+            )
             paragraphs.add(par13)
 
             // Title
@@ -289,7 +307,8 @@ class JsonProviderStrategyTest {
             object1.subhead = subhead
 
             val landscape = Landscape()
-            landscape.url = "https://medias.lequipe.fr/img-photo-jpg/title-equipe/1500000001264297/0:0,1998:1332-{width}-{height}-{quality}/383be"
+            landscape.url =
+                "https://medias.lequipe.fr/img-photo-jpg/title-equipe/1500000001264297/0:0,1998:1332-{width}-{height}-{quality}/383be"
             val format = Format()
             format.landscape = landscape
             val media = Media()
@@ -308,12 +327,12 @@ class JsonProviderStrategyTest {
             articleId: String,
             article_id: String,
             limits: Int,
-            lasts: Integer
+            lasts: Int
         ): Response<ItemList> {
             TODO("Not yet implemented")
         }
 
-        private fun buildParagraph(layout: String, title: String, content: String) : Paragraph {
+        private fun buildParagraph(layout: String, title: String, content: String): Paragraph {
             val par = Paragraph()
             par.layout = layout
             par.title = title
@@ -323,5 +342,4 @@ class JsonProviderStrategyTest {
         }
 
     }
-
 }

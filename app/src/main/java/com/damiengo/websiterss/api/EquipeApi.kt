@@ -1,4 +1,4 @@
-package com.damiengo.websiterss.article
+package com.damiengo.websiterss.api
 
 import com.damiengo.websiterss.article.json.ItemList
 import retrofit2.Response
