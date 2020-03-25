@@ -2,7 +2,7 @@ package com.damiengo.websiterss.util
 
 import android.content.Context
 import com.damiengo.websiterss.article.*
-import com.damiengo.websiterss.article.EquipeApi
+import com.damiengo.websiterss.api.EquipeApi
 import com.damiengo.websiterss.category.Category
 import com.damiengo.websiterss.category.CategoryHolder
 import com.damiengo.websiterss.category.ClassCategoriesBuilder

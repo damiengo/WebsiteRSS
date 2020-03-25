@@ -1,7 +1,7 @@
 package com.damiengo.websiterss.comment
 
 import com.damiengo.websiterss.article.ArticleUtil
-import com.damiengo.websiterss.article.EquipeApi
+import com.damiengo.websiterss.api.EquipeApi
 import com.damiengo.websiterss.ui.articledetail.model.Model
 import com.damiengo.websiterss.util.DaggerDaggerComponent
 import javax.inject.Inject
