@@ -25,7 +25,7 @@ class JsonProvider {
         val response = service.getComments(articleCategorySlug, articleId, 100, 0)
 
         if(response.isSuccessful) {
-            return response.body()!!.getModels()
+            //return response.body()!!.getModels()
         }
 
         return mutableListOf()
