@@ -94,11 +94,17 @@ class ArticleDetailActivity : AppCompatActivity() {
                             article_content.adapter = viewAdapter
                             progress_bar.visibility = View.INVISIBLE
                         }
+                        val commentModels = commentProvider.read(link)
+                        commentModels.forEach { model: Model ->
+                            withContext(Dispatchers.Main) {
+                                viewAdapter.addModel(model)
+                                viewAdapter.notifyDataSetChanged()
+                            }
+                        }
                         return@breaker
                     }
                 }
             }
-            commentProvider.read(link)
         }
     }
 
