@@ -2,6 +2,7 @@ package com.damiengo.websiterss.ui.articledetail.model
 
 import com.damiengo.websiterss.article.json.Element
 import com.damiengo.websiterss.article.json.Paragraph
+import com.damiengo.websiterss.comment.json.Comment
 import org.jsoup.Jsoup
 import java.util.*
 
@@ -81,6 +82,10 @@ class ModelFactory {
 
     fun buildCommentsLink(url: String) : CommentsLinkModel {
         return CommentsLinkModel(url)
+    }
+
+    fun buildFromComment(comment: Comment) : Model {
+        return ParagraphModel(comment.user.pseudo, comment.text)
     }
 
 }

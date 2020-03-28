@@ -1,6 +1,7 @@
 package com.damiengo.websiterss.api
 
 import com.damiengo.websiterss.article.json.ItemList
+import com.damiengo.websiterss.comment.json.CommentList
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -14,6 +15,6 @@ interface EquipeApi {
     suspend fun getComments(@Path("category_slug", encoded = true) articleId: String,
                             @Path("article_id") article_id: String,
                             @Path("limits") limits: Int,
-                            @Path("lasts") lasts: Int): Response<ItemList>
+                            @Path("lasts") lasts: Int): Response<CommentList>
 
 }
