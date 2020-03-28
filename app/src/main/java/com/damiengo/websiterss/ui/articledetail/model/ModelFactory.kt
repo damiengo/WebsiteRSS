@@ -8,13 +8,14 @@ import java.util.*
 class ModelFactory {
 
     companion object {
-        const val LAYOUT_CHAPO: String = "chapo"
+        const val LAYOUT_CHAPO: String     = "chapo"
         const val LAYOUT_PARAGRAPH: String = "text"
-        const val LAYOUT_EMBED: String = "embed"
-        const val LAYOUT_DIGIT: String = "digit"
-        const val LAYOUT_CITATION: String = "citation"
-        const val LAYOUT_NOTE: String = "note"
-        const val LAYOUT_FOCUS: String = "focus"
+        const val LAYOUT_EMBED: String     = "embed"
+        const val LAYOUT_DIGIT: String     = "digit"
+        const val LAYOUT_CITATION: String  = "citation"
+        const val LAYOUT_NOTE: String      = "note"
+        const val LAYOUT_FOCUS: String     = "focus"
+        const val LAYOUT_EXERGUE: String   = "exergue"
     }
 
     fun buildFromParagraph(p: Paragraph): Model {
@@ -26,6 +27,7 @@ class ModelFactory {
             LAYOUT_CITATION  -> CitationModel(p.getContentText(), p.getCaptionText())
             LAYOUT_NOTE      -> NoteModel(p.getContentText(), p.getNoteLabelText(), p.getNoteRatingText())
             LAYOUT_FOCUS     -> FocusModel(p.getContentText())
+            LAYOUT_EXERGUE   -> CitationModel(p.getTitleText(), "")
             else             -> EmptyModel()
         }
     }
