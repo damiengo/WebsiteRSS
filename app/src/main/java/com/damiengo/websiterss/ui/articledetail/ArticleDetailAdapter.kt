@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.view.CollapsibleActionView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,7 +44,7 @@ class ArticleDetailAdapter(private val context: Context,
         private const val TYPE_TITLE         = 9
         private const val TYPE_INFO          = 10
         private const val TYPE_TITLE_IMAGE   = 11
-        private const val TYPE_COMMENTS_LINK = 12
+        private const val TYPE_COMMENT       = 12
     }
 
     init {
@@ -113,10 +112,10 @@ class ArticleDetailAdapter(private val context: Context,
                     .inflate(R.layout.article_detail_empty_item, parent, false)
                 return TitleImageViewHolder(view)
             }
-            TYPE_COMMENTS_LINK -> {
+            TYPE_COMMENT -> {
                 val view = LayoutInflater.from(context)
-                    .inflate(R.layout.article_detail_comments_link, parent, false)
-                return CommentsLinkViewHolder(view)
+                    .inflate(R.layout.article_detail_comment, parent, false)
+                return CommentViewHolder(view)
             }
             TYPE_EMPTY -> {
                 val view = LayoutInflater.from(context)
@@ -141,7 +140,7 @@ class ArticleDetailAdapter(private val context: Context,
             is TitleViewHolder        -> holder.bind(element as TitleModel)
             is InfoViewHolder         -> holder.bind(element as InfoModel)
             is TitleImageViewHolder   -> holder.bind(element as TitleImageModel)
-            is CommentsLinkViewHolder -> holder.bind(element as CommentsLinkModel)
+            is CommentViewHolder      -> holder.bind(element as CommentModel)
             is EmptyViewHolder        -> holder.bind(element as EmptyModel)
             else                      -> throw IllegalArgumentException()
         }
@@ -160,7 +159,7 @@ class ArticleDetailAdapter(private val context: Context,
             is TitleModel        -> TYPE_TITLE
             is InfoModel         -> TYPE_INFO
             is TitleImageModel   -> TYPE_TITLE_IMAGE
-            is CommentsLinkModel -> TYPE_COMMENTS_LINK
+            is CommentModel      -> TYPE_COMMENT
             is EmptyModel        -> TYPE_EMPTY
             else -> throw IllegalArgumentException("Invalid type of data $position")
         }
@@ -317,12 +316,24 @@ class ArticleDetailAdapter(private val context: Context,
 
     }
 
-    inner class CommentsLinkViewHolder(itemView: View) : BaseViewHolder<CommentsLinkModel>(itemView) {
+    inner class CommentViewHolder(itemView: View) : BaseViewHolder<CommentModel>(itemView) {
 
-        private val button = itemView.findViewById<Button>(R.id.comments_button)
+        private val textView       = itemView.findViewById<TextView>(R.id.comment_text)
+        private val dateView       = itemView.findViewById<TextView>(R.id.comment_date)
+        private val authorNameView = itemView.findViewById<TextView>(R.id.comment_author_name)
+        private val avatarView     = itemView.findViewById<ImageView>(R.id.comment_author_avatar)
 
-        override fun bind(item: CommentsLinkModel) {
-            button.visibility = View.GONE
+        override fun bind(item: CommentModel) {
+            textView.text = item.text
+            dateView.text = item.date.toString()
+            authorNameView.text = item.authorName
+
+            if(item.avatarUrl.isNotEmpty()) {
+                GlideApp.with(context)
+                    .load(item.avatarUrl)
+                    .centerCrop()
+                    .into(avatarView)
+            }
         }
 
     }

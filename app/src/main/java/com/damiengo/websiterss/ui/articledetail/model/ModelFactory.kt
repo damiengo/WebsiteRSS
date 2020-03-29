@@ -80,12 +80,8 @@ class ModelFactory {
         return TitleImageModel(realUrl)
     }
 
-    fun buildCommentsLink(url: String) : CommentsLinkModel {
-        return CommentsLinkModel(url)
-    }
-
     fun buildFromComment(comment: Comment) : Model {
-        return ParagraphModel(comment.user.pseudo, comment.text)
+        return CommentModel(comment.user.getPseudoText(), comment.text, comment.user.getAvatarUrlText(), comment.date)
     }
 
 }
