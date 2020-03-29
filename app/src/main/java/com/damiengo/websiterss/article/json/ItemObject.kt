@@ -55,10 +55,6 @@ class ItemObject {
             }
         }
 
-        if(hasUrl()) {
-            models.add(modelFactory.buildCommentsLink(url))
-        }
-
         return models
     }
 
