@@ -319,16 +319,18 @@ class ArticleDetailAdapter(private val context: Context,
     inner class CommentViewHolder(itemView: View) : BaseViewHolder<CommentModel>(itemView) {
 
         private val textView       = itemView.findViewById<TextView>(R.id.comment_text)
-        private val dateView       = itemView.findViewById<TextView>(R.id.comment_date)
-        private val authorNameView = itemView.findViewById<TextView>(R.id.comment_author_name)
+        private val authorDateView = itemView.findViewById<TextView>(R.id.comment_author_date)
         private val avatarView     = itemView.findViewById<ImageView>(R.id.comment_author_avatar)
 
         override fun bind(item: CommentModel) {
+            val authorDate = HtmlCompat.fromHtml(
+                "<b>" + item.authorName + "</b> • " + util.genPubDateFromDate(item.date),
+                HtmlCompat.FROM_HTML_MODE_COMPACT
+            )
             textView.text = item.text
-            dateView.text = item.date.toString()
-            authorNameView.text = item.authorName
+            authorDateView.text = authorDate
 
-            if(item.avatarUrl.isNotEmpty()) {
+            if (item.avatarUrl.isNotEmpty()) {
                 GlideApp.with(context)
                     .load(item.avatarUrl)
                     .centerCrop()

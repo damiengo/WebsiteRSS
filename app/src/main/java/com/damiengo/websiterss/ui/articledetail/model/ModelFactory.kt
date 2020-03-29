@@ -80,8 +80,8 @@ class ModelFactory {
         return TitleImageModel(realUrl)
     }
 
-    fun buildFromComment(comment: Comment) : Model {
-        return CommentModel(comment.user.getPseudoText(), comment.text, comment.user.getAvatarUrlText(), comment.date)
+    fun buildFromComment(comment: Comment, level: Int) : Model {
+        return CommentModel(comment.user.getPseudoText(), comment.text, comment.user.getAvatarUrlText(), comment.date, level)
     }
 
 }

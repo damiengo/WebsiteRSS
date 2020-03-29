@@ -12,7 +12,7 @@ class CommentList {
         val models = mutableListOf<Model>()
         if (comments.isNotEmpty()) {
             comments.forEach {
-                models.addAll(it.getModel())
+                models.addAll(it.getModel(0))
             }
         }
 

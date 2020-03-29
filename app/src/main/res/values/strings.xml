@@ -27,4 +27,5 @@
     <string name="launcher_icon">Launcher icon</string>
     <string name="dark_mode">Dark mode</string>
     <string name="show_comments">Show comments</string>
+    <string name="author_avatar">Author avatar</string>
 </resources>
