@@ -34,13 +34,13 @@ class Comment {
         DaggerDaggerComponent.create().inject(this)
     }
 
-    fun getModel(): MutableList<Model> {
+    fun getModel(level: Int): MutableList<Model> {
         var models = mutableListOf<Model>()
 
-        models.add(modelFactory.buildFromComment(this))
+        models.add(modelFactory.buildFromComment(this, level))
 
         if(hasSubComments()) {
-            models.addAll(getSubModels())
+            models.addAll(getSubModels(level))
         }
 
         return models
@@ -50,11 +50,11 @@ class Comment {
         return ::comments.isInitialized && comments.isNotEmpty()
     }
 
-    private fun getSubModels(): MutableList<Model> {
+    private fun getSubModels(level: Int): MutableList<Model> {
         val models = mutableListOf<Model>()
         if (comments.isNotEmpty()) {
             comments.forEach {
-                models.addAll(it.getModel())
+                models.addAll(it.getModel(level+1))
             }
         }
 

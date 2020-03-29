@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<RelativeLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:padding="2dp"
+android:paddingBottom="8dp"
+android:background="?attr/colorSecondary"
+android:id="@+id/comment_layout"
+xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
-        <ImageView
-            android:id="@+id/comment_author_avatar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginRight="4dp"
-            android:layout_marginEnd="4dp"
-            android:contentDescription="@string/article_image" />
-        <TextView
-            android:id="@+id/comment_author_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="13sp"
-            android:padding="4dp"
-            android:textColor="?attr/colorText"
-            />
-        <TextView
-            android:id="@+id/comment_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="13sp"
-            android:padding="4dp"
-            android:textColor="?attr/colorText"
-            />
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/comment_author_avatar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginEnd="2dp"
+        android:contentDescription="@string/author_avatar" />
+
+    <TextView
+        android:id="@+id/comment_author_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:layout_toRightOf="@+id/comment_author_avatar"
+        android:layout_toEndOf="@+id/comment_author_avatar"
+        android:layout_alignParentTop="true"
+        android:textColor="?attr/colorText"
+        />
 
     <TextView
         android:id="@+id/comment_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:padding="4dp"
-        android:textColor="?attr/colorText" />
+        android:layout_toRightOf="@+id/comment_author_avatar"
+        android:layout_toEndOf="@+id/comment_author_avatar"
+        android:layout_below="@+id/comment_author_date"
+        android:textSize="13sp"
+        android:textColor="?attr/colorText"
+        />
 
-</LinearLayout>
+</RelativeLayout>
