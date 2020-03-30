@@ -2,30 +2,17 @@
 <RelativeLayout
 android:layout_width="match_parent"
 android:layout_height="wrap_content"
-android:padding="2dp"
-android:paddingBottom="8dp"
+android:padding="4dp"
 android:background="?attr/colorSecondary"
 android:id="@+id/comment_layout"
 xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <ImageView
-        android:id="@+id/comment_author_avatar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginEnd="2dp"
-        android:contentDescription="@string/author_avatar" />
 
     <TextView
         android:id="@+id/comment_author_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
-        android:layout_toRightOf="@+id/comment_author_avatar"
-        android:layout_toEndOf="@+id/comment_author_avatar"
+        android:paddingBottom="4dp"
         android:layout_alignParentTop="true"
         android:textColor="?attr/colorText"
         />
@@ -34,10 +21,9 @@ xmlns:android="http://schemas.android.com/apk/res/android">
         android:id="@+id/comment_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/comment_author_avatar"
-        android:layout_toEndOf="@+id/comment_author_avatar"
         android:layout_below="@+id/comment_author_date"
         android:textSize="13sp"
+        android:paddingBottom="15dp"
         android:textColor="?attr/colorText"
         />
 
