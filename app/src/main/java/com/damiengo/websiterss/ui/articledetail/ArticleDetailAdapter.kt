@@ -1,5 +1,6 @@
 package com.damiengo.websiterss.ui.articledetail
 
+import android.R.attr.*
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.text.HtmlCompat
@@ -21,6 +23,7 @@ import com.damiengo.websiterss.ui.articledetail.model.*
 import com.damiengo.websiterss.util.GlideApp
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import javax.inject.Inject
+
 
 class ArticleDetailAdapter(private val context: Context,
                            private val titleImageView: ImageView,
@@ -320,7 +323,6 @@ class ArticleDetailAdapter(private val context: Context,
 
         private val textView       = itemView.findViewById<TextView>(R.id.comment_text)
         private val authorDateView = itemView.findViewById<TextView>(R.id.comment_author_date)
-        private val avatarView     = itemView.findViewById<ImageView>(R.id.comment_author_avatar)
 
         override fun bind(item: CommentModel) {
             val authorDate = HtmlCompat.fromHtml(
@@ -330,12 +332,12 @@ class ArticleDetailAdapter(private val context: Context,
             textView.text = item.text
             authorDateView.text = authorDate
 
-            if (item.avatarUrl.isNotEmpty()) {
-                GlideApp.with(context)
-                    .load(item.avatarUrl)
-                    .centerCrop()
-                    .into(avatarView)
-            }
+            val params = RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT
+            )
+            params.leftMargin = item.level * 30
+            itemView.layoutParams = params
         }
 
     }
