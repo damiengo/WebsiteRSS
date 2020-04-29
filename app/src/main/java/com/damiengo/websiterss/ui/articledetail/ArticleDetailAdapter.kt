@@ -5,6 +5,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Parcel
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,19 +37,20 @@ class ArticleDetailAdapter(private val context: Context,
     private var adapterDataList = mutableListOf<Model>()
 
     companion object {
-        private const val TYPE_PARAGRAPH     = 0
-        private const val TYPE_CHAPO         = 1
-        private const val TYPE_EMPTY         = 2
-        private const val TYPE_EMBED         = 3
-        private const val TYPE_DIGIT         = 4
-        private const val TYPE_CITATION      = 5
-        private const val TYPE_NOTE          = 6
-        private const val TYPE_FOCUS         = 7
-        private const val TYPE_TWITTER       = 8
-        private const val TYPE_TITLE         = 9
-        private const val TYPE_INFO          = 10
-        private const val TYPE_TITLE_IMAGE   = 11
-        private const val TYPE_COMMENT       = 12
+        private const val TYPE_PARAGRAPH    = 0
+        private const val TYPE_CHAPO        = 1
+        private const val TYPE_EMPTY        = 2
+        private const val TYPE_EMBED        = 3
+        private const val TYPE_DIGIT        = 4
+        private const val TYPE_CITATION     = 5
+        private const val TYPE_NOTE         = 6
+        private const val TYPE_FOCUS        = 7
+        private const val TYPE_TWITTER      = 8
+        private const val TYPE_TITLE        = 9
+        private const val TYPE_INFO         = 10
+        private const val TYPE_TITLE_IMAGE  = 11
+        private const val TYPE_COMMENT      = 12
+        private const val TYPE_SITE_LINK    = 13
     }
 
     init {
@@ -120,6 +123,11 @@ class ArticleDetailAdapter(private val context: Context,
                     .inflate(R.layout.article_detail_comment, parent, false)
                 return CommentViewHolder(view)
             }
+            TYPE_SITE_LINK -> {
+                val view = LayoutInflater.from(context)
+                    .inflate(R.layout.article_detail_site_link, parent, false)
+                return SiteLinkViewHolder(view)
+            }
             TYPE_EMPTY -> {
                 val view = LayoutInflater.from(context)
                     .inflate(R.layout.article_detail_empty_item, parent, false)
@@ -145,6 +153,7 @@ class ArticleDetailAdapter(private val context: Context,
             is TitleImageViewHolder   -> holder.bind(element as TitleImageModel)
             is CommentViewHolder      -> holder.bind(element as CommentModel)
             is EmptyViewHolder        -> holder.bind(element as EmptyModel)
+            is SiteLinkViewHolder     -> holder.bind(element as SiteLinkModel)
             else                      -> throw IllegalArgumentException()
         }
     }
@@ -163,6 +172,7 @@ class ArticleDetailAdapter(private val context: Context,
             is InfoModel         -> TYPE_INFO
             is TitleImageModel   -> TYPE_TITLE_IMAGE
             is CommentModel      -> TYPE_COMMENT
+            is SiteLinkModel     -> TYPE_SITE_LINK
             is EmptyModel        -> TYPE_EMPTY
             else -> throw IllegalArgumentException("Invalid type of data $position")
         }
@@ -338,6 +348,21 @@ class ArticleDetailAdapter(private val context: Context,
             )
             params.leftMargin = item.level * 30
             itemView.layoutParams = params
+        }
+
+    }
+
+    inner class SiteLinkViewHolder(itemView: View) : BaseViewHolder<SiteLinkModel>(itemView) {
+
+        private val textView = itemView.findViewById<TextView>(R.id.article_open_link)
+
+        override fun bind(item: SiteLinkModel) {
+            textView.setOnClickListener {
+                val uri = Uri.parse(item.link)
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = uri
+                context.startActivity(intent, null)
+            }
         }
 
     }

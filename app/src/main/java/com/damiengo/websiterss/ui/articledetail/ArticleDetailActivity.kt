@@ -14,6 +14,7 @@ import com.damiengo.websiterss.article.ProviderStrategy
 import com.damiengo.websiterss.comment.JsonProvider
 import com.damiengo.websiterss.di.DaggerDaggerComponent
 import com.damiengo.websiterss.ui.articledetail.model.Model
+import com.damiengo.websiterss.ui.articledetail.model.SiteLinkModel
 import com.damiengo.websiterss.util.GlideApp
 import com.damiengo.websiterss.util.ThemeUtil
 import kotlinx.android.synthetic.main.article_detail_activity.*
@@ -63,13 +64,6 @@ class ArticleDetailActivity : AppCompatActivity() {
             link = uri.scheme+"://"+uri.host+uri.path
         }
 
-        article_open_link.setOnClickListener {
-            val uri = Uri.parse(link)
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = uri
-            startActivity(intent, null)
-        }
-
         collapsing_toolbar.title = title
 
         GlideApp.with(this)
@@ -94,6 +88,7 @@ class ArticleDetailActivity : AppCompatActivity() {
                             article_content.adapter = viewAdapter
                             progress_bar.visibility = View.INVISIBLE
                         }
+                        viewAdapter.addModel(SiteLinkModel(link))
                         val commentModels = commentProvider.read(link)
                         withContext(Dispatchers.Main) {
                             commentModels.forEach { model: Model ->
