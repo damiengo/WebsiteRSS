@@ -2,6 +2,7 @@ package com.damiengo.websiterss.article
 
 import com.damiengo.websiterss.api.EquipeApi
 import com.damiengo.websiterss.article.json.*
+import com.damiengo.websiterss.comment.json.CommentList
 import com.damiengo.websiterss.ui.articledetail.model.*
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers
@@ -328,7 +329,7 @@ class JsonProviderStrategyTest {
             article_id: String,
             limits: Int,
             lasts: Int
-        ): Response<ItemList> {
+        ): Response<CommentList> {
             TODO("Not yet implemented")
         }
 
