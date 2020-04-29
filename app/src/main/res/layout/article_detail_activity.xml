@@ -61,16 +61,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <TextView
-                android:id="@+id/article_open_link"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="5dp"
-                android:gravity="end"
-                android:textColor="?attr/colorLink"
-                android:text="@string/open_lequipe_external"
-                />
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
