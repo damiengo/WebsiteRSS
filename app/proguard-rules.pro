@@ -21,3 +21,4 @@
 #-renamesourcefileattribute SourceFile
 
 -keep public class com.damiengo.websiterss.article.json.** {*;}
+-keep public class com.damiengo.websiterss.comment.json.** {*;}
