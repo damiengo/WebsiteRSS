@@ -21,12 +21,13 @@ import com.bumptech.glide.util.FixedPreloadSizeProvider
 import com.damiengo.websiterss.R
 import com.damiengo.websiterss.article.MyArticle
 import com.damiengo.websiterss.category.CategoryHolder
+import com.damiengo.websiterss.databinding.ActivityMainBinding
+import com.damiengo.websiterss.databinding.ArticleDetailActivityBinding
+import com.damiengo.websiterss.databinding.MenuHeaderBinding
 import com.damiengo.websiterss.di.DaggerDaggerComponent
 import com.damiengo.websiterss.ui.articledetail.ArticleDetailActivity
 import com.damiengo.websiterss.util.GlideApp
 import com.damiengo.websiterss.util.ThemeUtil
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.menu_header.view.*
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
@@ -54,6 +55,8 @@ class MainActivity : AppCompatActivity() {
     private val activityJob = Job()
     private val scope = CoroutineScope(Dispatchers.Main + activityJob)
 
+    private lateinit var binding: ActivityMainBinding
+
     private inline fun <VM : ViewModel> viewModelFactory(crossinline f: () -> VM) =
         object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
@@ -64,14 +67,18 @@ class MainActivity : AppCompatActivity() {
         themeUtil = ThemeUtil(this)
         themeUtil.applyTheme()
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+
+        var menuHeaderBinding = MenuHeaderBinding.bind(binding.navView.getHeaderView(0))
 
         // Theme icon
         if(themeUtil.isDark()) {
-            nav_view.getHeaderView(0).switch_theme.setImageResource(R.drawable.ic_sun)
+            menuHeaderBinding.switchTheme.setImageResource(R.drawable.ic_sun)
         }
         else {
-            nav_view.getHeaderView(0).switch_theme.setImageResource(R.drawable.ic_moon)
+            menuHeaderBinding.switchTheme.setImageResource(R.drawable.ic_moon)
         }
 
         DaggerDaggerComponent.create().inject(this)
@@ -79,19 +86,19 @@ class MainActivity : AppCompatActivity() {
         var currentArticles: MutableList<MyArticle> = mutableListOf()
         var preloadSizeProvider : FixedPreloadSizeProvider<MyArticle>
 
-        nav_view.getHeaderView(0).switch_theme.setOnClickListener {
+        menuHeaderBinding.switchTheme.setOnClickListener {
             themeUtil.switchTheme()
             recreate()
         }
 
-        error.visibility = View.GONE
-        progress_bar.visibility = View.VISIBLE
+        binding.error.visibility = View.GONE
+        binding.progressBar.visibility = View.VISIBLE
 
         viewModel = ViewModelProviders.of(this@MainActivity,
                                           viewModelFactory { FeedViewModel(categoryHolder.getDefaultUrl()) }).get(FeedViewModel::class.java)
 
-        list_articles.layoutManager = LinearLayoutManager(this)
-        list_articles.setHasFixedSize(true)
+        binding.listArticles.layoutManager = LinearLayoutManager(this)
+        binding.listArticles.setHasFixedSize(true)
 
         viewModel.getArticleList().observe(this, Observer { articles ->
             if (articles != null) {
@@ -102,13 +109,13 @@ class MainActivity : AppCompatActivity() {
                         )
                     }
                     viewAdapter.setHasStableIds(true)
-                    list_articles.adapter = viewAdapter
+                    binding.listArticles.adapter = viewAdapter
 
                     // glide image preloading
                     preloadSizeProvider = FixedPreloadSizeProvider(IMAGE_SIZE, IMAGE_SIZE)
                     val preloader : RecyclerViewPreloader<MyArticle> = RecyclerViewPreloader(GlideApp.with(this),
                         viewAdapter, preloadSizeProvider, imagesPreload)
-                    list_articles.addOnScrollListener(preloader)
+                    binding.listArticles.addOnScrollListener(preloader)
                 }
                 else {
                     val diffResult: DiffUtil.DiffResult =
@@ -117,12 +124,12 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 currentArticles = articles
-                progress_bar.visibility = View.GONE
-                list_articles.visibility = View.VISIBLE
+                binding.progressBar.visibility = View.GONE
+                binding.listArticles.visibility = View.VISIBLE
             }
         })
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
         val actionbar: ActionBar? = supportActionBar
         actionbar?.apply {
             setDisplayHomeAsUpEnabled(true)
@@ -130,25 +137,25 @@ class MainActivity : AppCompatActivity() {
         }
 
         val actionBarDrawerToggle = ActionBarDrawerToggle(
-            this, drawer_layout, toolbar,
+            this, binding.drawerLayout, binding.toolbar,
             R.string.drawer_open, R.string.drawer_closed
         )
-        drawer_layout.addDrawerListener(actionBarDrawerToggle)
+        binding.drawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
 
         // Initialize current menu item selected
-        nav_view.menu.getItem(0).isChecked = true
-        currentMenuItem = nav_view.menu.getItem(0)
+        binding.navView.menu.getItem(0).isChecked = true
+        currentMenuItem = binding.navView.menu.getItem(0)
 
-        nav_view.setNavigationItemSelectedListener { menuItem ->
+        binding.navView.setNavigationItemSelectedListener { menuItem ->
             currentMenuItem = menuItem
             // set item as selected to persist highlight
             menuItem.isChecked = true
             // close drawer when item is tapped
-            drawer_layout.closeDrawers()
+            binding.drawerLayout.closeDrawers()
 
-            list_articles.visibility = View.GONE
-            progress_bar.visibility = View.VISIBLE
+            binding.listArticles.visibility = View.GONE
+            binding.progressBar.visibility = View.VISIBLE
             title = categoryHolder.getCurrentTitle(currentMenuItem.itemId)
             viewModel.url = categoryHolder.getCurrentUrl(currentMenuItem.itemId)
             currentArticles = mutableListOf()
@@ -157,15 +164,15 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        swipe_refresh.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary))
+        binding.swipeRefresh.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary))
 
-        swipe_refresh.setOnRefreshListener {
-            swipe_refresh.isRefreshing = true
+        binding.swipeRefresh.setOnRefreshListener {
+            binding.swipeRefresh.isRefreshing = true
             fetchFeed()
-            swipe_refresh.isRefreshing = false
+            binding.swipeRefresh.isRefreshing = false
         }
 
-        list_articles.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
+        binding.listArticles.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
 
         if( ! networkInformation.isAvailable(this)) {
             showError(getString(R.string.no_network))
@@ -177,7 +184,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fetchFeed() {
-        error.visibility = View.GONE
+        binding.error.visibility = View.GONE
         scope.launch(Dispatchers.IO) {
             try {
                 viewModel.fetchFeed()
@@ -190,9 +197,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showError(message: String) {
-        error.text = message
-        error.visibility = View.VISIBLE
-        progress_bar.visibility = View.GONE
+        binding.error.text = message
+        binding.error.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.GONE
     }
 
     private fun articleClicked(myArticle : MyArticle) {
