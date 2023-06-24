@@ -1,1 +1,2 @@
-Correction adresse des flux RSS
+Correction des adresses des flux RSS
+Tri inversé pour les sous-commentaires
