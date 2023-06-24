@@ -40,7 +40,8 @@ class Comment {
         models.add(modelFactory.buildFromComment(this, level))
 
         if(hasSubComments()) {
-            models.addAll(getSubModels(level))
+            // Reverse sorting of sub comments only
+            models.addAll(getSubModels(level).reversed())
         }
 
         return models
