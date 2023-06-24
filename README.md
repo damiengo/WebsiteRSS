@@ -12,11 +12,11 @@ This application is a RSS reader for the french newspaper *lequipe.fr*.
 
 It has several goals:
 
- * speed loading
+ * fast loading
  * no ad tracking
  * low battery consumption
 
-## Speed loading
+## Fast loading
  
 This application is optimized to load only relevant datas in articles.
 

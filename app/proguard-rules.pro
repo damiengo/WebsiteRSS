@@ -22,3 +22,23 @@
 
 -keep public class com.damiengo.websiterss.article.json.** {*;}
 -keep public class com.damiengo.websiterss.comment.json.** {*;}
+
+-keep,allowobfuscation,allowshrinking interface retrofit2.Call
+-keep,allowobfuscation,allowshrinking class retrofit2.Response
+-keep,allowobfuscation,allowshrinking class retrofit2.*
+-keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
+
+-keep class com.google.gson.** { *; }
+-keep class com.google.gson.reflect.** { *; }
+-keep class com.google.gson.stream.** { *; }
+-keep class com.google.gson.internal.** { *; }
+
+-keep class * implements java.io.Serializable { *; }
+
+-keepclassmembers class * {
+    @com.google.gson.annotations.SerializedName <fields>;
+}
+
+-keepclassmembers enum * {
+    *;
+}
