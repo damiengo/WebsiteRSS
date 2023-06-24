@@ -16,19 +16,19 @@
         android:id="@+id/switch_theme"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginTop="6dp"
         android:layout_gravity="end"
+        android:layout_marginTop="6dp"
+        android:contentDescription="@string/dark_mode"
         app:srcCompat="@drawable/ic_moon"
-        tools:ignore="VectorDrawableCompat"
-        android:contentDescription="@string/dark_mode" />
+        tools:ignore="VectorDrawableCompat" />
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/launcher_icon"
         android:gravity="center"
         app:srcCompat="@drawable/ic_launcher_foreground"
-        tools:ignore="VectorDrawableCompat"
-        android:contentDescription="@string/launcher_icon" />
+        tools:ignore="VectorDrawableCompat" />
 
     <TextView
         android:layout_width="match_parent"
